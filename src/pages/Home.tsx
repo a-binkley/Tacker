@@ -1,43 +1,34 @@
 import { useEffect, useState } from 'react';
-import { MapContainer, Marker, Popup, TileLayer } from 'react-leaflet';
 
 import { retrieveCurrentStations, StationInfo } from '../functions';
+import { LocationInfoCard, LocatorPopup } from '../components';
 
 export function Home() {
-	const [stations, setStations] = useState<StationInfo[]>([]);
+	const [allStations, setAllStations] = useState<StationInfo[]>([]);
+	const [favorites, setFavorites] = useState<string[]>(JSON.parse(localStorage.getItem('favoriteStations') ?? '[]'));
+	const [searchMode, setSearchMode] = useState(false);
 
 	useEffect(() => {
-		if (stations.length === 0) {
-			retrieveCurrentStations(setStations);
+		if (allStations.length === 0) {
+			retrieveCurrentStations(setAllStations);
 		}
-	});
+		localStorage.setItem('favoriteStations', JSON.stringify(favorites));
+	}, [allStations.length, favorites]);
+
+	const handleFavoriteChange = (stationInfo: StationInfo, existingFavorite: boolean) => {
+		if (existingFavorite) {
+			setFavorites(favorites.filter((station) => station !== stationInfo.id)); // Remove
+		} else {
+			setFavorites(favorites.concat([stationInfo.id])); // Add
+		}
+	};
+
+	const isFavorite = (stationID: string) => favorites.some((station) => station === stationID);
 
 	return (
 		<>
-			{/* <Locator value="" /> */}
-			<MapContainer
-				center={[45.4, -84.4]} // Approximately center to all five lakes
-				zoom={7}
-				style={{ height: '90vh', width: '90vw' }}
-			>
-				<TileLayer
-					attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
-					url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
-				/>
-				{stations.map((station) => (
-					<Marker
-						position={station.latLong}
-						key={`station-${station.id}`}
-					>
-						<Popup>
-							{`${station.name}, ${station.state}`} <br />
-							{`${station.latLong.lat.toFixed(
-								4
-							)},${station.latLong.lng.toFixed(4)}`}
-						</Popup>
-					</Marker>
-				))}
-			</MapContainer>
+			<LocationInfoCard id={'9075080'} />
+			{searchMode && <LocatorPopup {...{ stations: allStations, isFavorite, handleFavoriteChange }} />}
 		</>
 	);
 }

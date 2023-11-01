@@ -1,41 +1,64 @@
 import axios from 'axios';
 import { LatLng, LatLngExpression } from 'leaflet';
 
+type FluidInfo = {
+	speed: number;
+	direction: {
+		degrees: number;
+		cardinal: string;
+	};
+};
+
+type BaseInfo = {
+	airTemperature: number;
+	cloudiness: string;
+	precipitation: {
+		type: string;
+		chance: number;
+	};
+	wind: FluidInfo;
+};
+
 export type StationInfo = {
 	id: string;
 	state: string;
 	name: string; // city
 	latLong: LatLng;
+	now: BaseInfo & {
+		waterTemperature: number;
+		waterCurrent: FluidInfo;
+		tideLevel: number;
+		visibility: number; // Miles
+		airQuality: number; // PPM
+		uvIndex: number;
+	};
+	todaySunrise: string;
+	todaySunset: string;
+	forecastHourly: (BaseInfo & {
+		tideLevel: number;
+	})[];
+	forecastDaily: {}; // TODO
 };
 
-export async function retrieveCurrentStations(
-	setter: Function
-): Promise<StationInfo[]> {
+export async function retrieveCurrentStations(setter: Function): Promise<StationInfo[]> {
 	axios({
 		method: 'GET',
 		url: 'https://api.tidesandcurrents.noaa.gov/mdapi/prod/webapi/stations.json',
 	})
 		.then((response) => {
-			if (response.status == 200) {
+			if (response.status === 200) {
 				const greatLakesStations = response.data.stations.filter(
 					(station: { [key: string]: string }) => station.greatlakes
 				);
 				setter(
-					greatLakesStations.map(
-						(
-							station: StationInfo & { lat: number; lng: number }
-						) => ({
-							id: station.id,
-							state: station.state,
-							name: station.name,
-							latLong: new LatLng(station.lat, station.lng),
-						})
-					)
+					greatLakesStations.map((station: StationInfo & { lat: number; lng: number }) => ({
+						id: station.id,
+						state: station.state,
+						name: station.name,
+						latLong: new LatLng(station.lat, station.lng),
+					}))
 				);
-			} else
-				throw new Error(
-					`Could not retrieve station data. Response received with code ${response.status}`
-				);
+			} else throw new Error(`Could not retrieve station data. Response received with code ${response.status}`);
 		})
 		.catch((err) => {
 			console.error(err);
@@ -56,10 +79,7 @@ export type LocationDMS = {
  * @param loc an object containing {@link LocationDMS} information for a lat/long coordinate
  * @returns an array containing the latitude and longitude of {@link loc}, converted to floating point numbers
  */
-export function latLongDegreesToDecimal(loc: {
-	latitudeDMS: LocationDMS;
-	longitudeDMS: LocationDMS;
-}): LatLngExpression {
+export function latLongDegreesToDecimal(loc: { latitudeDMS: LocationDMS; longitudeDMS: LocationDMS }): LatLngExpression {
 	const resultLat = loc.latitudeDMS,
 		resultLong = loc.longitudeDMS;
 	for (const resultLoc of [resultLat, resultLong]) {
