@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react';
 
 import { retrieveCurrentStations, StationInfo } from '../functions';
-import { LocationInfoCard, LocatorPopup } from '../components';
+import { LocationInfoCard, Locator, LocatorPopup } from '../components';
 
 export function Home() {
 	const [allStations, setAllStations] = useState<StationInfo[]>([]);
@@ -27,6 +27,7 @@ export function Home() {
 
 	return (
 		<>
+			<Locator />
 			<LocationInfoCard id={'9075080'} />
 			{searchMode && <LocatorPopup {...{ stations: allStations, isFavorite, handleFavoriteChange }} />}
 		</>
