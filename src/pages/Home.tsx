@@ -6,7 +6,9 @@ import { LocationInfoCard, LocatorPopup } from '../components';
 export function Home() {
 	const [allStations, setAllStations] = useState<StationInfo[]>([]);
 	const [favorites, setFavorites] = useState<string[]>(JSON.parse(localStorage.getItem('favoriteStations') ?? '[]'));
-	const [searchMode, setSearchMode] = useState<0 | 1 | 2>(favorites.length === 0 ? 0 : 2); // 0 for prompt, 1 for search, 2 for display
+	const [searchMode, setSearchMode] = useState<'prompt' | 'search' | 'display'>(
+		favorites.length === 0 ? 'prompt' : 'display'
+	);
 
 	useEffect(() => {
 		if (allStations.length === 0) {
@@ -25,13 +27,13 @@ export function Home() {
 
 	return (
 		<>
-			{searchMode === 0 ? (
+			{searchMode === 'prompt' ? (
 				<div className="locator-prompt">
 					<h3>It looks like you don't have any locations marked as favorites yet.</h3>
-					<button onClick={() => setSearchMode(1)}>Find a station</button>
+					<button onClick={() => setSearchMode('search')}>Find a station</button>
 				</div>
 			) : // TODO: make pretty
-			searchMode === 1 ? (
+			searchMode === 'search' ? (
 				<LocatorPopup {...{ stations: allStations, favorites, handleFavoriteChange, setSearchMode }} />
 			) : (
 				<LocationInfoCard id={JSON.parse(localStorage.getItem('favoriteStations')!)[0]} />
