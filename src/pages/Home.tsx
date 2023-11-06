@@ -1,19 +1,19 @@
 import { useEffect, useState } from 'react';
 
 import { retrieveCurrentStations, StationInfo } from '../functions';
-import { LocationInfoCard, Locator, LocatorPopup } from '../components';
+import { LocationInfoCard, LocatorPopup } from '../components';
 
 export function Home() {
 	const [allStations, setAllStations] = useState<StationInfo[]>([]);
 	const [favorites, setFavorites] = useState<string[]>(JSON.parse(localStorage.getItem('favoriteStations') ?? '[]'));
-	const [searchMode, setSearchMode] = useState(false);
+	const [searchMode, setSearchMode] = useState<0 | 1 | 2>(favorites.length === 0 ? 0 : 2); // 0 for prompt, 1 for search, 2 for display
 
 	useEffect(() => {
 		if (allStations.length === 0) {
 			retrieveCurrentStations(setAllStations);
 		}
 		localStorage.setItem('favoriteStations', JSON.stringify(favorites));
-	}, [allStations.length, favorites]);
+	}, [allStations.length, favorites, searchMode]);
 
 	const handleFavoriteChange = (stationInfo: StationInfo, existingFavorite: boolean) => {
 		if (existingFavorite) {
@@ -23,13 +23,19 @@ export function Home() {
 		}
 	};
 
-	const isFavorite = (stationID: string) => favorites.some((station) => station === stationID);
-
 	return (
 		<>
-			<Locator />
-			<LocationInfoCard id={'9075080'} />
-			{searchMode && <LocatorPopup {...{ stations: allStations, isFavorite, handleFavoriteChange }} />}
+			{searchMode === 0 ? (
+				<div className="locator-prompt">
+					<h3>It looks like you don't have any locations marked as favorites yet.</h3>
+					<button onClick={() => setSearchMode(1)}>Find a station</button>
+				</div>
+			) : // TODO: make pretty
+			searchMode === 1 ? (
+				<LocatorPopup {...{ stations: allStations, favorites, handleFavoriteChange, setSearchMode }} />
+			) : (
+				<LocationInfoCard id={JSON.parse(localStorage.getItem('favoriteStations')!)[0]} />
+			)}
 		</>
 	);
 }
