@@ -13,6 +13,7 @@
 		"@types/react": "^18.2.33",
 		"@types/react-dom": "^18.2.14",
 		"axios": "^1.6.0",
+		"bootstrap-icons": "^1.11.1",
 		"react": "^18.2.0",
 		"react-dom": "^18.2.0",
 		"react-leaflet": "^4.2.1",
