@@ -6,8 +6,8 @@ There are several monitoring stations located around the coasts of the Great Lak
 
 ## Data Sources
 
--   [NOAA](https://tidesandcurrents.noaa.gov/web_services_info.html) for stations list and marine data
--   [Open Meteo](https://open-meteo.com/) for atmospheric data
+-   [NOAA](https://tidesandcurrents.noaa.gov/web_services_info.html) for stations list and Great Lakes marine data
+-   [Open Meteo](https://open-meteo.com/) for atmospheric and air quality data
 
 ## Notable Third-Party Libraries Used
 

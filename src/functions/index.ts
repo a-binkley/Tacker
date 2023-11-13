@@ -1,22 +1,33 @@
 import axios from 'axios';
-import { LatLng, LatLngExpression } from 'leaflet';
+import { LatLng } from 'leaflet';
+import { StationMetadata } from '../pages';
 
-type FluidInfo = {
-	speed: number;
-	direction: {
-		degrees: number;
-		cardinal: string;
-	};
+export * from './Direction';
+
+type DirectionInfo = {
+	degrees: number;
+	cardinal: string;
+};
+
+type WaveInfo = {
+	height: number;
+	direction: DirectionInfo;
+	period: number;
 };
 
 type BaseInfo = {
 	airTemperature: number;
+	airTemperatureApparent: number;
 	cloudiness: string;
 	precipitation: {
 		type: string;
 		chance: number;
 	};
-	wind: FluidInfo;
+	wind: {
+		baseSpeed: number;
+		gustSpeed: number;
+		direction: DirectionInfo;
+	};
 };
 
 export type StationInfo = {
@@ -26,18 +37,17 @@ export type StationInfo = {
 	latLong: LatLng;
 	now: BaseInfo & {
 		waterTemperature: number;
-		waterCurrent: FluidInfo;
+		// waveInfo: WaveInfo;
 		tideLevel: number;
 		visibility: number; // Miles
 		airQuality: number; // PPM
-		uvIndex: number;
 	};
 	todaySunrise: string;
 	todaySunset: string;
 	forecastHourly: (BaseInfo & {
 		tideLevel: number;
 	})[];
-	forecastDaily: {}; // TODO
+	forecastDaily: []; // TODO
 };
 
 export async function retrieveCurrentStations(setter: Function): Promise<StationInfo[]> {
@@ -45,7 +55,7 @@ export async function retrieveCurrentStations(setter: Function): Promise<Station
 		method: 'GET',
 		url: 'https://api.tidesandcurrents.noaa.gov/mdapi/prod/webapi/stations.json',
 	})
-		.then((response) => {
+		.then((response: { status: number; data: { stations: any[] } }) => {
 			if (response.status === 200) {
 				const greatLakesStations = response.data.stations.filter(
 					(station: { [key: string]: string }) => station.greatlakes
@@ -60,11 +70,43 @@ export async function retrieveCurrentStations(setter: Function): Promise<Station
 				);
 			} else throw new Error(`Could not retrieve station data. Response received with code ${response.status}`);
 		})
-		.catch((err) => {
+		.catch((err: any) => {
 			console.error(err);
 			throw err; // STUB
 		});
 	return [];
+}
+
+type StationNOAA = {
+	id: string;
+	name: string;
+	state: string;
+	greatlakes: boolean;
+	lat: number;
+	lng: number;
+};
+
+export async function fetchStationCoordinates(setter: Function) {
+	const response = await axios({
+		url: 'https://api.tidesandcurrents.noaa.gov/mdapi/prod/webapi/stations.json',
+		method: 'GET',
+		withCredentials: false,
+	});
+
+	if (response.status === 200) {
+		const stationCoordsBuilder: Map<string, StationMetadata> = new Map();
+		response.data.stations.forEach((station: StationNOAA) => {
+			if (station.greatlakes) {
+				stationCoordsBuilder.set(station.id, {
+					city: station.name,
+					state: station.state,
+					coords: new LatLng(station.lat, station.lng),
+				});
+			}
+		});
+
+		setter(stationCoordsBuilder);
+	}
 }
 
 export type LocationDMS = {
@@ -79,7 +121,7 @@ export type LocationDMS = {
  * @param loc an object containing {@link LocationDMS} information for a lat/long coordinate
  * @returns an array containing the latitude and longitude of {@link loc}, converted to floating point numbers
  */
-export function latLongDegreesToDecimal(loc: { latitudeDMS: LocationDMS; longitudeDMS: LocationDMS }): LatLngExpression {
+export function latLongDegreesToDecimal(loc: { latitudeDMS: LocationDMS; longitudeDMS: LocationDMS }): LatLng {
 	const resultLat = loc.latitudeDMS,
 		resultLong = loc.longitudeDMS;
 	for (const resultLoc of [resultLat, resultLong]) {

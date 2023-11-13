@@ -1,12 +1,14 @@
 import { useEffect, useState } from 'react';
-import { StationInfo } from '../functions';
+import { StationInfo, degToCard } from '../functions';
 import axios from 'axios';
 import { LatLng } from 'leaflet';
 import tz_lookup from 'tz-lookup';
+import { StationMetadata } from '../pages';
 
 export async function retrieveLocationData(
-	setter: Function,
+	setter: (data: StationInfo) => void,
 	loc: string,
+	locMetadata: StationMetadata,
 	temperature_unit: 'fahrenheit' | 'celcius',
 	windspeed_unit: 'mph' | 'kph' | 'm/s',
 	precipitation_unit: 'inch' | 'cm',
@@ -22,6 +24,8 @@ export async function retrieveLocationData(
 				'apparent_temperature',
 				'is_day',
 				'precipitation',
+				'cloudcover',
+				'visibility',
 				'windspeed_10m',
 				'winddirection_10m',
 				'windgusts_10m',
@@ -56,8 +60,9 @@ export async function retrieveLocationData(
 		},
 	};
 
-	const [latitude, longitude] = loc.split(',');
-	const timezone = tz_lookup(parseFloat(latitude), parseFloat(longitude));
+	const latitude = locMetadata.coords.lat,
+		longitude = locMetadata.coords.lng;
+	const timezone = tz_lookup(latitude, longitude);
 
 	const locationInfoResponseAtmos = await axios({
 		url: atmos_url,
@@ -80,15 +85,14 @@ export async function retrieveLocationData(
 	// 	url: marine_url,
 	// 	method: 'GET',
 	// 	params: {
-	// 		latitude,
-	// 		longitude,
-	// 		current: params.marine.now.join(','),
-	// 		hourly: params.marine.hourly.join(','),
-	// 		daily: params.marine.daily.join(','),
-	// 		length_unit,
-	// 		timezone,
+	// 		station: loc,
+	// 		date: 'latest',
+	// 		product: 'air_temperature',
+	// 		units: 'english',
+	// 		time_zone: 'lst_ldt',
+	// 		format: 'json',
 	// 	},
-	// 	withCredentials: false,
+	// 	// 	withCredentials: false,
 	// });
 
 	const locationInfoResponseAQI = await axios({
@@ -103,33 +107,67 @@ export async function retrieveLocationData(
 		withCredentials: false,
 	});
 
-	// axios({
-	// 	method: 'GET',
-	// 	url: 'https://api.tidesandcurrents.noaa.gov/api/prod/datagetter',
-	// 	params: {
-	// 		station: props.id,
-	// 		date: 'latest',
-	// 		product: 'air_temperature',
-	// 		units: 'english',
-	// 		time_zone: 'lst_ldt',
-	// 		format: 'json',
-	// 	},
-	// })
-	// 	.then((response) => {
-	// 		if (response.status === 200) {
-	// 			newData.now.airTemperature = parseFloat(response.data.data[0].v);
-	// 			setData(newData);
-	// 		}
-	// 	})
-	// 	.catch((err) => console.error(err));
+	if (locationInfoResponseAtmos.status !== 200) {
+		console.error(`Unable to retrieve atmospheric information for station ${loc}`);
+		// } else if (locationInfoResponseMarine.status !== 200) {
+		// 	console.error(`Unable to retrieve marine information for station ${loc}`);
+	} else if (locationInfoResponseAQI.status !== 200) {
+		console.error(`Unable to retrieve AQI information for station ${loc}`);
+	} else {
+		setter({
+			id: loc,
+			state: locMetadata.state,
+			name: locMetadata.city,
+			latLong: locMetadata.coords,
+			now: {
+				airTemperature: locationInfoResponseAtmos.data.current.temperature_2m,
+				airTemperatureApparent: locationInfoResponseAtmos.data.current.apparent_temperature,
+				cloudiness: locationInfoResponseAtmos.data.current.cloudcover,
+				precipitation: {
+					type: 'TODO',
+					chance: locationInfoResponseAtmos.data.current.precipitation,
+				},
+				wind: {
+					baseSpeed: locationInfoResponseAtmos.data.current.windspeed_10m,
+					gustSpeed: locationInfoResponseAtmos.data.current.windgusts_10m,
+					direction: {
+						degrees: locationInfoResponseAtmos.data.current.winddirection_10m,
+						cardinal: degToCard(locationInfoResponseAtmos.data.current.winddirection_10m),
+					},
+				},
+				waterTemperature: -1,
+				// waveInfo: {
+				// 	height: locationInfoResponseMarine.data.current.wave_height,
+				// 	direction: {
+				// 		degrees: locationInfoResponseMarine.data.current.wave_direction,
+				// 		cardinal: degToCard(locationInfoResponseMarine.data.current.wave_direction),
+				// 	},
+				// 	period: locationInfoResponseMarine.data.current.wave_period,
+				// },
+				tideLevel: -1,
+				visibility: locationInfoResponseAtmos.data.current.visibility,
+				airQuality: locationInfoResponseAQI.data.current.us_aqi,
+			},
+			todaySunrise: locationInfoResponseAtmos.data.daily.sunrise[0],
+			todaySunset: locationInfoResponseAtmos.data.daily.sunset[0],
+			forecastHourly: [], // TODO
+			forecastDaily: [], // TODO
+		});
+	}
 }
 
-export function LocationInfoCard(props: { id: string }) {
+export function LocationInfoCard(props: {
+	id: string;
+	metadata: StationMetadata;
+	position: number;
+	changePosition: (position: number) => void;
+	neighbors: string[];
+}) {
 	const [data, setData] = useState<StationInfo | null>(null);
 
-	// useEffect(() => {
-	// 	if (!data) retrieveLocationData(setData, );
-	// });
+	useEffect(() => {
+		if (!data) retrieveLocationData(setData, props.id, props.metadata, 'fahrenheit', 'mph', 'inch', 'imperial');
+	});
 
 	if (data) {
 		return (
