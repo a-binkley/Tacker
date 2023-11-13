@@ -1,0 +1,30 @@
+:root {
+	--offset-y: 50%;
+	--svg-height: 800px;
+}
+
+.location-info-card-wrapper {
+	position: absolute;
+	overflow: hidden;
+	height: 100vh;
+	width: 100%;
+}
+
+.wave-background {
+	position: absolute;
+	background: url(../../public/img/wave.svg) repeat-x;
+	top: var(--offset-y);
+	height: var(--svg-height);
+	width: 6400px;
+	animation: wave 7s cubic-bezier(0.36, 0.45, 0.63, 0.53) infinite;
+	transform: translate3d(0, 0, 0);
+}
+
+@keyframes wave {
+	0% {
+		margin-left: 0;
+	}
+	100% {
+		margin-left: -1600px;
+	}
+}

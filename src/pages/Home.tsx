@@ -34,7 +34,7 @@ export function Home() {
 	};
 
 	return (
-		<>
+		<div className="home-wrapper">
 			{searchMode === 'prompt' ? (
 				// Ask the user to add at least one location as a favorite
 				<div className="locator-prompt">
@@ -57,6 +57,6 @@ export function Home() {
 			) : (
 				<h3>Loading data...</h3>
 			)}
-		</>
+		</div>
 	);
 }

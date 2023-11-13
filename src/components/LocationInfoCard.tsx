@@ -5,6 +5,8 @@ import { LatLng } from 'leaflet';
 import tz_lookup from 'tz-lookup';
 import { StationMetadata } from '../pages';
 
+import './LocationInfoCard.css';
+
 export async function retrieveLocationData(
 	setter: (data: StationInfo) => void,
 	loc: string,
@@ -172,6 +174,7 @@ export function LocationInfoCard(props: {
 	if (data) {
 		return (
 			<div className="location-info-card-wrapper">
+				<div className="wave-background" />
 				<h2>{`${data.name}, ${data.state}`}</h2>
 				<h3>{`${data.latLong.lat},${data.latLong.lng}`}</h3>
 				{/* {Object.keys(data).map((key) => (
