@@ -1,6 +1,12 @@
 :root {
 	--offset-y: 50%;
 	--svg-height: 800px;
+	--wind-inner-ring-diameter: 17rem;
+}
+
+* {
+	font-family: 'Metropolis Bold';
+	text-align: center;
 }
 
 .location-info-card-wrapper {
@@ -16,8 +22,70 @@
 	top: var(--offset-y);
 	height: var(--svg-height);
 	width: 6400px;
-	animation: wave 7s cubic-bezier(0.36, 0.45, 0.63, 0.53) infinite;
 	transform: translate3d(0, 0, 0);
+}
+
+.city-state-header {
+	position: absolute;
+	top: 100px;
+	left: calc(50% - 20rem);
+	height: 4rem;
+	width: 40rem;
+	font-size: 3rem;
+}
+
+.lat-long-header {
+	position: absolute;
+	top: calc(120px + 4rem);
+	left: calc(50% - 10rem);
+	height: 2rem;
+	width: 20rem;
+	font-size: 1.2rem;
+}
+
+.wind-info-wrapper {
+	position: absolute;
+	border: 2px solid black;
+	border-radius: 50%;
+	top: calc(50% - 180px);
+	left: calc(50% - 200px);
+	height: 400px;
+	width: 400px;
+	backdrop-filter: blur(20px);
+	background: #fff8;
+}
+
+.wind-arrow {
+	position: absolute;
+	top: calc(50% - 200px);
+	left: calc(50% - 35px);
+	height: 400px;
+	width: 70px;
+}
+
+.wind-speed-header {
+	position: absolute;
+	/* border: 1px solid black; */
+	border-radius: 50%;
+	box-shadow: 0px 0px 8px;
+	top: calc(50% - 218px - var(--wind-inner-ring-diameter) / 2);
+	left: calc(50% - var(--wind-inner-ring-diameter) / 2);
+	height: var(--wind-inner-ring-diameter);
+	width: var(--wind-inner-ring-diameter);
+	font-size: 10rem;
+	text-align: center;
+	line-height: 150%;
+}
+
+.wind-speed-units {
+	position: absolute;
+	top: calc(50% + 120px - var(--wind-inner-ring-diameter) / 2);
+	left: calc(50% - var(--wind-inner-ring-diameter) / 2);
+	height: var(--wind-inner-ring-diameter);
+	width: var(--wind-inner-ring-diameter);
+	font-size: 3rem;
+	text-align: center;
+	line-height: 150%;
 }
 
 @keyframes wave {

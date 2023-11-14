@@ -1,7 +1,7 @@
 <svg xmlns="http://www.w3.org/2000/svg" width="1600" height="800">
 	<linearGradient xmlns="http://www.w3.org/2000/svg" id="a" x1="50%" x2="50%" y1="-10.959%" y2="100%">
-      <stop stop-color="#4987a2" offset="0%"/>
-      <stop stop-color="#00222c" offset="100%"/>
+      <stop stop-color="#4987a2ef" offset="0%"/>
+      <stop stop-color="#00222cef" offset="100%"/>
     </linearGradient>
 	<path
 		fill="url(#a)"

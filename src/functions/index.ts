@@ -9,12 +9,6 @@ type DirectionInfo = {
 	cardinal: string;
 };
 
-type WaveInfo = {
-	height: number;
-	direction: DirectionInfo;
-	period: number;
-};
-
 type BaseInfo = {
 	airTemperature: number;
 	airTemperatureApparent: number;
@@ -37,17 +31,19 @@ export type StationInfo = {
 	latLong: LatLng;
 	now: BaseInfo & {
 		waterTemperature: number;
-		// waveInfo: WaveInfo;
-		tideLevel: number;
+		tideHistory: {
+			t: string; // datetime of record
+			v: number; // ft above low water datum
+		}[];
 		visibility: number; // Miles
 		airQuality: number; // PPM
 	};
 	todaySunrise: string;
 	todaySunset: string;
-	forecastHourly: (BaseInfo & {
-		tideLevel: number;
-	})[];
-	forecastDaily: []; // TODO
+	// forecastHourly: (BaseInfo & {
+	// 	tideLevel: number;
+	// })[];
+	// forecastDaily: []; // TODO
 };
 
 export async function retrieveCurrentStations(setter: Function): Promise<StationInfo[]> {
