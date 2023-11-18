@@ -29,7 +29,7 @@ export async function retrieveLocationData(
 			'visibility',
 			'windspeed_10m',
 			'winddirection_10m',
-			'windgusts_10m',
+			'windgusts_10m'
 		],
 		hourly: [
 			'temperature_2m',
@@ -42,7 +42,7 @@ export async function retrieveLocationData(
 			'winddirection_10m',
 			'windgusts_10m',
 			'uv_index',
-			'is_day',
+			'is_day'
 		],
 		daily: [
 			'temperature_2m_max',
@@ -51,8 +51,8 @@ export async function retrieveLocationData(
 			'windspeed_10m_max',
 			'winddirection_10m_dominant',
 			'sunrise',
-			'sunset',
-		],
+			'sunset'
+		]
 	};
 
 	const latitude = locMetadata.coords.lat,
@@ -71,9 +71,9 @@ export async function retrieveLocationData(
 			daily: atmosParams.daily.join(','),
 			temperature_unit,
 			windspeed_unit,
-			precipitation_unit,
+			precipitation_unit
 		},
-		withCredentials: false,
+		withCredentials: false
 	});
 
 	const waterLevelResponse = axios({
@@ -86,8 +86,8 @@ export async function retrieveLocationData(
 			datum: 'LWD',
 			units: 'english',
 			time_zone: 'lst_ldt',
-			format: 'json',
-		},
+			format: 'json'
+		}
 	});
 
 	const locationInfoResponseAQI = axios({
@@ -97,9 +97,9 @@ export async function retrieveLocationData(
 			latitude,
 			longitude,
 			current: 'us_aqi',
-			domains: 'cams_global',
+			domains: 'cams_global'
 		},
-		withCredentials: false,
+		withCredentials: false
 	});
 
 	Promise.all([locationInfoResponseAtmos, waterLevelResponse, locationInfoResponseAQI]).then((promises) => {
@@ -123,23 +123,23 @@ export async function retrieveLocationData(
 				cloudiness: promises[0].data.current.cloudcover,
 				precipitation: {
 					type: 'TODO',
-					chance: promises[0].data.current.precipitation,
+					chance: promises[0].data.current.precipitation
 				},
 				wind: {
 					baseSpeed: promises[0].data.current.windspeed_10m,
 					gustSpeed: promises[0].data.current.windgusts_10m,
 					direction: {
 						degrees: promises[0].data.current.winddirection_10m,
-						cardinal: degToCard(promises[0].data.current.winddirection_10m),
-					},
+						cardinal: degToCard(promises[0].data.current.winddirection_10m)
+					}
 				},
 				waterTemperature: -1,
 				tideHistory: promises[1].data.data,
 				visibility: promises[0].data.current.visibility,
-				airQuality: promises[2].data.current.us_aqi,
+				airQuality: promises[2].data.current.us_aqi
 			},
 			todaySunrise: promises[0].data.daily.sunrise[0],
-			todaySunset: promises[0].data.daily.sunset[0],
+			todaySunset: promises[0].data.daily.sunset[0]
 			// forecastHourly: [], // TODO
 			// forecastDaily: [], // TODO
 		});
@@ -161,24 +161,45 @@ export function LocationInfoCard(props: {
 
 	if (data) {
 		return (
-			<div className="location-info-card-wrapper">
+			<div className='location-info-card-wrapper'>
 				<div
-					className="wave-background"
+					className='wave-background'
 					style={{
-						animation: `wave ${30 / data.now.wind.baseSpeed}s cubic-bezier(0.36, 0.45, 0.63, 0.53) infinite`, // because why not
+						animation: `wave ${30 / data.now.wind.baseSpeed}s cubic-bezier(0.36, 0.45, 0.63, 0.53) infinite`
 					}}
 				/>
-				<h2 className="city-state-header">{`${data.name}, ${data.state}`}</h2>
-				<h3 className="lat-long-header">{`${data.latLong.lat.toFixed(3)},${data.latLong.lng.toFixed(3)}`}</h3>
-				<div className="wind-info-wrapper">
+				<h2 className='city-state-header'>{`${data.name}, ${data.state}`}</h2>
+				<h3 className='lat-long-header'>{`${data.latLong.lat.toFixed(3)},${data.latLong.lng.toFixed(3)}`}</h3>
+				<div className='air-temp-info-wrapper'>
+					<div className='air-temp-separator' />
+					{[
+						{
+							type: 'actual',
+							label: 'actually',
+							data: data.now.airTemperature
+						},
+						{
+							type: 'apparent',
+							label: 'feels like',
+							data: data.now.airTemperatureApparent
+						}
+					].map(({ type, label, data }) => (
+						<div className={`air-temp-${type}-wrapper`}>
+							<p className={`air-temp-${type}-label`}>{label}</p>
+							<h4 className={`air-temp-${type}-data`}>{Math.round(data)}</h4>
+							<p className={`air-temp-${type}-units`}>°F</p>
+						</div>
+					))}
+				</div>
+				<div className='wind-info-wrapper'>
 					<img
-						className="wind-arrow"
+						className='wind-arrow'
 						src={process.env.PUBLIC_URL + '/img/CompassArrowHollow.png'}
-						alt="arrow"
+						alt='arrow'
 						style={{ rotate: `${(data.now.wind.direction.degrees + 180) % 360}deg` }}
 					/>
-					<h4 className="wind-speed-header">{Math.round(data.now.wind.baseSpeed)}</h4>
-					<p className="wind-speed-units">mph</p>
+					<h4 className='wind-speed-header'>{Math.round(data.now.wind.baseSpeed)}</h4>
+					<p className='wind-speed-units'>mph</p>
 				</div>
 				{/* {Object.keys(data).map((key) => (
 					<p>{`${key}: ${data[key as keyof StationInfo]}`}</p>
