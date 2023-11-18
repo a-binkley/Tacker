@@ -6,7 +6,7 @@ import tz_lookup from 'tz-lookup';
 import { StationMetadata } from '../pages';
 
 import './LocationInfoCard.css';
-import { TemperatureDisplay } from '.';
+import { PageTab, TemperatureDisplay } from '.';
 
 export async function retrieveLocationData(
 	setter: (data: StationInfo) => void,
@@ -216,18 +216,14 @@ export function LocationInfoCard(props: {
 						<p className='wind-speed-units'>mph</p>
 					</div>
 				</div>
-				<i
-					className='bi bi-caret-left tab-arrow'
-					style={{
-						display: props.position === 0 ? 'none' : ''
-					}}
+				<PageTab
+					direction='left'
+					display={props.position !== 0}
 					onClick={() => props.changePosition(props.position - 1)}
 				/>
-				<i
-					className='bi bi-caret-right tab-arrow'
-					style={{
-						display: props.position === props.neighbors.length - 1 ? 'none' : ''
-					}}
+				<PageTab
+					direction='right'
+					display={props.position !== props.neighbors.length - 1}
 					onClick={() => props.changePosition(props.position + 1)}
 				/>
 			</div>

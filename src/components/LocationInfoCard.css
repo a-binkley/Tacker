@@ -134,11 +134,13 @@
 	cursor: pointer;
 }
 
-.bi-caret-left {
+.bi-caret-left,
+.bi-caret-left-fill {
 	left: 1vw;
 }
 
-.bi-caret-right {
+.bi-caret-right,
+.bi-caret-right-fill {
 	right: 1vw;
 }
 
