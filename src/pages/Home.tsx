@@ -23,7 +23,7 @@ export function Home() {
 			fetchStationCoordinates(setStationMetadata);
 		}
 		localStorage.setItem('favoriteStations', JSON.stringify(favorites));
-	}, [allStations.length, favorites, searchMode]);
+	}, [allStations.length, stationMetadata.size, favorites, searchMode]);
 
 	const handleFavoriteChange = (stationInfo: StationInfo, existingFavorite: boolean) => {
 		if (existingFavorite) {

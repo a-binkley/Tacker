@@ -9,6 +9,15 @@
 	text-align: center;
 }
 
+.unselectable {
+	-webkit-touch-callout: none;
+	-webkit-user-select: none;
+	-khtml-user-select: none;
+	-moz-user-select: none;
+	-ms-user-select: none;
+	user-select: none;
+}
+
 .location-info-card-wrapper {
 	position: absolute;
 	overflow: hidden;
@@ -48,7 +57,6 @@
 	display: flex;
 	justify-content: space-evenly;
 	align-items: center;
-	/* border: 2px dashed red; */
 	height: 60vh;
 	width: 70vw;
 	top: 30vh;
@@ -85,12 +93,50 @@
 
 .wind-info-wrapper {
 	position: relative;
-	border: 2px solid black;
+	border: 3px solid black;
 	border-radius: 50%;
 	height: 400px;
 	width: 400px;
 	backdrop-filter: blur(20px);
 	background: #fff8;
+}
+
+.compass-ring {
+	position: absolute;
+	top: calc(50% - 202px);
+	left: calc(50% - 202px);
+	height: 404px;
+	width: 404px;
+}
+
+.compass-direction {
+	position: absolute;
+	height: 1.5rem;
+	width: 1.5rem;
+	text-align: center;
+	line-height: 1.5rem;
+	color: #888;
+}
+
+.compass-N {
+	font-size: 1.2rem;
+	color: #666;
+	left: calc(200px - 0.75rem);
+}
+
+.compass-E {
+	top: calc(184px - 0.75rem);
+	right: 18px;
+}
+
+.compass-S {
+	bottom: 0;
+	left: calc(200px - 0.75rem);
+}
+
+.compass-W {
+	top: calc(184px - 0.75rem);
+	left: 18px;
 }
 
 .wind-arrow {

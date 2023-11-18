@@ -5,9 +5,9 @@ export function TemperatureDisplay(props: { type: string; label: string; data?: 
 
 	return (
 		<div className={`temp-display-wrapper ${props.type}`}>
-			<p className='temp-label'>{props.label}</p>
-			<h4 className='temp-data'>{hasData ? Math.round(props.data!) : '--'}</h4>
-			<p className='temp-units'>{hasData ? `°${props.units}` : ''}</p>
+			<p className='temp-label unselectable'>{props.label}</p>
+			<h4 className='temp-data unselectable'>{hasData ? Math.round(props.data!) : '--'}</h4>
+			<p className='temp-units unselectable'>{hasData ? `°${props.units}` : ''}</p>
 		</div>
 	);
 }

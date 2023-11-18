@@ -116,50 +116,48 @@ export async function retrieveLocationData(
 		withCredentials: false
 	});
 
-	Promise.all([locationInfoResponseAtmos, waterLevelResponse, waterTempResponse, locationInfoResponseAQI]).then(
-		(promises) => {
-			const infoTypes = ['atmospheric', 'marine', 'AQI'];
+	Promise.all([locationInfoResponseAtmos, waterLevelResponse, waterTempResponse, locationInfoResponseAQI]).then((promises) => {
+		const infoTypes = ['atmospheric', 'marine', 'AQI'];
 
-			for (let i = 0; i < promises.length; i++) {
-				if (promises[i].status !== 200) {
-					console.error(`Unable to retrieve ${infoTypes[i]} information for station ${loc}`);
-					// TODO: handle missing data
-				}
+		for (let i = 0; i < promises.length; i++) {
+			if (promises[i].status !== 200) {
+				console.error(`Unable to retrieve ${infoTypes[i]} information for station ${loc}`);
+				// TODO: handle missing data
 			}
-
-			setter({
-				id: loc,
-				state: locMetadata.state,
-				name: locMetadata.city,
-				latLong: locMetadata.coords,
-				now: {
-					airTemperature: promises[0].data.current.temperature_2m,
-					airTemperatureApparent: promises[0].data.current.apparent_temperature,
-					cloudiness: promises[0].data.current.cloudcover,
-					precipitation: {
-						type: 'TODO',
-						chance: promises[0].data.current.precipitation
-					},
-					wind: {
-						baseSpeed: promises[0].data.current.windspeed_10m,
-						gustSpeed: promises[0].data.current.windgusts_10m,
-						direction: {
-							degrees: promises[0].data.current.winddirection_10m,
-							cardinal: degToCard(promises[0].data.current.winddirection_10m)
-						}
-					},
-					waterTemperature: promises[2].data.data ? promises[2].data.data[0].v : undefined,
-					tideHistory: promises[1].data.data,
-					visibility: promises[0].data.current.visibility,
-					airQuality: promises[3].data.current.us_aqi
-				},
-				todaySunrise: promises[0].data.daily.sunrise[0],
-				todaySunset: promises[0].data.daily.sunset[0]
-				// forecastHourly: [], // TODO
-				// forecastDaily: [], // TODO
-			});
 		}
-	);
+
+		setter({
+			id: loc,
+			state: locMetadata.state,
+			name: locMetadata.city,
+			latLong: locMetadata.coords,
+			now: {
+				airTemperature: promises[0].data.current.temperature_2m,
+				airTemperatureApparent: promises[0].data.current.apparent_temperature,
+				cloudiness: promises[0].data.current.cloudcover,
+				precipitation: {
+					type: 'TODO',
+					chance: promises[0].data.current.precipitation
+				},
+				wind: {
+					baseSpeed: promises[0].data.current.windspeed_10m,
+					gustSpeed: promises[0].data.current.windgusts_10m,
+					direction: {
+						degrees: promises[0].data.current.winddirection_10m,
+						cardinal: degToCard(promises[0].data.current.winddirection_10m)
+					}
+				},
+				waterTemperature: promises[2].data.data ? promises[2].data.data[0].v : undefined,
+				tideHistory: promises[1].data.data,
+				visibility: promises[0].data.current.visibility,
+				airQuality: promises[3].data.current.us_aqi
+			},
+			todaySunrise: promises[0].data.daily.sunrise[0],
+			todaySunset: promises[0].data.daily.sunset[0]
+			// forecastHourly: [], // TODO
+			// forecastDaily: [], // TODO
+		});
+	});
 }
 
 export function LocationInfoCard(props: {
@@ -184,8 +182,8 @@ export function LocationInfoCard(props: {
 						animation: `wave ${30 / data.now.wind.baseSpeed}s cubic-bezier(0.36, 0.45, 0.63, 0.53) infinite`
 					}}
 				/>
-				<h2 className='city-state-header'>{`${data.name}, ${data.state}`}</h2>
-				<h3 className='lat-long-header'>{`${data.latLong.lat.toFixed(3)},${data.latLong.lng.toFixed(3)}`}</h3>
+				<h2 className='city-state-header unselectable'>{`${data.name}, ${data.state}`}</h2>
+				<h3 className='lat-long-header unselectable'>{`${data.latLong.lat.toFixed(3)},${data.latLong.lng.toFixed(3)}`}</h3>
 				<div className='location-info-body-wrapper'>
 					<div className='all-temp-wrapper'>
 						<div className='air-temp-info-wrapper'>
@@ -206,21 +204,21 @@ export function LocationInfoCard(props: {
 						<TemperatureDisplay type='water' label='Water Temp' data={data.now.waterTemperature} units='F' />
 					</div>
 					<div className='wind-info-wrapper'>
+						<img className='compass-ring' src={process.env.PUBLIC_URL + '/img/CompassRing.png'} alt='ring' />
+						{['N', 'E', 'S', 'W'].map((direction) => (
+							<p className={`compass-direction compass-${direction} unselectable`}>{direction}</p>
+						))}
 						<img
 							className='wind-arrow'
 							src={process.env.PUBLIC_URL + '/img/CompassArrowHollow.png'}
 							alt='arrow'
 							style={{ rotate: `${(data.now.wind.direction.degrees + 180) % 360}deg` }}
 						/>
-						<h4 className='wind-speed-header'>{Math.round(data.now.wind.baseSpeed)}</h4>
-						<p className='wind-speed-units'>mph</p>
+						<h4 className='wind-speed-header unselectable'>{Math.round(data.now.wind.baseSpeed)}</h4>
+						<p className='wind-speed-units unselectable'>mph</p>
 					</div>
 				</div>
-				<PageTab
-					direction='left'
-					display={props.position !== 0}
-					onClick={() => props.changePosition(props.position - 1)}
-				/>
+				<PageTab direction='left' display={props.position !== 0} onClick={() => props.changePosition(props.position - 1)} />
 				<PageTab
 					direction='right'
 					display={props.position !== props.neighbors.length - 1}
