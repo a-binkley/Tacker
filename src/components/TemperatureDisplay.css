@@ -1,10 +1,38 @@
+.all-temp-wrapper {
+	position: relative;
+	display: flex;
+	flex-direction: column;
+	justify-content: space-evenly;
+	height: 80%;
+	width: 460px;
+}
+
+.air-temp-info-wrapper {
+	position: relative;
+	display: flex;
+	justify-content: space-evenly;
+	border: 2px solid black;
+	border-radius: 20px;
+	backdrop-filter: blur(20px);
+	background: #fff4;
+}
+
+.air-temp-separator {
+	position: relative;
+	border-radius: 6px;
+	background: #7774;
+	width: 3px;
+	top: 10%;
+	height: 80%;
+}
+
 .temp-display-wrapper {
 	position: relative;
 	height: 140px;
 }
 
 .water {
-	color: white;
+	color: #fffc;
 	border-radius: 20px;
 	left: 15%;
 	width: 70%;

@@ -1,5 +1,7 @@
 import { WindInfo } from '../functions';
 
+import './WindRing.css';
+
 export function WindRing(props: WindInfo) {
 	return (
 		<div className='wind-info-wrapper'>
