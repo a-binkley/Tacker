@@ -91,6 +91,19 @@ export async function retrieveLocationData(
 		}
 	});
 
+	const waterTempResponse = axios({
+		url: marine_url,
+		method: 'GET',
+		params: {
+			station: loc,
+			date: 'latest',
+			product: 'water_temperature',
+			units: 'english',
+			time_zone: 'lst_ldt',
+			format: 'json'
+		}
+	});
+
 	const locationInfoResponseAQI = axios({
 		url: air_quality_url,
 		method: 'GET',
@@ -103,48 +116,50 @@ export async function retrieveLocationData(
 		withCredentials: false
 	});
 
-	Promise.all([locationInfoResponseAtmos, waterLevelResponse, locationInfoResponseAQI]).then((promises) => {
-		const infoTypes = ['atmospheric', 'marine', 'AQI'];
+	Promise.all([locationInfoResponseAtmos, waterLevelResponse, waterTempResponse, locationInfoResponseAQI]).then(
+		(promises) => {
+			const infoTypes = ['atmospheric', 'marine', 'AQI'];
 
-		for (let i = 0; i < promises.length; i++) {
-			if (promises[i].status !== 200) {
-				console.error(`Unable to retrieve ${infoTypes[i]} information for station ${loc}`);
-				// TODO: handle missing data
+			for (let i = 0; i < promises.length; i++) {
+				if (promises[i].status !== 200) {
+					console.error(`Unable to retrieve ${infoTypes[i]} information for station ${loc}`);
+					// TODO: handle missing data
+				}
 			}
-		}
 
-		setter({
-			id: loc,
-			state: locMetadata.state,
-			name: locMetadata.city,
-			latLong: locMetadata.coords,
-			now: {
-				airTemperature: promises[0].data.current.temperature_2m,
-				airTemperatureApparent: promises[0].data.current.apparent_temperature,
-				cloudiness: promises[0].data.current.cloudcover,
-				precipitation: {
-					type: 'TODO',
-					chance: promises[0].data.current.precipitation
+			setter({
+				id: loc,
+				state: locMetadata.state,
+				name: locMetadata.city,
+				latLong: locMetadata.coords,
+				now: {
+					airTemperature: promises[0].data.current.temperature_2m,
+					airTemperatureApparent: promises[0].data.current.apparent_temperature,
+					cloudiness: promises[0].data.current.cloudcover,
+					precipitation: {
+						type: 'TODO',
+						chance: promises[0].data.current.precipitation
+					},
+					wind: {
+						baseSpeed: promises[0].data.current.windspeed_10m,
+						gustSpeed: promises[0].data.current.windgusts_10m,
+						direction: {
+							degrees: promises[0].data.current.winddirection_10m,
+							cardinal: degToCard(promises[0].data.current.winddirection_10m)
+						}
+					},
+					waterTemperature: promises[2].data.data[0].v,
+					tideHistory: promises[1].data.data,
+					visibility: promises[0].data.current.visibility,
+					airQuality: promises[3].data.current.us_aqi
 				},
-				wind: {
-					baseSpeed: promises[0].data.current.windspeed_10m,
-					gustSpeed: promises[0].data.current.windgusts_10m,
-					direction: {
-						degrees: promises[0].data.current.winddirection_10m,
-						cardinal: degToCard(promises[0].data.current.winddirection_10m)
-					}
-				},
-				waterTemperature: -1,
-				tideHistory: promises[1].data.data,
-				visibility: promises[0].data.current.visibility,
-				airQuality: promises[2].data.current.us_aqi
-			},
-			todaySunrise: promises[0].data.daily.sunrise[0],
-			todaySunset: promises[0].data.daily.sunset[0]
-			// forecastHourly: [], // TODO
-			// forecastDaily: [], // TODO
-		});
-	});
+				todaySunrise: promises[0].data.daily.sunrise[0],
+				todaySunset: promises[0].data.daily.sunset[0]
+				// forecastHourly: [], // TODO
+				// forecastDaily: [], // TODO
+			});
+		}
+	);
 }
 
 export function LocationInfoCard(props: {
@@ -201,10 +216,20 @@ export function LocationInfoCard(props: {
 						<p className='wind-speed-units'>mph</p>
 					</div>
 				</div>
-				{/* {Object.keys(data).map((key) => (
-					<p>{`${key}: ${data[key as keyof StationInfo]}`}</p>
-				))} */}
-				{/* <p>{`Air Temperature: ${data.now.airTemperature} °F`}</p> */}
+				<i
+					className='bi bi-caret-left tab-arrow'
+					style={{
+						display: props.position === 0 ? 'none' : ''
+					}}
+					onClick={() => props.changePosition(props.position - 1)}
+				/>
+				<i
+					className='bi bi-caret-right tab-arrow'
+					style={{
+						display: props.position === props.neighbors.length - 1 ? 'none' : ''
+					}}
+					onClick={() => props.changePosition(props.position + 1)}
+				/>
 			</div>
 		);
 	} else {

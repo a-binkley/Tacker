@@ -125,6 +125,23 @@
 	line-height: 150%;
 }
 
+.tab-arrow {
+	position: absolute;
+	top: calc(50% - 2rem);
+	height: 4rem;
+	font-size: 4rem;
+	text-align: center;
+	cursor: pointer;
+}
+
+.bi-caret-left {
+	left: 1vw;
+}
+
+.bi-caret-right {
+	right: 1vw;
+}
+
 @keyframes wave {
 	0% {
 		margin-left: 0;

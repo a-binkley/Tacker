@@ -34,10 +34,10 @@ export function Home() {
 	};
 
 	return (
-		<div className="home-wrapper">
+		<div className='home-wrapper'>
 			{searchMode === 'prompt' ? (
 				// Ask the user to add at least one location as a favorite
-				<div className="locator-prompt">
+				<div className='locator-prompt'>
 					<h3>It looks like you don't have any locations marked as favorites yet.</h3>
 					<button onClick={() => setSearchMode('search')}>Find a station</button>
 				</div>
@@ -53,6 +53,7 @@ export function Home() {
 					position={displayLocIdx}
 					changePosition={setDisplayLocIdx}
 					neighbors={favorites}
+					key={displayLocIdx}
 				/>
 			) : (
 				<h3>Loading data...</h3>
