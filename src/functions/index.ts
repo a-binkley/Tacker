@@ -30,7 +30,7 @@ export type StationInfo = {
 	name: string; // city
 	latLong: LatLng;
 	now: BaseInfo & {
-		waterTemperature: number;
+		waterTemperature?: number;
 		tideHistory: {
 			t: string; // datetime of record
 			v: number; // ft above low water datum
@@ -49,7 +49,7 @@ export type StationInfo = {
 export async function retrieveCurrentStations(setter: Function): Promise<StationInfo[]> {
 	axios({
 		method: 'GET',
-		url: 'https://api.tidesandcurrents.noaa.gov/mdapi/prod/webapi/stations.json',
+		url: 'https://api.tidesandcurrents.noaa.gov/mdapi/prod/webapi/stations.json'
 	})
 		.then((response: { status: number; data: { stations: any[] } }) => {
 			if (response.status === 200) {
@@ -61,7 +61,7 @@ export async function retrieveCurrentStations(setter: Function): Promise<Station
 						id: station.id,
 						state: station.state,
 						name: station.name,
-						latLong: new LatLng(station.lat, station.lng),
+						latLong: new LatLng(station.lat, station.lng)
 					}))
 				);
 			} else throw new Error(`Could not retrieve station data. Response received with code ${response.status}`);
@@ -86,7 +86,7 @@ export async function fetchStationCoordinates(setter: Function) {
 	const response = await axios({
 		url: 'https://api.tidesandcurrents.noaa.gov/mdapi/prod/webapi/stations.json',
 		method: 'GET',
-		withCredentials: false,
+		withCredentials: false
 	});
 
 	if (response.status === 200) {
@@ -96,7 +96,7 @@ export async function fetchStationCoordinates(setter: Function) {
 				stationCoordsBuilder.set(station.id, {
 					city: station.name,
 					state: station.state,
-					coords: new LatLng(station.lat, station.lng),
+					coords: new LatLng(station.lat, station.lng)
 				});
 			}
 		});

@@ -148,7 +148,7 @@ export async function retrieveLocationData(
 							cardinal: degToCard(promises[0].data.current.winddirection_10m)
 						}
 					},
-					waterTemperature: promises[2].data.data[0].v,
+					waterTemperature: promises[2].data.data ? promises[2].data.data[0].v : undefined,
 					tideHistory: promises[1].data.data,
 					visibility: promises[0].data.current.visibility,
 					airQuality: promises[3].data.current.us_aqi
