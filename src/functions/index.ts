@@ -9,6 +9,12 @@ type DirectionInfo = {
 	cardinal: string;
 };
 
+export type WindInfo = {
+	baseSpeed: number;
+	gustSpeed: number;
+	direction: DirectionInfo;
+};
+
 type BaseInfo = {
 	airTemperature: number;
 	airTemperatureApparent: number;
@@ -17,11 +23,7 @@ type BaseInfo = {
 		type: string;
 		chance: number;
 	};
-	wind: {
-		baseSpeed: number;
-		gustSpeed: number;
-		direction: DirectionInfo;
-	};
+	wind: WindInfo;
 };
 
 export type StationInfo = {
@@ -30,6 +32,7 @@ export type StationInfo = {
 	name: string; // city
 	latLong: LatLng;
 	now: BaseInfo & {
+		isDay: boolean;
 		waterTemperature?: number;
 		tideHistory: {
 			t: string; // datetime of record

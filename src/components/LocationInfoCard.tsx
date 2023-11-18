@@ -6,7 +6,7 @@ import tz_lookup from 'tz-lookup';
 import { StationMetadata } from '../pages';
 
 import './LocationInfoCard.css';
-import { PageTab, TemperatureDisplay } from '.';
+import { PageTab, TemperatureDisplay, WindRing } from '.';
 
 export async function retrieveLocationData(
 	setter: (data: StationInfo) => void,
@@ -147,6 +147,7 @@ export async function retrieveLocationData(
 						cardinal: degToCard(promises[0].data.current.winddirection_10m)
 					}
 				},
+				isDay: promises[0].data.current.is_day === 1,
 				waterTemperature: promises[2].data.data ? promises[2].data.data[0].v : undefined,
 				tideHistory: promises[1].data.data,
 				visibility: promises[0].data.current.visibility,
@@ -174,16 +175,27 @@ export function LocationInfoCard(props: {
 	});
 
 	if (data) {
+		const locationInfoSkyStyle = {
+				background: data.now.isDay
+					? `radial-gradient(farthest-side at 25% 0, white, hsl(194, ${
+							(57 * (100 - parseInt(data.now.cloudiness))) / 100 // base color saturation on cloudiness
+					  }%, 67%))`
+					: 'linear-gradient(#08183a, #152852)'
+			}, // TODO: add 'url(../../public/img/NightStars.svg)' for stars
+			waveAnimationStyle = {
+				animation: `wave ${30 / data.now.wind.baseSpeed}s cubic-bezier(0.36, 0.45, 0.63, 0.53) infinite` // base animation speed on wind
+			},
+			latLongDisplayable = `${data.latLong.lat.toFixed(3)},${data.latLong.lng.toFixed(3)}`,
+			displayTabs = {
+				left: props.position !== 0,
+				right: props.position !== props.neighbors.length - 1
+			};
+
 		return (
-			<div className='location-info-card-wrapper'>
-				<div
-					className='wave-background'
-					style={{
-						animation: `wave ${30 / data.now.wind.baseSpeed}s cubic-bezier(0.36, 0.45, 0.63, 0.53) infinite`
-					}}
-				/>
+			<div className='location-info-card-wrapper' style={locationInfoSkyStyle}>
+				<div className='wave-background' style={waveAnimationStyle} />
 				<h2 className='city-state-header unselectable'>{`${data.name}, ${data.state}`}</h2>
-				<h3 className='lat-long-header unselectable'>{`${data.latLong.lat.toFixed(3)},${data.latLong.lng.toFixed(3)}`}</h3>
+				<h3 className='lat-long-header unselectable'>{latLongDisplayable}</h3>
 				<div className='location-info-body-wrapper'>
 					<div className='all-temp-wrapper'>
 						<div className='air-temp-info-wrapper'>
@@ -203,27 +215,10 @@ export function LocationInfoCard(props: {
 						</div>
 						<TemperatureDisplay type='water' label='Water Temp' data={data.now.waterTemperature} units='F' />
 					</div>
-					<div className='wind-info-wrapper'>
-						<img className='compass-ring' src={process.env.PUBLIC_URL + '/img/CompassRing.png'} alt='ring' />
-						{['N', 'E', 'S', 'W'].map((direction) => (
-							<p className={`compass-direction compass-${direction} unselectable`}>{direction}</p>
-						))}
-						<img
-							className='wind-arrow'
-							src={process.env.PUBLIC_URL + '/img/CompassArrowHollow.png'}
-							alt='arrow'
-							style={{ rotate: `${(data.now.wind.direction.degrees + 180) % 360}deg` }}
-						/>
-						<h4 className='wind-speed-header unselectable'>{Math.round(data.now.wind.baseSpeed)}</h4>
-						<p className='wind-speed-units unselectable'>mph</p>
-					</div>
+					<WindRing {...data.now.wind} />
 				</div>
-				<PageTab direction='left' display={props.position !== 0} onClick={() => props.changePosition(props.position - 1)} />
-				<PageTab
-					direction='right'
-					display={props.position !== props.neighbors.length - 1}
-					onClick={() => props.changePosition(props.position + 1)}
-				/>
+				<PageTab direction='left' display={displayTabs.left} onClick={() => props.changePosition(props.position - 1)} />
+				<PageTab direction='right' display={displayTabs.right} onClick={() => props.changePosition(props.position + 1)} />
 			</div>
 		);
 	} else {
