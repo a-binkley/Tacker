@@ -1,13 +1,16 @@
 {
   "files": {
-    "main.css": "/Tackr/static/css/main.e6c13ad2.css",
-    "main.js": "/Tackr/static/js/main.2a82784e.js",
+    "main.css": "/Tackr/static/css/main.9c362408.css",
+    "main.js": "/Tackr/static/js/main.a10617d5.js",
+    "static/media/Metropolis-Bold.otf": "/Tackr/static/media/Metropolis-Bold.c5e04fafcff6fc79cd76.otf",
+    "static/media/Metropolis-Regular.otf": "/Tackr/static/media/Metropolis-Regular.67a1988d7b65b0aaa16d.otf",
     "index.html": "/Tackr/index.html",
-    "main.e6c13ad2.css.map": "/Tackr/static/css/main.e6c13ad2.css.map",
-    "main.2a82784e.js.map": "/Tackr/static/js/main.2a82784e.js.map"
+    "static/media/wave.svg": "/Tackr/static/media/wave.cc41de817a294cb742c8.svg",
+    "main.9c362408.css.map": "/Tackr/static/css/main.9c362408.css.map",
+    "main.a10617d5.js.map": "/Tackr/static/js/main.a10617d5.js.map"
   },
   "entrypoints": [
-    "static/css/main.e6c13ad2.css",
-    "static/js/main.2a82784e.js"
+    "static/css/main.9c362408.css",
+    "static/js/main.a10617d5.js"
   ]
 }
