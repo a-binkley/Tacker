@@ -1,0 +1,32 @@
+.temp-display-wrapper {
+	position: relative;
+	height: 140px;
+}
+
+.water {
+	color: white;
+	border-radius: 20px;
+	left: 15%;
+	width: 70%;
+	backdrop-filter: blur(20px);
+	background: #fff2;
+}
+
+.temp-label {
+	font-size: 1.4rem;
+	margin: 10px 0 0;
+}
+
+.temp-data {
+	font-size: 6rem;
+	display: inline;
+	margin: 0;
+}
+
+.temp-units {
+	position: relative;
+	font-size: 2rem;
+	display: inline;
+	top: -40px;
+	left: 6px;
+}

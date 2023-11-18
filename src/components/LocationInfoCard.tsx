@@ -6,6 +6,7 @@ import tz_lookup from 'tz-lookup';
 import { StationMetadata } from '../pages';
 
 import './LocationInfoCard.css';
+import { TemperatureDisplay } from '.';
 
 export async function retrieveLocationData(
 	setter: (data: StationInfo) => void,
@@ -170,36 +171,35 @@ export function LocationInfoCard(props: {
 				/>
 				<h2 className='city-state-header'>{`${data.name}, ${data.state}`}</h2>
 				<h3 className='lat-long-header'>{`${data.latLong.lat.toFixed(3)},${data.latLong.lng.toFixed(3)}`}</h3>
-				<div className='air-temp-info-wrapper'>
-					<div className='air-temp-separator' />
-					{[
-						{
-							type: 'actual',
-							label: 'actually',
-							data: data.now.airTemperature
-						},
-						{
-							type: 'apparent',
-							label: 'feels like',
-							data: data.now.airTemperatureApparent
-						}
-					].map(({ type, label, data }) => (
-						<div className={`air-temp-${type}-wrapper`}>
-							<p className={`air-temp-${type}-label`}>{label}</p>
-							<h4 className={`air-temp-${type}-data`}>{Math.round(data)}</h4>
-							<p className={`air-temp-${type}-units`}>°F</p>
+				<div className='location-info-body-wrapper'>
+					<div className='all-temp-wrapper'>
+						<div className='air-temp-info-wrapper'>
+							<TemperatureDisplay
+								type='air-actual'
+								label='Air Temp (actual)'
+								data={data.now.airTemperature}
+								units='F'
+							/>
+							<div className='air-temp-separator' />
+							<TemperatureDisplay
+								type='air-apparent'
+								label='Air Temp (feel)'
+								data={data.now.airTemperatureApparent}
+								units='F'
+							/>
 						</div>
-					))}
-				</div>
-				<div className='wind-info-wrapper'>
-					<img
-						className='wind-arrow'
-						src={process.env.PUBLIC_URL + '/img/CompassArrowHollow.png'}
-						alt='arrow'
-						style={{ rotate: `${(data.now.wind.direction.degrees + 180) % 360}deg` }}
-					/>
-					<h4 className='wind-speed-header'>{Math.round(data.now.wind.baseSpeed)}</h4>
-					<p className='wind-speed-units'>mph</p>
+						<TemperatureDisplay type='water' label='Water Temp' data={data.now.waterTemperature} units='F' />
+					</div>
+					<div className='wind-info-wrapper'>
+						<img
+							className='wind-arrow'
+							src={process.env.PUBLIC_URL + '/img/CompassArrowHollow.png'}
+							alt='arrow'
+							style={{ rotate: `${(data.now.wind.direction.degrees + 180) % 360}deg` }}
+						/>
+						<h4 className='wind-speed-header'>{Math.round(data.now.wind.baseSpeed)}</h4>
+						<p className='wind-speed-units'>mph</p>
+					</div>
 				</div>
 				{/* {Object.keys(data).map((key) => (
 					<p>{`${key}: ${data[key as keyof StationInfo]}`}</p>
