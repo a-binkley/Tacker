@@ -172,7 +172,7 @@ export function LocationInfoCard(props: {
 
 	useEffect(() => {
 		if (!data) retrieveLocationData(setData, props.id, props.metadata, 'fahrenheit', 'mph', 'inch', 'imperial');
-	});
+	}, [data, props.id, props.metadata]);
 
 	if (data) {
 		const locationInfoSkyStyle = {
