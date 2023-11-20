@@ -6,7 +6,7 @@ import tz_lookup from 'tz-lookup';
 import { StationMetadata } from '../pages';
 
 import './LocationInfoCard.css';
-import { PageTab, TemperatureDisplay, VisibilityDisplay, WindRing } from '.';
+import { AirQualityDisplay, PageTab, TemperatureDisplay, VisibilityDisplay, WindRing } from '.';
 
 export async function retrieveLocationData(
 	setter: (data: StationInfo) => void,
@@ -180,7 +180,8 @@ export function LocationInfoCard(props: {
 					? `radial-gradient(farthest-side at 25% 0, white, hsl(194, ${
 							(57 * (100 - parseInt(data.now.cloudiness))) / 100 // base color saturation on cloudiness
 					  }%, 67%))`
-					: 'linear-gradient(#040d21, #102144)'
+					: 'linear-gradient(#040d21, #102144)',
+				color: data.now.isDay ? 'black' : '#fffd'
 			}, // TODO: add 'url(../../public/img/NightStars.svg)' for stars
 			waveAnimationStyle = {
 				animation: `wave ${30 / data.now.wind.baseSpeed}s cubic-bezier(0.36, 0.45, 0.63, 0.53) infinite` // base animation speed on wind
@@ -217,6 +218,7 @@ export function LocationInfoCard(props: {
 					</div>
 					<WindRing {...data.now.wind} />
 					<VisibilityDisplay data={Math.round(data.now.visibility)} units='imperial' />
+					<AirQualityDisplay data={data.now.airQuality} />
 				</div>
 				<PageTab direction='left' display={displayTabs.left} onClick={() => props.changePosition(props.position - 1)} />
 				<PageTab direction='right' display={displayTabs.right} onClick={() => props.changePosition(props.position + 1)} />

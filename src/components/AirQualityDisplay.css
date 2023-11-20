@@ -1,0 +1,41 @@
+.air-quality-wrapper {
+	position: relative;
+	border: 2px solid black;
+	height: 300px;
+	width: 300px;
+	border-radius: 20px;
+	backdrop-filter: blur(20px);
+	background: #fff4;
+}
+
+.air-quality-meter {
+	position: absolute;
+	width: 240px;
+	top: 10px;
+	left: 30px;
+}
+
+.air-quality-needle {
+	position: absolute;
+	width: 40px;
+	left: calc(50% - 20px);
+	top: 24px;
+}
+
+.air-quality-number {
+	position: absolute;
+	top: 100px;
+	left: calc(50% - 4rem);
+	height: 3.5rem;
+	width: 8rem;
+	font-size: 3rem;
+}
+
+.air-quality-description {
+	position: absolute;
+	top: 200px;
+	left: calc(50% - 4rem);
+	height: 1.5rem;
+	width: 8rem;
+	font-size: 1.5rem;
+}
