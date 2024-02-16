@@ -1,6 +1,7 @@
 import axios from 'axios';
 import { LatLng } from 'leaflet';
 import { StationMetadata } from '../pages';
+import { MetadataSerializableType } from '../app/stationData';
 
 export * from './Direction';
 
@@ -30,7 +31,10 @@ export type StationInfo = {
 	id: string;
 	state: string;
 	name: string; // city
-	latLong: LatLng;
+	latLong: {
+		lat: number;
+		lng: number;
+	};
 	now: BaseInfo & {
 		isDay: boolean;
 		waterTemperature?: number;
@@ -49,31 +53,31 @@ export type StationInfo = {
 	// forecastDaily: []; // TODO
 };
 
-export async function retrieveCurrentStations(setter: Function): Promise<StationInfo[]> {
-	axios({
+export async function retrieveCurrentStations(): Promise<MetadataSerializableType> {
+	const out: MetadataSerializableType = {};
+	console.log('Before axios');
+	const response = await axios({
 		method: 'GET',
 		url: 'https://api.tidesandcurrents.noaa.gov/mdapi/prod/webapi/stations.json'
-	})
-		.then((response: { status: number; data: { stations: any[] } }) => {
-			if (response.status === 200) {
-				const greatLakesStations = response.data.stations.filter(
-					(station: { [key: string]: string }) => station.greatlakes
-				);
-				setter(
-					greatLakesStations.map((station: StationInfo & { lat: number; lng: number }) => ({
-						id: station.id,
-						state: station.state,
-						name: station.name,
-						latLong: new LatLng(station.lat, station.lng)
-					}))
-				);
-			} else throw new Error(`Could not retrieve station data. Response received with code ${response.status}`);
-		})
-		.catch((err: any) => {
-			console.error(err);
-			throw err; // STUB
+	});
+	console.log('After axios response');
+
+	if (response.status === 200) {
+		const greatLakesStations = response.data.stations.filter((station: { [key: string]: string }) => station.greatlakes);
+		greatLakesStations.forEach((station: StationNOAA) => {
+			out[station.id] = {
+				city: station.name,
+				state: station.state,
+				coords: {
+					lat: station.lat,
+					lng: station.lng
+				}
+			};
 		});
-	return [];
+
+		console.log('Metadata success');
+		return out;
+	} else throw new Error(`Could not retrieve station data. Response received with code ${response.status}`);
 }
 
 type StationNOAA = {
@@ -85,7 +89,7 @@ type StationNOAA = {
 	lng: number;
 };
 
-export async function fetchStationCoordinates(setter: Function) {
+export async function fetchStationCoordinates(): Promise<Map<string, StationMetadata>> {
 	const response = await axios({
 		url: 'https://api.tidesandcurrents.noaa.gov/mdapi/prod/webapi/stations.json',
 		method: 'GET',
@@ -104,8 +108,10 @@ export async function fetchStationCoordinates(setter: Function) {
 			}
 		});
 
-		setter(stationCoordsBuilder);
+		return stationCoordsBuilder;
 	}
+
+	return new Map();
 }
 
 export type LocationDMS = {

@@ -7,7 +7,9 @@ export function WindRing(props: WindInfo) {
 		<div className='wind-info-wrapper'>
 			<img className='compass-ring' src={process.env.PUBLIC_URL + '/img/CompassRing.png'} alt='ring' />
 			{['N', 'E', 'S', 'W'].map((direction) => (
-				<p className={`compass-direction compass-${direction} unselectable`}>{direction}</p>
+				<p className={`compass-direction compass-${direction} unselectable`} key={`compass-label-${direction}`}>
+					{direction}
+				</p>
 			))}
 			<img
 				className='wind-arrow'
