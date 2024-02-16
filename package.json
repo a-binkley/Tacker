@@ -47,7 +47,8 @@
 	},
 	"jest": {
 		"collectCoverageFrom": [
-			"./src/functions/*.ts"
+			"./src/functions/*.ts",
+			"!./src/functions/testConstants.ts"
 		],
 		"coverageThreshold": {
 			"global": {
