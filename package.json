@@ -56,7 +56,13 @@
 				"functions": 90,
 				"lines": 90
 			}
-		}
+		},
+		"transform": {
+			"node_modules/axios/.+\\.(j|t)sx?$": "ts-jest"
+		},
+		"transformIgnorePatterns": [
+			"node_modules/(?!axios/.*)"
+		]
 	},
 	"browserslist": {
 		"production": [

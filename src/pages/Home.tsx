@@ -22,22 +22,16 @@ export function Home() {
 		if (Object.keys(metadata).length === 0) {
 			retrieveCurrentStations().then(
 				(metadataRes) => {
-					dispatch(setMetadata(metadataRes));
-				},
-				(metadataErr) => {
-					console.error('Unable to retrieve station metadata');
-					console.error(metadataErr);
+					if (Object.keys(metadataRes).length > 0) dispatch(setMetadata(metadataRes));
 				}
+				// errors handled in invoked function
 			);
 		} else if (searchMode === 'display') {
 			retrieveLocationData(favoritesIDs, metadata, 'fahrenheit', 'mph', 'inch').then(
 				(dataRes) => {
-					dispatch(setData(dataRes));
-				},
-				(dataErr) => {
-					console.error('Could not retrieve location data');
-					console.error(dataErr);
+					if (Object.keys(dataRes).length > 0) dispatch(setData(dataRes));
 				}
+				// errors handled in invoked function
 			);
 		}
 	}, [dispatch, data, metadata, favoritesIDs, searchMode]);
