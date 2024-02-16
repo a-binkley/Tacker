@@ -1,3 +1,4 @@
+import L from 'leaflet';
 import { CSSProperties } from 'react';
 import { MapContainer, Marker, Popup, TileLayer } from 'react-leaflet';
 import { useSelector } from 'react-redux';
@@ -5,13 +6,25 @@ import { useSelector } from 'react-redux';
 import { MetadataSerializableType } from '../app/stationData';
 import { RootState } from '../pages';
 
+function getLeafletIcon(isFavorite: boolean): L.Icon {
+	return new L.Icon({
+		iconUrl: `https://raw.githubusercontent.com/pointhi/leaflet-color-markers/master/img/marker-icon-2x-${
+			isFavorite ? 'blue' : 'grey'
+		}.png`,
+		shadowUrl: 'https://cdnjs.cloudflare.com/ajax/libs/leaflet/0.7.7/images/marker-shadow.png',
+		iconSize: [25, 41],
+		iconAnchor: [12, 41],
+		popupAnchor: [1, -34],
+		shadowSize: [41, 41]
+	});
+}
+
 export function LocatorPopup(props: {
 	handleFavoriteChange: (station: string) => void;
 	setSearchMode: (state: 'prompt' | 'search' | 'display') => void;
 }) {
 	const favoritesIDs = useSelector<RootState, string[]>((state) => state.favoritesIDs);
 	const metadataStore = useSelector<RootState, MetadataSerializableType>((state) => state.metadata);
-	const isFavorite = (id: string) => favoritesIDs.includes(id);
 
 	const mapStyle: CSSProperties = {
 			height: 'calc(100vh - 80px)',
@@ -44,15 +57,18 @@ export function LocatorPopup(props: {
 					url='https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png'
 				/>
 				{Object.entries(metadataStore).map(([id, metadata]) => (
-					// TODO: color markers according to isFavorite(id) for easier visual distinction
-					<Marker position={metadata.coords} key={`station-${id}`}>
+					<Marker
+						position={metadata.coords}
+						icon={getLeafletIcon(favoritesIDs.includes(id))}
+						eventHandlers={{
+							mouseover: (event) => event.target.openPopup(),
+							mouseout: (event) => event.target.closePopup(),
+							click: () => props.handleFavoriteChange(id)
+						}}
+						key={`station-${id}`}
+					>
 						<Popup>
-							<i
-								className={`bi bi-star${isFavorite(id) ? '-fill' : ''}`}
-								style={{ fontSize: '1rem', color: `${isFavorite(id) ? 'goldenrod' : 'black'}` }}
-								onClick={() => props.handleFavoriteChange(id)}
-							/>
-							{` ${metadata.city}, ${metadata.state}`} <br />
+							{`${metadata.city}, ${metadata.state}`} <br />
 							{`${metadata.coords.lat.toFixed(4)},${metadata.coords.lng.toFixed(4)}`}
 						</Popup>
 					</Marker>

@@ -26,7 +26,7 @@ export function Home() {
 				}
 				// errors handled in invoked function
 			);
-		} else if (searchMode === 'display') {
+		} else if (searchMode === 'display' && Object.keys(data).length === 0) {
 			retrieveLocationData(favoritesIDs, metadata, 'fahrenheit', 'mph', 'inch').then(
 				(dataRes) => {
 					if (Object.keys(dataRes).length > 0) dispatch(setData(dataRes));
