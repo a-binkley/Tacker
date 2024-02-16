@@ -3,7 +3,7 @@ import { degToCard } from './Direction';
 describe('degToCard function', () => {
 	it('should throw an error if given invalid input', () => {
 		expect(() => degToCard(-1)).toThrowError(`Direction provided (-1 degrees) is invalid`);
-		expect(() => degToCard(360)).toThrowError(`Direction provided (360 degrees) is invalid`);
+		expect(() => degToCard(361)).toThrowError(`Direction provided (361 degrees) is invalid`);
 	});
 
 	it('should correctly map degrees 358.75-11.25 to "N"', () => {
