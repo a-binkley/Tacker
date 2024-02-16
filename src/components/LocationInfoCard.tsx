@@ -70,6 +70,7 @@ export function LocationInfoCard(props: { id: string; data: StationInfo }) {
 				display={viewingIndex !== favoritesIDs.length - 1}
 				onClick={() => dispatch(updateViewingIndex(1))}
 			/>
+			{/* TODO: meatball navigator with highlighted current index? */}
 		</div>
 	);
 }

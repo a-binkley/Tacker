@@ -1,6 +1,6 @@
 import { createSlice } from '@reduxjs/toolkit';
-import { StationInfo } from '../functions';
 
+import { StationInfo } from '../functions';
 import { StationMetadata } from '../pages';
 
 const placeholderMetadata: { [id: string]: StationMetadata } = {};
@@ -18,6 +18,10 @@ export const stationDataSlice = createSlice({
 		data: placeholderData
 	},
 	reducers: {
+		setFavorites: (state, action: { payload: string[] }) => {
+			state.favoritesIDs = action.payload;
+			localStorage.setItem('favoriteStations', JSON.stringify(action.payload)); // save for use in later sessions
+		},
 		setMetadata: (state, action: { payload: { [id: string]: StationMetadata } }) => {
 			state.metadata = action.payload;
 		},
@@ -31,6 +35,6 @@ export const stationDataSlice = createSlice({
 });
 
 // Action creators are generated for each case reducer function
-export const { setMetadata, setData, updateViewingIndex } = stationDataSlice.actions;
+export const { setFavorites, setMetadata, setData, updateViewingIndex } = stationDataSlice.actions;
 
 export default stationDataSlice.reducer;

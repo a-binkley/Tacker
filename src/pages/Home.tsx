@@ -1,35 +1,52 @@
 import { useEffect, useState } from 'react';
+import { useSelector, useDispatch } from 'react-redux';
 
-import { fetchStationCoordinates, retrieveCurrentStations, StationInfo } from '../functions';
+import { setMetadata, setData, setFavorites, MetadataSerializableType, DataSerializableType } from '../app/stationData';
+import store from '../app/store';
 import { LocationInfoCard, LocatorPopup } from '../components';
-import { LatLng } from 'leaflet';
+import { retrieveCurrentStations, retrieveLocationData } from '../functions';
 
-export type StationMetadata = { city: string; state: string; coords: LatLng };
+export type RootState = ReturnType<typeof store.getState>;
+export type StationMetadata = { city: string; state: string; coords: { lat: number; lng: number } };
 
 export function Home() {
-	const [allStations, setAllStations] = useState<StationInfo[]>([]);
-	const [stationMetadata, setStationMetadata] = useState<Map<string, StationMetadata>>(new Map());
-	const [displayLocIdx, setDisplayLocIdx] = useState(0);
-	const [favorites, setFavorites] = useState<string[]>(JSON.parse(localStorage.getItem('favoriteStations') ?? '[]'));
-	const [searchMode, setSearchMode] = useState<'prompt' | 'search' | 'display'>(
-		favorites.length === 0 ? 'prompt' : 'display'
-	);
+	const data: DataSerializableType = useSelector<RootState, any>((state) => state.data);
+	const metadata: MetadataSerializableType = useSelector<RootState, any>((state) => state.metadata);
+	const favoritesIDs: string[] = useSelector<RootState, any>((state) => state.favoritesIDs);
+	const viewingIndex: number = useSelector<RootState, any>((state) => state.viewingIndex);
+	const dispatch = useDispatch();
+
+	const [searchMode, setSearchMode] = useState<'prompt' | 'search' | 'display'>(favoritesIDs.length === 0 ? 'prompt' : 'display');
 
 	useEffect(() => {
-		if (allStations.length === 0) {
-			retrieveCurrentStations(setAllStations);
+		if (Object.keys(metadata).length === 0) {
+			retrieveCurrentStations().then(
+				(metadataRes) => {
+					dispatch(setMetadata(metadataRes));
+				},
+				(metadataErr) => {
+					console.error('Unable to retrieve station metadata');
+					console.error(metadataErr);
+				}
+			);
+		} else if (searchMode === 'display') {
+			retrieveLocationData(favoritesIDs, metadata, 'fahrenheit', 'mph', 'inch', 'imperial').then(
+				(dataRes) => {
+					dispatch(setData(dataRes));
+				},
+				(dataErr) => {
+					console.error('Could not retrieve location data');
+					console.error(dataErr);
+				}
+			);
 		}
-		if (stationMetadata.size === 0) {
-			fetchStationCoordinates(setStationMetadata);
-		}
-		localStorage.setItem('favoriteStations', JSON.stringify(favorites));
-	}, [allStations.length, stationMetadata.size, favorites, searchMode]);
+	}, [dispatch, data, metadata, favoritesIDs, searchMode]);
 
-	const handleFavoriteChange = (stationInfo: StationInfo, existingFavorite: boolean) => {
-		if (existingFavorite) {
-			setFavorites(favorites.filter((station) => station !== stationInfo.id)); // Remove
+	const handleFavoriteChange = (stationID: string) => {
+		if (favoritesIDs.includes(stationID)) {
+			dispatch(setFavorites(favoritesIDs.filter((id: string) => id !== stationID))); // Remove
 		} else {
-			setFavorites(favorites.concat([stationInfo.id])); // Add
+			dispatch(setFavorites(favoritesIDs.concat([stationID]))); // Add
 		}
 	};
 
@@ -44,19 +61,17 @@ export function Home() {
 			) : // TODO: make pretty
 			searchMode === 'search' ? (
 				// Display the Leaflet map to allow user to add station(s) to favorites
-				<LocatorPopup {...{ stations: allStations, favorites, handleFavoriteChange, setSearchMode }} />
-			) : stationMetadata.size > 0 ? (
+				<LocatorPopup {...{ handleFavoriteChange, setSearchMode }} />
+			) : data[favoritesIDs[viewingIndex]] ? (
 				// Display info for favorited location(s)
 				<LocationInfoCard
-					id={favorites[displayLocIdx]}
-					metadata={stationMetadata.get(favorites[displayLocIdx])!}
-					position={displayLocIdx}
-					changePosition={setDisplayLocIdx}
-					neighbors={favorites}
-					key={displayLocIdx}
+					id={favoritesIDs[viewingIndex]}
+					data={data[favoritesIDs[viewingIndex]]}
+					key={`LocationCard-${viewingIndex}`}
 				/>
 			) : (
-				<h3>Loading data...</h3>
+				// TODO: make more robust
+				<div>{'' && console.log(searchMode)}</div>
 			)}
 		</div>
 	);

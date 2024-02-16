@@ -1,20 +1,23 @@
-import { MapContainer, Marker, Popup, TileLayer } from 'react-leaflet';
-import { StationInfo } from '../functions';
 import { CSSProperties } from 'react';
+import { MapContainer, Marker, Popup, TileLayer } from 'react-leaflet';
+import { useSelector } from 'react-redux';
+
+import { MetadataSerializableType } from '../app/stationData';
+import { RootState } from '../pages';
 
 export function LocatorPopup(props: {
-	stations: StationInfo[];
-	favorites: string[];
-	handleFavoriteChange: (station: StationInfo, existingFavorite: boolean) => void;
+	handleFavoriteChange: (station: string) => void;
 	setSearchMode: (state: 'prompt' | 'search' | 'display') => void;
 }) {
-	const isFavorite = (favorites: string[], stationID: string) => favorites.some((station) => station === stationID);
+	const favoritesIDs: string[] = useSelector<RootState, any>((state) => state.favoritesIDs);
+	const metadataStore: MetadataSerializableType = useSelector<RootState, any>((state) => state.metadata);
+	const isFavorite = (id: string) => favoritesIDs.includes(id);
 
 	const mapStyle: CSSProperties = {
 			height: 'calc(100vh - 80px)',
 			width: 'calc(100vw - 80px)',
 			top: '40px',
-			left: '40px',
+			left: '40px'
 		},
 		closeBtnStyle: CSSProperties = {
 			position: 'absolute',
@@ -25,12 +28,12 @@ export function LocatorPopup(props: {
 			fontSize: '2rem',
 			zIndex: 500,
 			cursor: 'pointer',
-			display: props.favorites.length === 0 ? 'none' : '',
+			display: favoritesIDs.length === 0 ? 'none' : ''
 		};
 
 	return (
-		<div className="locator-popup-wrapper">
-			<i className="bi bi-x-square" style={closeBtnStyle} onClick={() => props.setSearchMode('display')}></i>
+		<div className='locator-popup-wrapper'>
+			<i className='bi bi-x-square' style={closeBtnStyle} onClick={() => props.setSearchMode('display')}></i>
 			<MapContainer
 				center={[45.4, -84.4]} // Approximately center to all five lakes
 				zoom={7}
@@ -38,26 +41,19 @@ export function LocatorPopup(props: {
 			>
 				<TileLayer
 					attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
-					url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
+					url='https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png'
 				/>
-				{props.stations.map((station) => (
-					<Marker position={station.latLong} key={`station-${station.id}`}>
+				{Object.entries(metadataStore).map(([id, metadata]) => (
+					// TODO: color markers according to isFavorite(id) for easier visual distinction
+					<Marker position={metadata.coords} key={`station-${id}`}>
 						<Popup>
-							{isFavorite(props.favorites, station.id) ? (
-								<i
-									className="bi bi-star-fill"
-									style={{ fontSize: '1rem', color: 'goldenrod' }}
-									onClick={() => props.handleFavoriteChange(station, true)}
-								/>
-							) : (
-								<i
-									className="bi bi-star"
-									style={{ fontSize: '1rem', color: 'black' }}
-									onClick={() => props.handleFavoriteChange(station, false)}
-								/>
-							)}
-							{` ${station.name}, ${station.state}`} <br />
-							{`${station.latLong.lat.toFixed(4)},${station.latLong.lng.toFixed(4)}`}
+							<i
+								className={`bi bi-star${isFavorite(id) ? '-fill' : ''}`}
+								style={{ fontSize: '1rem', color: `${isFavorite(id) ? 'goldenrod' : 'black'}` }}
+								onClick={() => props.handleFavoriteChange(id)}
+							/>
+							{` ${metadata.city}, ${metadata.state}`} <br />
+							{`${metadata.coords.lat.toFixed(4)},${metadata.coords.lng.toFixed(4)}`}
 						</Popup>
 					</Marker>
 				))}

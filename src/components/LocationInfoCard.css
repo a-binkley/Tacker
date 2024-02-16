@@ -90,6 +90,8 @@
 	right: 1vw;
 }
 
+/* TODO: swipe to change page for handheld devices */
+
 @keyframes wave {
 	0% {
 		margin-left: 0;
