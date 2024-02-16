@@ -1,12 +1,22 @@
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 
 import { AirQualityDisplay, PageTab, TemperatureDisplay, VisibilityDisplay, WindRing } from '.';
 import { updateViewingIndex } from '../app/stationData';
 import { StationInfo } from '../functions';
+import { RootState } from '../pages';
 
 import './LocationInfoCard.css';
 
-export function LocationInfoCard(props: { id: string; data: StationInfo; position: number; neighbors: string[] }) {
+/**
+ * A pure, presentational component containing everything displayed for a given station's data.
+ * Style changes based on day/night status, wind speed, and cloudiness. Tracks `favoritesIDs`
+ * and `viewingIndex` from the Redux store for page-to-page navigation
+ * @param props.id the station id to be used as a basis for the page's data
+ * @param props.data the station data and metadata for the given id
+ */
+export function LocationInfoCard(props: { id: string; data: StationInfo }) {
+	const favoritesIDs = useSelector<RootState, any>((state) => state.favoritesIDs);
+	const viewingIndex = useSelector<RootState, any>((state) => state.viewingIndex);
 	const dispatch = useDispatch();
 
 	return (
@@ -22,9 +32,9 @@ export function LocationInfoCard(props: { id: string; data: StationInfo; positio
 				color: props.data.now.isDay ? 'black' : '#fffd'
 			}}
 		>
-			{/* base animation speed on wind */}
 			<div
 				className='wave-background'
+				// base animation speed on wind speed
 				style={{ animation: `wave ${30 / props.data.now.wind.baseSpeed}s cubic-bezier(0.36, 0.45, 0.63, 0.53) infinite` }}
 			/>
 			<h2 className='city-state-header unselectable'>{`${props.data.name}, ${props.data.state}`}</h2>
@@ -54,10 +64,10 @@ export function LocationInfoCard(props: { id: string; data: StationInfo; positio
 				<VisibilityDisplay data={Math.round(props.data.now.visibility)} units='imperial' />
 				<AirQualityDisplay data={props.data.now.airQuality} />
 			</div>
-			<PageTab direction='left' display={props.position !== 0} onClick={() => dispatch(updateViewingIndex(-1))} />
+			<PageTab direction='left' display={viewingIndex !== 0} onClick={() => dispatch(updateViewingIndex(-1))} />
 			<PageTab
 				direction='right'
-				display={props.position !== props.neighbors.length - 1}
+				display={viewingIndex !== favoritesIDs.length - 1}
 				onClick={() => dispatch(updateViewingIndex(1))}
 			/>
 		</div>
