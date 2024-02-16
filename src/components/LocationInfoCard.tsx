@@ -15,8 +15,8 @@ import './LocationInfoCard.css';
  * @param props.data the station data and metadata for the given id
  */
 export function LocationInfoCard(props: { id: string; data: StationInfo }) {
-	const favoritesIDs = useSelector<RootState, any>((state) => state.favoritesIDs);
-	const viewingIndex = useSelector<RootState, any>((state) => state.viewingIndex);
+	const favoritesIDs = useSelector<RootState, string[]>((state) => state.favoritesIDs);
+	const viewingIndex = useSelector<RootState, number>((state) => state.viewingIndex);
 	const dispatch = useDispatch();
 
 	return (

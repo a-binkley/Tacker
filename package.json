@@ -35,14 +35,28 @@
 		"deploy": "gh-pages -d build",
 		"start": "react-scripts start",
 		"build": "react-scripts build",
-		"test": "react-scripts test",
-		"eject": "react-scripts eject"
+		"test": "react-scripts test --coverage --watchAll=false",
+		"eject": "react-scripts eject",
+		"lint": "npx eslint ."
 	},
 	"eslintConfig": {
 		"extends": [
 			"react-app",
 			"react-app/jest"
 		]
+	},
+	"jest": {
+		"collectCoverageFrom": [
+			"./src/functions/*.ts"
+		],
+		"coverageThreshold": {
+			"global": {
+				"statements": 90,
+				"branches": 90,
+				"functions": 90,
+				"lines": 90
+			}
+		}
 	},
 	"browserslist": {
 		"production": [
@@ -57,9 +71,13 @@
 		]
 	},
 	"devDependencies": {
+		"@babel/plugin-proposal-private-property-in-object": "^7.21.11",
 		"@types/leaflet": "^1.9.7",
 		"@types/react-leaflet": "^3.0.0",
 		"@types/tz-lookup": "^6.1.1",
+		"@typescript-eslint/parser": "^5.62.0",
+		"eslint": "^8.56.0",
+		"eslint-plugin-react": "^7.33.2",
 		"gh-pages": "^6.0.0"
 	}
 }

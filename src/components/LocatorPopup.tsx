@@ -9,8 +9,8 @@ export function LocatorPopup(props: {
 	handleFavoriteChange: (station: string) => void;
 	setSearchMode: (state: 'prompt' | 'search' | 'display') => void;
 }) {
-	const favoritesIDs: string[] = useSelector<RootState, any>((state) => state.favoritesIDs);
-	const metadataStore: MetadataSerializableType = useSelector<RootState, any>((state) => state.metadata);
+	const favoritesIDs = useSelector<RootState, string[]>((state) => state.favoritesIDs);
+	const metadataStore = useSelector<RootState, MetadataSerializableType>((state) => state.metadata);
 	const isFavorite = (id: string) => favoritesIDs.includes(id);
 
 	const mapStyle: CSSProperties = {

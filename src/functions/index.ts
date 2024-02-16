@@ -137,8 +137,8 @@ export async function retrieveLocationData(
 	locMetadata: MetadataSerializableType,
 	temperature_unit: 'fahrenheit' | 'celcius',
 	windspeed_unit: 'mph' | 'kph' | 'm/s',
-	precipitation_unit: 'inch' | 'cm',
-	length_unit: 'imperial' | 'metric'
+	precipitation_unit: 'inch' | 'cm'
+	// length_unit: 'imperial' | 'metric'
 ): Promise<DataSerializableType> {
 	const atmos_url = 'https://api.open-meteo.com/v1/forecast',
 		marine_url = 'https://api.tidesandcurrents.noaa.gov/api/prod/datagetter',

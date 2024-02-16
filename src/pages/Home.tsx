@@ -10,10 +10,10 @@ export type RootState = ReturnType<typeof store.getState>;
 export type StationMetadata = { city: string; state: string; coords: { lat: number; lng: number } };
 
 export function Home() {
-	const data: DataSerializableType = useSelector<RootState, any>((state) => state.data);
-	const metadata: MetadataSerializableType = useSelector<RootState, any>((state) => state.metadata);
-	const favoritesIDs: string[] = useSelector<RootState, any>((state) => state.favoritesIDs);
-	const viewingIndex: number = useSelector<RootState, any>((state) => state.viewingIndex);
+	const data = useSelector<RootState, DataSerializableType>((state) => state.data);
+	const metadata = useSelector<RootState, MetadataSerializableType>((state) => state.metadata);
+	const favoritesIDs = useSelector<RootState, string[]>((state) => state.favoritesIDs);
+	const viewingIndex = useSelector<RootState, number>((state) => state.viewingIndex);
 	const dispatch = useDispatch();
 
 	const [searchMode, setSearchMode] = useState<'prompt' | 'search' | 'display'>(favoritesIDs.length === 0 ? 'prompt' : 'display');
@@ -30,7 +30,7 @@ export function Home() {
 				}
 			);
 		} else if (searchMode === 'display') {
-			retrieveLocationData(favoritesIDs, metadata, 'fahrenheit', 'mph', 'inch', 'imperial').then(
+			retrieveLocationData(favoritesIDs, metadata, 'fahrenheit', 'mph', 'inch').then(
 				(dataRes) => {
 					dispatch(setData(dataRes));
 				},
@@ -55,7 +55,7 @@ export function Home() {
 			{searchMode === 'prompt' ? (
 				// Ask the user to add at least one location as a favorite
 				<div className='locator-prompt'>
-					<h3>It looks like you don't have any locations marked as favorites yet.</h3>
+					<h3>{"It looks like you don't have any locations marked as favorites yet."}</h3>
 					<button onClick={() => setSearchMode('search')}>Find a station</button>
 				</div>
 			) : // TODO: make pretty
