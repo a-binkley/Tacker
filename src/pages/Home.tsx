@@ -27,7 +27,8 @@ export function Home() {
 				// errors handled in invoked function
 			);
 		} else if (searchMode === 'display' && Object.keys(data).length === 0) {
-			retrieveLocationData(favoritesIDs, metadata, 'fahrenheit', 'mph', 'inch').then(
+			retrieveLocationData(favoritesIDs, metadata, 'mph', 'english').then(
+				// TODO: change unit_type based on UI toggle
 				(dataRes) => {
 					if (Object.keys(dataRes).length > 0) dispatch(setData(dataRes));
 				}

@@ -62,9 +62,8 @@ describe('retrieveLocationData function', () => {
 		const data = await retrieveLocationData(
 			mockRetrieveLocationDataArgs.locs.slice(2),
 			mockRetrieveLocationDataArgs.locMetadata,
-			'fahrenheit',
 			'mph',
-			'inch'
+			'english'
 		);
 
 		expect(data).toStrictEqual(expectedStationData);
@@ -79,9 +78,8 @@ describe('retrieveLocationData function', () => {
 		const data = await retrieveLocationData(
 			['9075080'],
 			{ '9075080': mockRetrieveLocationDataArgs.locMetadata['9075080'] },
-			'fahrenheit',
 			'mph',
-			'inch'
+			'english'
 		);
 
 		expect(data).toStrictEqual({ '9075080': expectedStationData['9075080'] });
@@ -96,9 +94,8 @@ describe('retrieveLocationData function', () => {
 		const data = await retrieveLocationData(
 			['9014087'],
 			{ '9014087': mockRetrieveLocationDataArgs.locMetadata['9014087'] },
-			'celcius',
 			'km/h',
-			'mm'
+			'metric'
 		);
 
 		expect(data).toStrictEqual(expectedStationDataAlt);
@@ -109,9 +106,8 @@ describe('retrieveLocationData function', () => {
 		const data = await retrieveLocationData(
 			mockRetrieveLocationDataArgs.locs,
 			mockRetrieveLocationDataArgs.locMetadata,
-			'fahrenheit',
 			'mph',
-			'inch'
+			'english'
 		);
 
 		expect(data).toStrictEqual({});

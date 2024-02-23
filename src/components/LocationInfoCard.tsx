@@ -1,6 +1,6 @@
 import { useDispatch, useSelector } from 'react-redux';
 
-import { AirQualityDisplay, PageTab, TemperatureDisplay, VisibilityDisplay, WindRing } from '.';
+import { AirQualityDisplay, PageTab, TemperatureDisplay, VisibilityDisplay, WaterLevelChart, WindRing } from '.';
 import { updateViewingIndex } from '../app/stationData';
 import { StationInfo } from '../functions';
 import { RootState } from '../pages';
@@ -62,7 +62,9 @@ export function LocationInfoCard(props: { id: string; data: StationInfo }) {
 				</div>
 				<WindRing {...props.data.now.wind} />
 				<VisibilityDisplay data={Math.round(props.data.now.visibility)} units='imperial' />
+				{/* TODO: change units depending on UI toggle */}
 				<AirQualityDisplay data={props.data.now.airQuality} />
+				<WaterLevelChart data={props.data.now.tideHistory} interval={60} unit='feet' />
 			</div>
 			<PageTab direction='left' display={viewingIndex !== 0} onClick={() => dispatch(updateViewingIndex(-1))} />
 			<PageTab

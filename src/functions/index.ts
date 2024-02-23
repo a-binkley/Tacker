@@ -2,6 +2,7 @@ import axios, { AxiosResponse } from 'axios';
 import tz_lookup from 'tz-lookup';
 
 import { DataSerializableType, MetadataSerializableType } from '../app/stationData';
+import { TideData } from '../components';
 import { degToCard } from './Direction';
 
 export * from './Direction';
@@ -34,10 +35,7 @@ export type StationInfo = {
 		wind: WindInfo;
 		isDay: boolean;
 		waterTemperature?: number;
-		tideHistory: {
-			t: string; // datetime of record
-			v: number; // ft above low water datum
-		}[];
+		tideHistory: TideData[];
 		visibility: number; // Miles
 		airQuality: number; // PPM
 	};
@@ -126,19 +124,17 @@ const atmosParams = {
  * Retrieve data from multiple API sources for the given list of NOAA stations
  * @param locs the list of NOAA station ids to query
  * @param locMetadata an object containing metadata for each NOAA station
- * @param temperature_unit which unit of measurement to use for temperature: `fahrenheit` or `celcius`
  * @param windspeed_unit which unit of measurement to use for wind speed: `mph` (miles per hour),
  * `km/h` (kilometers per hour), `m/s` (meters per second), or `kn` (knots)
- * @param precipitation_unit which unit of measurement to use for precipitation: `inch` or `mm`
+ * @param unit_type which set of measurement units to use for temperature (`fahrenheit` or
+ * `celcius`), precipitation (`inch` or `mm`), and tide levels (`feet` or `meters`)
  * @returns an object of the form {@link DataSerializableType} to be saved in the Redux store
  */
 export async function retrieveLocationData(
 	locs: string[],
 	locMetadata: MetadataSerializableType,
-	temperature_unit: 'fahrenheit' | 'celcius',
 	windspeed_unit: 'mph' | 'km/h' | 'm/s' | 'kn',
-	precipitation_unit: 'inch' | 'mm'
-	// length_unit: 'imperial' | 'metric'
+	unit_type: 'english' | 'metric'
 ): Promise<DataSerializableType> {
 	const promisesByStation: { [id: string]: Promise<AxiosResponse[]> } = {};
 
@@ -157,9 +153,9 @@ export async function retrieveLocationData(
 				current: atmosParams.now.join(','),
 				hourly: atmosParams.hourly.join(','),
 				daily: atmosParams.daily.join(','),
-				temperature_unit: temperature_unit === 'fahrenheit' ? temperature_unit : undefined,
+				temperature_unit: unit_type === 'english' ? 'fahrenheit' : undefined,
 				windspeed_unit: windspeed_unit.replace('/', ''),
-				precipitation_unit
+				precipitation_unit: unit_type === 'english' ? 'inch' : 'mm'
 			},
 			withCredentials: false
 		});
@@ -172,7 +168,7 @@ export async function retrieveLocationData(
 				range: 24,
 				product: 'water_level',
 				datum: 'LWD',
-				units: 'english',
+				units: unit_type, // feet or meters
 				time_zone: 'lst_ldt',
 				format: 'json'
 			}
@@ -185,7 +181,7 @@ export async function retrieveLocationData(
 				station: id,
 				date: 'latest',
 				product: 'water_temperature',
-				units: 'english',
+				units: unit_type, // degrees fahrenheit or Celcius
 				time_zone: 'lst_ldt',
 				format: 'json'
 			}
