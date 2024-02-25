@@ -17,6 +17,8 @@ import './LocationInfoCard.css';
 export function LocationInfoCard(props: { id: string; data: StationInfo }) {
 	const favoritesIDs = useSelector<RootState, string[]>((state) => state.favoritesIDs);
 	const viewingIndex = useSelector<RootState, number>((state) => state.viewingIndex);
+	const generalUnitType = useSelector<RootState, 'english' | 'metric'>((state) => state.generalUnitType);
+	const windspeedUnitType = useSelector<RootState, 'mph' | 'km/h' | 'm/s' | 'kn'>((state) => state.windspeedUnitType);
 	const dispatch = useDispatch();
 
 	return (
@@ -61,28 +63,32 @@ export function LocationInfoCard(props: { id: string; data: StationInfo }) {
 								type='air-actual'
 								label='Air Temp (actual)'
 								data={props.data.now.airTemperature}
-								units='F'
+								units={generalUnitType}
 							/>
 							<div className='air-temp-separator' />
 							<TemperatureDisplay
 								type='air-apparent'
 								label='Air Temp (feel)'
 								data={props.data.now.airTemperatureApparent}
-								units='F'
+								units={generalUnitType}
 							/>
 						</div>
 						{/* TODO: add current weather conditions */}
-						<TemperatureDisplay type='water' label='Water Temp' data={props.data.now.waterTemperature} units='F' />
+						<TemperatureDisplay
+							type='water'
+							label='Water Temp'
+							data={props.data.now.waterTemperature}
+							units={generalUnitType}
+						/>
 					</div>
-					<WindRing {...props.data.now.wind} />
+					<WindRing {...props.data.now.wind} windspeed_unit={windspeedUnitType} />
 					<div className='air-particle-data-wrapper'>
-						{/* TODO: change units depending on UI toggle */}
 						<AirQualityDisplay data={props.data.now.airQuality} />
-						<VisibilityDisplay data={Math.round(props.data.now.visibility)} units='imperial' />
+						<VisibilityDisplay data={Math.round(props.data.now.visibility)} units={generalUnitType} />
 					</div>
 				</div>
 				<div className='predicted-conditions-wrapper'>
-					<WaterLevelChart data={props.data.now.tideHistory} interval={60} unit='feet' />
+					<WaterLevelChart data={props.data.now.tideHistory} interval={60} unit={generalUnitType} />
 				</div>
 			</div>
 			<PageTab direction='left' display={viewingIndex !== 0} onClick={() => dispatch(updateViewingIndex(-1))} />

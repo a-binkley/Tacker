@@ -2,7 +2,7 @@ import { WindInfo } from '../functions';
 
 import './WindRing.css';
 
-export function WindRing(props: WindInfo) {
+export function WindRing(props: WindInfo & { windspeed_unit: 'mph' | 'km/h' | 'm/s' | 'kn' }) {
 	return (
 		<div className='wind-info-wrapper'>
 			<img className='compass-ring' src={process.env.PUBLIC_URL + '/img/CompassRing.png'} alt='ring' />
@@ -18,7 +18,7 @@ export function WindRing(props: WindInfo) {
 				style={{ rotate: `${(props.direction.degrees + 180) % 360}deg` }}
 			/>
 			<h4 className='wind-speed-header unselectable'>{Math.round(props.baseSpeed)}</h4>
-			<p className='wind-speed-units unselectable'>mph</p>
+			<p className='wind-speed-units unselectable'>{props.windspeed_unit}</p>
 		</div>
 	);
 }

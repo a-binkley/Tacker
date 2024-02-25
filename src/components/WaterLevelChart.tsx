@@ -26,7 +26,7 @@ export function WaterLevelChart(props: WaterLevelProps) {
 	const data = useMemo(
 		() => [
 			{
-				label: `Water Level (${props.unit} above LWD)`,
+				label: `Water Level (${props.unit === 'english' ? 'feet' : 'meters'} above LWD)`,
 				data: cleanedData
 			}
 		],

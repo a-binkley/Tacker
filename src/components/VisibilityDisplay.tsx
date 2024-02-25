@@ -1,8 +1,8 @@
 import './VisibilityDisplay.css';
 
-export function VisibilityDisplay(props: { data: number; units: 'imperial' | 'metric' }) {
-	const visibilityDenom = props.units === 'imperial' ? 5280 : 1000;
-	const visibilityUnit = props.units === 'imperial' ? 'miles' : 'km';
+export function VisibilityDisplay(props: { data: number; units: 'english' | 'metric' }) {
+	const visibilityDenom = props.units === 'english' ? 5280 : 1000;
+	const visibilityUnit = props.units === 'english' ? 'miles' : 'km';
 
 	return (
 		<div className='visibility-wrapper'>
