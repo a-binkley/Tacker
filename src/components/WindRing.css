@@ -1,88 +1,86 @@
 :root {
-	--wind-inner-ring-diameter: 17rem;
+	--wind-inner-ring-diameter: 10.5vw;
+	--compass-diameter: 15.5vw;
 }
 
 * {
-	font-family: 'Metropolis Bold';
 	text-align: center;
 }
 
 .wind-info-wrapper {
 	position: relative;
-	border: 3px solid black;
+	border: 2px solid black;
 	border-radius: 50%;
-	height: 400px;
-	width: 400px;
+	height: var(--compass-diameter);
+	width: var(--compass-diameter);
 	backdrop-filter: blur(20px);
 	background: #fff4;
 }
 
 .compass-ring {
 	position: absolute;
-	top: calc(50% - 202px);
-	left: calc(50% - 202px);
-	height: 404px;
-	width: 404px;
+	top: 0;
+	left: 0;
+	height: 100%;
+	width: 100%;
 }
 
 .compass-direction {
 	position: absolute;
 	height: 1.5rem;
 	width: 1.5rem;
+	color: #777;
+	font-size: 1.2rem;
 	text-align: center;
-	line-height: 1.5rem;
-	color: #444;
+	line-height: 1.4rem;
 }
 
 .compass-N {
-	font-size: 1.2rem;
-	color: #666;
-	left: calc(200px - 0.75rem);
+	font-size: 1.4rem;
+	left: calc(50% - 0.75rem);
 }
 
 .compass-E {
-	top: calc(184px - 0.75rem);
-	right: 18px;
+	top: calc(50% - 1.875rem);
+	right: 5%;
 }
 
 .compass-S {
 	bottom: 0;
-	left: calc(200px - 0.75rem);
+	left: calc(50% - 0.75rem);
 }
 
 .compass-W {
-	top: calc(184px - 0.75rem);
-	left: 18px;
+	top: calc(50% - 1.875rem);
+	left: 5%;
 }
 
 .wind-arrow {
 	position: absolute;
-	top: calc(50% - 200px);
-	left: calc(50% - 35px);
-	height: 400px;
-	width: 70px;
+	left: calc(50% - 2.1rem);
+	height: 100%;
+	width: 4.2rem;
+}
+
+.wind-speed-header,
+.wind-speed-units {
+	position: absolute;
+	margin: 0;
+	left: calc((var(--compass-diameter) - var(--wind-inner-ring-diameter)) / 2);
+	height: var(--wind-inner-ring-diameter);
+	width: var(--wind-inner-ring-diameter);
+	text-align: center;
+	line-height: 140%;
 }
 
 .wind-speed-header {
-	position: absolute;
 	border-radius: 50%;
 	box-shadow: 0px 0px 8px black;
-	top: calc(50% - 212px - var(--wind-inner-ring-diameter) / 2);
-	left: calc(50% - var(--wind-inner-ring-diameter) / 2);
-	height: var(--wind-inner-ring-diameter);
-	width: var(--wind-inner-ring-diameter);
-	font-size: 10rem;
-	text-align: center;
-	line-height: 150%;
+	top: calc((var(--compass-diameter) - var(--wind-inner-ring-diameter)) / 2);
+	font-size: 6vw;
 }
 
 .wind-speed-units {
-	position: absolute;
-	top: calc(50% + 124px - var(--wind-inner-ring-diameter) / 2);
-	left: calc(50% - var(--wind-inner-ring-diameter) / 2);
-	height: var(--wind-inner-ring-diameter);
-	width: var(--wind-inner-ring-diameter);
-	font-size: 3rem;
-	text-align: center;
-	line-height: 150%;
+	top: calc(75% - (var(--compass-diameter) - var(--wind-inner-ring-diameter)) / 2);
+	font-size: 1.8vw;
 }

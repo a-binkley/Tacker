@@ -41,30 +41,49 @@ export function LocationInfoCard(props: { id: string; data: StationInfo }) {
 			<h3 className='lat-long-header unselectable'>{`${props.data.latLong.lat.toFixed(3)},${props.data.latLong.lng.toFixed(
 				3
 			)}`}</h3>
-			<div className='location-info-body-wrapper'>
-				<div className='all-temp-wrapper'>
-					<div className='air-temp-info-wrapper'>
-						<TemperatureDisplay
-							type='air-actual'
-							label='Air Temp (actual)'
-							data={props.data.now.airTemperature}
-							units='F'
-						/>
-						<div className='air-temp-separator' />
-						<TemperatureDisplay
-							type='air-apparent'
-							label='Air Temp (feel)'
-							data={props.data.now.airTemperatureApparent}
-							units='F'
-						/>
+			{/* <button className='refresh-btn'>Refresh</button>
+			<div className='unit-type-toggle-btn-cover'>
+				<div className='btn-cover'>
+					<div className='button b2' id='unit-type-button'>
+						<input type='checkbox' className='checkbox' />
+						<div className='knobs'>
+							<span>YES</span>
+						</div>
+						<div className='layer'></div>
 					</div>
-					<TemperatureDisplay type='water' label='Water Temp' data={props.data.now.waterTemperature} units='F' />
 				</div>
-				<WindRing {...props.data.now.wind} />
-				<VisibilityDisplay data={Math.round(props.data.now.visibility)} units='imperial' />
-				{/* TODO: change units depending on UI toggle */}
-				<AirQualityDisplay data={props.data.now.airQuality} />
-				<WaterLevelChart data={props.data.now.tideHistory} interval={60} unit='feet' />
+			</div> */}
+			<div className='location-info-body-wrapper'>
+				<div className='current-conditions-wrapper'>
+					<div className='all-temp-wrapper'>
+						<div className='air-temp-info-wrapper'>
+							<TemperatureDisplay
+								type='air-actual'
+								label='Air Temp (actual)'
+								data={props.data.now.airTemperature}
+								units='F'
+							/>
+							<div className='air-temp-separator' />
+							<TemperatureDisplay
+								type='air-apparent'
+								label='Air Temp (feel)'
+								data={props.data.now.airTemperatureApparent}
+								units='F'
+							/>
+						</div>
+						{/* TODO: add current weather conditions */}
+						<TemperatureDisplay type='water' label='Water Temp' data={props.data.now.waterTemperature} units='F' />
+					</div>
+					<WindRing {...props.data.now.wind} />
+					<div className='air-particle-data-wrapper'>
+						{/* TODO: change units depending on UI toggle */}
+						<AirQualityDisplay data={props.data.now.airQuality} />
+						<VisibilityDisplay data={Math.round(props.data.now.visibility)} units='imperial' />
+					</div>
+				</div>
+				<div className='predicted-conditions-wrapper'>
+					<WaterLevelChart data={props.data.now.tideHistory} interval={60} unit='feet' />
+				</div>
 			</div>
 			<PageTab direction='left' display={viewingIndex !== 0} onClick={() => dispatch(updateViewingIndex(-1))} />
 			<PageTab

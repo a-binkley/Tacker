@@ -4,7 +4,7 @@
 	flex-direction: column;
 	justify-content: space-evenly;
 	height: 80%;
-	width: 460px;
+	width: 20vw;
 }
 
 .air-temp-info-wrapper {
@@ -15,6 +15,8 @@
 	border-radius: 20px;
 	backdrop-filter: blur(20px);
 	background: #fff4;
+	width: 90%;
+	left: 5%;
 }
 
 .air-temp-separator {
@@ -32,21 +34,22 @@
 }
 
 .water {
-	color: #fffc;
+	/* color: #fffc; */
+	border: 2px solid black;
 	border-radius: 20px;
-	left: 15%;
-	width: 70%;
+	left: 25%;
+	width: 50%;
 	backdrop-filter: blur(20px);
 	background: #fff2;
 }
 
 .temp-label {
-	font-size: 1.4rem;
+	font-size: 1.3rem;
 	margin: 10px 0 0;
 }
 
 .temp-data {
-	font-size: 6rem;
+	font-size: 5rem;
 	display: inline;
 	margin: 0;
 }
@@ -55,6 +58,7 @@
 	position: relative;
 	font-size: 2rem;
 	display: inline;
-	top: -40px;
+	margin: 0;
+	bottom: 2rem;
 	left: 6px;
 }

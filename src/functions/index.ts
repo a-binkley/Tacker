@@ -2,10 +2,11 @@ import axios, { AxiosResponse } from 'axios';
 import tz_lookup from 'tz-lookup';
 
 import { DataSerializableType, MetadataSerializableType } from '../app/stationData';
-import { TideData } from '../components';
-import { degToCard } from './Direction';
+import { degToCard } from '.';
+import { TideData } from '../functions';
 
 export * from './Direction';
+export * from './WaterLevels';
 
 export type WindInfo = {
 	baseSpeed: number;
