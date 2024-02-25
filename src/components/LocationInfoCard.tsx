@@ -1,8 +1,8 @@
 import { useDispatch, useSelector } from 'react-redux';
 
 import { AirQualityDisplay, PageTab, TemperatureDisplay, UnitSelector, VisibilityDisplay, WaterLevelChart, WindRing } from '.';
-import { GeneralUnitType, WindspeedUnitType, updateViewingIndex } from '../app/stationData';
-import { StationInfo } from '../functions';
+import { GeneralUnitType, MetadataSerializableType, WindspeedUnitType, setData, updateViewingIndex } from '../app/stationData';
+import { StationInfo, retrieveLocationData } from '../functions';
 import { RootState } from '../pages';
 
 import './LocationInfoCard.css';
@@ -16,10 +16,25 @@ import './LocationInfoCard.css';
  */
 export function LocationInfoCard(props: { id: string; data: StationInfo }) {
 	const favoritesIDs = useSelector<RootState, string[]>((state) => state.favoritesIDs);
+	const metadata = useSelector<RootState, MetadataSerializableType>((state) => state.metadata);
 	const viewingIndex = useSelector<RootState, number>((state) => state.viewingIndex);
 	const generalUnitType = useSelector<RootState, GeneralUnitType>((state) => state.generalUnit);
 	const windspeedUnitType = useSelector<RootState, WindspeedUnitType>((state) => state.windspeedUnit);
 	const dispatch = useDispatch();
+
+	const handleRefresh = async () => {
+		retrieveLocationData({
+			locs: favoritesIDs,
+			locMetadata: metadata,
+			windspeed_unit: windspeedUnitType,
+			unit_type: generalUnitType
+		}).then(
+			(dataRes) => {
+				if (Object.keys(dataRes).length > 0) dispatch(setData(dataRes));
+			}
+			// errors handled in invoked function
+		);
+	};
 
 	return (
 		<div
@@ -43,7 +58,9 @@ export function LocationInfoCard(props: { id: string; data: StationInfo }) {
 			<h3 className='lat-long-header unselectable'>{`${props.data.latLong.lat.toFixed(3)},${props.data.latLong.lng.toFixed(
 				3
 			)}`}</h3>
-			<button className='refresh-btn'>Refresh</button>
+			<button className='refresh-btn' onClick={handleRefresh}>
+				Refresh
+			</button>
 			<UnitSelector category='general' />
 			<UnitSelector category='windspeed' />
 			<div className='location-info-body-wrapper'>

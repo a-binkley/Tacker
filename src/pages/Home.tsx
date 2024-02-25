@@ -1,7 +1,15 @@
 import { useEffect, useState } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 
-import { setMetadata, setData, setFavorites, MetadataSerializableType, DataSerializableType } from '../app/stationData';
+import {
+	setMetadata,
+	setData,
+	setFavorites,
+	MetadataSerializableType,
+	DataSerializableType,
+	GeneralUnitType,
+	WindspeedUnitType
+} from '../app/stationData';
 import store from '../app/store';
 import { LocationInfoCard, LocatorPopup } from '../components';
 import { retrieveCurrentStations, retrieveLocationData } from '../functions';
@@ -14,6 +22,8 @@ export function Home() {
 	const metadata = useSelector<RootState, MetadataSerializableType>((state) => state.metadata);
 	const favoritesIDs = useSelector<RootState, string[]>((state) => state.favoritesIDs);
 	const viewingIndex = useSelector<RootState, number>((state) => state.viewingIndex);
+	const generalUnitType = useSelector<RootState, GeneralUnitType>((state) => state.generalUnit);
+	const windspeedUnitType = useSelector<RootState, WindspeedUnitType>((state) => state.windspeedUnit);
 	const dispatch = useDispatch();
 
 	const [searchMode, setSearchMode] = useState<'prompt' | 'search' | 'display'>(favoritesIDs.length === 0 ? 'prompt' : 'display');
@@ -27,8 +37,12 @@ export function Home() {
 				// errors handled in invoked function
 			);
 		} else if (searchMode === 'display' && Object.keys(data).length === 0) {
-			retrieveLocationData(favoritesIDs, metadata, 'mph', 'english').then(
-				// TODO: change unit_type based on UI toggle
+			retrieveLocationData({
+				locs: favoritesIDs,
+				locMetadata: metadata,
+				windspeed_unit: windspeedUnitType,
+				unit_type: generalUnitType
+			}).then(
 				(dataRes) => {
 					if (Object.keys(dataRes).length > 0) dispatch(setData(dataRes));
 				}

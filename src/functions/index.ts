@@ -131,12 +131,17 @@ const atmosParams = {
  * `celcius`), precipitation (`inch` or `mm`), and tide levels (`feet` or `meters`)
  * @returns an object of the form {@link DataSerializableType} to be saved in the Redux store
  */
-export async function retrieveLocationData(
-	locs: string[],
-	locMetadata: MetadataSerializableType,
-	windspeed_unit: WindspeedUnitType,
-	unit_type: GeneralUnitType
-): Promise<DataSerializableType> {
+export async function retrieveLocationData({
+	locs,
+	locMetadata,
+	windspeed_unit,
+	unit_type
+}: {
+	locs: string[];
+	locMetadata: MetadataSerializableType;
+	windspeed_unit: WindspeedUnitType;
+	unit_type: GeneralUnitType;
+}): Promise<DataSerializableType> {
 	const promisesByStation: { [id: string]: Promise<AxiosResponse[]> } = {};
 
 	for (const id of locs) {

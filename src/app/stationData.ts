@@ -8,14 +8,16 @@ export type DataSerializableType = { [id: string]: StationInfo };
 export type GeneralUnitType = 'english' | 'metric';
 export type WindspeedUnitType = 'mph' | 'km/h' | 'm/s' | 'kn';
 
-const initialState: {
+export type StoreType = {
 	favoritesIDs: string[];
 	viewingIndex: number;
 	metadata: MetadataSerializableType;
 	data: DataSerializableType;
 	generalUnit: GeneralUnitType;
 	windspeedUnit: WindspeedUnitType;
-} = {
+};
+
+const initialState: StoreType = {
 	favoritesIDs: JSON.parse(localStorage.getItem('favoriteStations') ?? '[]'), // read from localStorage first, if present
 	viewingIndex: 0,
 	metadata: {},
@@ -35,7 +37,7 @@ export const stationDataSlice = createSlice({
 		setMetadata: (state, action: { payload: { [id: string]: StationMetadata } }) => {
 			state.metadata = action.payload;
 		},
-		setData: (state, action: { payload: { [id: string]: StationInfo } }) => {
+		setData: (state, action: { payload: DataSerializableType }) => {
 			state.data = { ...state.data, ...action.payload };
 		},
 		setGeneralUnitType: (state, action: { payload: GeneralUnitType }) => {

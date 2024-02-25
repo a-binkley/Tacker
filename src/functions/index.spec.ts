@@ -59,12 +59,12 @@ describe('retrieveLocationData function', () => {
 			}
 		}
 
-		const data = await retrieveLocationData(
-			mockRetrieveLocationDataArgs.locs.slice(2),
-			mockRetrieveLocationDataArgs.locMetadata,
-			'mph',
-			'english'
-		);
+		const data = await retrieveLocationData({
+			locs: mockRetrieveLocationDataArgs.locs.slice(2),
+			locMetadata: mockRetrieveLocationDataArgs.locMetadata,
+			windspeed_unit: 'mph',
+			unit_type: 'english'
+		});
 
 		expect(data).toStrictEqual(expectedStationData);
 	});
@@ -75,12 +75,12 @@ describe('retrieveLocationData function', () => {
 			mockedAxios.mockResolvedValueOnce({ status: 200, data: responseType[testStationID] });
 		}
 
-		const data = await retrieveLocationData(
-			['9075080'],
-			{ '9075080': mockRetrieveLocationDataArgs.locMetadata['9075080'] },
-			'mph',
-			'english'
-		);
+		const data = await retrieveLocationData({
+			locs: ['9075080'],
+			locMetadata: { '9075080': mockRetrieveLocationDataArgs.locMetadata['9075080'] },
+			windspeed_unit: 'mph',
+			unit_type: 'english'
+		});
 
 		expect(data).toStrictEqual({ '9075080': expectedStationData['9075080'] });
 	});
@@ -91,24 +91,24 @@ describe('retrieveLocationData function', () => {
 			mockedAxios.mockResolvedValueOnce({ status: 200, data: responseType[testStationID] });
 		}
 
-		const data = await retrieveLocationData(
-			['9014087'],
-			{ '9014087': mockRetrieveLocationDataArgs.locMetadata['9014087'] },
-			'km/h',
-			'metric'
-		);
+		const data = await retrieveLocationData({
+			locs: ['9014087'],
+			locMetadata: { '9014087': mockRetrieveLocationDataArgs.locMetadata['9014087'] },
+			windspeed_unit: 'km/h',
+			unit_type: 'metric'
+		});
 
 		expect(data).toStrictEqual(expectedStationDataAlt);
 	});
 
 	it('should gracefully handle request errors', async () => {
 		mockedAxios.mockRejectedValueOnce(rejection);
-		const data = await retrieveLocationData(
-			mockRetrieveLocationDataArgs.locs,
-			mockRetrieveLocationDataArgs.locMetadata,
-			'mph',
-			'english'
-		);
+		const data = await retrieveLocationData({
+			locs: mockRetrieveLocationDataArgs.locs,
+			locMetadata: mockRetrieveLocationDataArgs.locMetadata,
+			windspeed_unit: 'mph',
+			unit_type: 'english'
+		});
 
 		expect(data).toStrictEqual({});
 		expect(consoleSpy).toHaveBeenCalledTimes(1);
