@@ -1,6 +1,8 @@
+import { GeneralUnitType } from '../app/stationData';
+
 import './VisibilityDisplay.css';
 
-export function VisibilityDisplay(props: { data: number; units: 'english' | 'metric' }) {
+export function VisibilityDisplay(props: { data: number; units: GeneralUnitType }) {
 	const visibilityDenom = props.units === 'english' ? 5280 : 1000;
 	const visibilityUnit = props.units === 'english' ? 'miles' : 'km';
 

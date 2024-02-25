@@ -4,5 +4,6 @@ export * from './LocatorPopup';
 export * from './PageTab';
 export * from './TemperatureDisplay';
 export * from './VisibilityDisplay';
+export * from './UnitSelector';
 export * from './WaterLevelChart';
 export * from './WindRing';

@@ -1,8 +1,8 @@
 import axios, { AxiosResponse } from 'axios';
 import tz_lookup from 'tz-lookup';
 
-import { DataSerializableType, MetadataSerializableType } from '../app/stationData';
 import { degToCard } from '.';
+import { DataSerializableType, GeneralUnitType, MetadataSerializableType, WindspeedUnitType } from '../app/stationData';
 import { TideData } from '../functions';
 
 export * from './Direction';
@@ -134,8 +134,8 @@ const atmosParams = {
 export async function retrieveLocationData(
 	locs: string[],
 	locMetadata: MetadataSerializableType,
-	windspeed_unit: 'mph' | 'km/h' | 'm/s' | 'kn',
-	unit_type: 'english' | 'metric'
+	windspeed_unit: WindspeedUnitType,
+	unit_type: GeneralUnitType
 ): Promise<DataSerializableType> {
 	const promisesByStation: { [id: string]: Promise<AxiosResponse[]> } = {};
 

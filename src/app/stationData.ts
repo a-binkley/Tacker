@@ -5,21 +5,23 @@ import { StationMetadata } from '../pages';
 
 export type MetadataSerializableType = { [id: string]: StationMetadata };
 export type DataSerializableType = { [id: string]: StationInfo };
+export type GeneralUnitType = 'english' | 'metric';
+export type WindspeedUnitType = 'mph' | 'km/h' | 'm/s' | 'kn';
 
 const initialState: {
 	favoritesIDs: string[];
 	viewingIndex: number;
 	metadata: MetadataSerializableType;
 	data: DataSerializableType;
-	generalUnitType: 'english' | 'metric';
-	windspeedUnitType: 'mph' | 'km/h' | 'm/s' | 'kn';
+	generalUnit: GeneralUnitType;
+	windspeedUnit: WindspeedUnitType;
 } = {
 	favoritesIDs: JSON.parse(localStorage.getItem('favoriteStations') ?? '[]'), // read from localStorage first, if present
 	viewingIndex: 0,
 	metadata: {},
 	data: {},
-	generalUnitType: 'english',
-	windspeedUnitType: 'mph'
+	generalUnit: 'english',
+	windspeedUnit: 'mph'
 };
 
 export const stationDataSlice = createSlice({
@@ -36,11 +38,11 @@ export const stationDataSlice = createSlice({
 		setData: (state, action: { payload: { [id: string]: StationInfo } }) => {
 			state.data = { ...state.data, ...action.payload };
 		},
-		setGeneralUnitType: (state, action: { payload: 'english' | 'metric' }) => {
-			state.generalUnitType = action.payload;
+		setGeneralUnitType: (state, action: { payload: GeneralUnitType }) => {
+			state.generalUnit = action.payload;
 		},
-		setWindspeedUnitType: (state, action: { payload: 'mph' | 'km/h' | 'm/s' | 'kn' }) => {
-			state.windspeedUnitType = action.payload;
+		setWindspeedUnitType: (state, action: { payload: WindspeedUnitType }) => {
+			state.windspeedUnit = action.payload;
 		},
 		updateViewingIndex: (state, action) => {
 			state.viewingIndex += action.payload;

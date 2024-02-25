@@ -1,8 +1,9 @@
+import { WindspeedUnitType } from '../app/stationData';
 import { WindInfo } from '../functions';
 
 import './WindRing.css';
 
-export function WindRing(props: WindInfo & { windspeed_unit: 'mph' | 'km/h' | 'm/s' | 'kn' }) {
+export function WindRing(props: WindInfo & { windspeed_unit: WindspeedUnitType }) {
 	return (
 		<div className='wind-info-wrapper'>
 			<img className='compass-ring' src={process.env.PUBLIC_URL + '/img/CompassRing.png'} alt='ring' />

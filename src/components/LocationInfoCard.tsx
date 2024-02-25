@@ -1,7 +1,7 @@
 import { useDispatch, useSelector } from 'react-redux';
 
-import { AirQualityDisplay, PageTab, TemperatureDisplay, VisibilityDisplay, WaterLevelChart, WindRing } from '.';
-import { updateViewingIndex } from '../app/stationData';
+import { AirQualityDisplay, PageTab, TemperatureDisplay, UnitSelector, VisibilityDisplay, WaterLevelChart, WindRing } from '.';
+import { GeneralUnitType, WindspeedUnitType, updateViewingIndex } from '../app/stationData';
 import { StationInfo } from '../functions';
 import { RootState } from '../pages';
 
@@ -17,8 +17,8 @@ import './LocationInfoCard.css';
 export function LocationInfoCard(props: { id: string; data: StationInfo }) {
 	const favoritesIDs = useSelector<RootState, string[]>((state) => state.favoritesIDs);
 	const viewingIndex = useSelector<RootState, number>((state) => state.viewingIndex);
-	const generalUnitType = useSelector<RootState, 'english' | 'metric'>((state) => state.generalUnitType);
-	const windspeedUnitType = useSelector<RootState, 'mph' | 'km/h' | 'm/s' | 'kn'>((state) => state.windspeedUnitType);
+	const generalUnitType = useSelector<RootState, GeneralUnitType>((state) => state.generalUnit);
+	const windspeedUnitType = useSelector<RootState, WindspeedUnitType>((state) => state.windspeedUnit);
 	const dispatch = useDispatch();
 
 	return (
@@ -43,18 +43,9 @@ export function LocationInfoCard(props: { id: string; data: StationInfo }) {
 			<h3 className='lat-long-header unselectable'>{`${props.data.latLong.lat.toFixed(3)},${props.data.latLong.lng.toFixed(
 				3
 			)}`}</h3>
-			{/* <button className='refresh-btn'>Refresh</button>
-			<div className='unit-type-toggle-btn-cover'>
-				<div className='btn-cover'>
-					<div className='button b2' id='unit-type-button'>
-						<input type='checkbox' className='checkbox' />
-						<div className='knobs'>
-							<span>YES</span>
-						</div>
-						<div className='layer'></div>
-					</div>
-				</div>
-			</div> */}
+			<button className='refresh-btn'>Refresh</button>
+			<UnitSelector category='general' />
+			<UnitSelector category='windspeed' />
 			<div className='location-info-body-wrapper'>
 				<div className='current-conditions-wrapper'>
 					<div className='all-temp-wrapper'>

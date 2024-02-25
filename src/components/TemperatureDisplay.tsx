@@ -1,11 +1,29 @@
+import { GeneralUnitType } from '../app/stationData';
+
 import './TemperatureDisplay.css';
 
-export function TemperatureDisplay(props: { type: string; label: string; data?: number; units: 'english' | 'metric' }) {
+export function fahrenheitToCelcius(temp: number): number {
+	return ((temp - 32) * 5) / 9;
+}
+
+export function TemperatureDisplay(props: { type: string; label: string; data?: number; units: GeneralUnitType }) {
+	let tempData = '--',
+		tempUnits = '';
+	if (props.data !== undefined) {
+		if (props.units === 'english') {
+			tempData = `${Math.round(props.data)}`;
+			tempUnits = 'F';
+		} else {
+			tempData = `${Math.round(fahrenheitToCelcius(props.data))}`;
+			tempUnits = 'C';
+		}
+	}
+
 	return (
 		<div className={`temp-display-wrapper ${props.type}`}>
 			<p className='temp-label unselectable'>{props.label}</p>
-			<h4 className='temp-data unselectable'>{props.data !== undefined ? Math.round(props.data) : '--'}</h4>
-			<p className='temp-units unselectable'>{props.data !== undefined ? `°${props.units === 'english' ? 'F' : 'C'}` : ''}</p>
+			<h4 className='temp-data unselectable'>{tempData}</h4>
+			<p className='temp-units unselectable'>{tempUnits}</p>
 		</div>
 	);
 }
