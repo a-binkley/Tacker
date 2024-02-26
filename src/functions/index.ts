@@ -4,6 +4,7 @@ import tz_lookup from 'tz-lookup';
 import { degToCard } from '.';
 import { DataSerializableType, MetadataSerializableType } from '../app/stationData';
 import { TideData } from '../functions';
+import moment from 'moment';
 
 export * from './Direction';
 export * from './UnitConversions';
@@ -16,6 +17,15 @@ export type WindInfo = {
 		degrees: number;
 		cardinal: string;
 	};
+};
+
+export type DailyForecast = {
+	date: string;
+	temperature_2m_min: number;
+	temperature_2m_max: number;
+	precipitation_probability_max: number;
+	windspeed_10m_max: number;
+	winddirection_10m_dominant: number;
 };
 
 export type StationInfo = {
@@ -46,7 +56,7 @@ export type StationInfo = {
 	// forecastHourly: (BaseInfo & {
 	// 	tideLevel: number;
 	// })[];
-	// forecastDaily: []; // TODO
+	forecastDaily: DailyForecast[]; // TODO
 };
 
 /**
@@ -216,6 +226,20 @@ export async function retrieveLocationData({
 		try {
 			const responses = await promises;
 
+			const forecastDaily: DailyForecast[] = [];
+			const dailyData = responses[0].data.daily;
+			// parse daily prediction data
+			for (let i = 0; i < 7; i++) {
+				forecastDaily.push({
+					date: moment(dailyData.time[i]).day().toString(),
+					temperature_2m_min: dailyData.temperature_2m_min[i],
+					temperature_2m_max: dailyData.temperature_2m_max[i],
+					precipitation_probability_max: dailyData.precipitation_probability_max[i],
+					windspeed_10m_max: dailyData.windspeed_10m_max[i],
+					winddirection_10m_dominant: dailyData.winddirection_10m_dominant[i]
+				});
+			}
+
 			out[id] = {
 				id,
 				state: locMetadata[id].state,
@@ -243,10 +267,10 @@ export async function retrieveLocationData({
 					visibility: responses[0].data.current.visibility,
 					airQuality: responses[3].data.current.us_aqi
 				},
-				todaySunrise: responses[0].data.daily.sunrise[0],
-				todaySunset: responses[0].data.daily.sunset[0]
+				todaySunrise: responses[0].data.daily.sunrise[0].substring(11),
+				todaySunset: responses[0].data.daily.sunset[0].substring(11),
 				// forecastHourly: [], // TODO
-				// forecastDaily: [], // TODO
+				forecastDaily
 			};
 		} catch (err: unknown) {
 			console.error(`Could not retrieve station ${id} data. ${err}`);

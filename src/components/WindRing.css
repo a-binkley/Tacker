@@ -57,9 +57,9 @@
 
 .wind-arrow {
 	position: absolute;
-	left: calc(50% - 2.1rem);
+	left: calc(50% - 1.3vw);
 	height: 100%;
-	width: 4.2rem;
+	width: 2.6vw;
 }
 
 .wind-speed-header,

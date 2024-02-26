@@ -3,6 +3,8 @@ import { AxisOptions, Chart } from 'react-charts';
 
 import { TideDataFormatted, WaterLevelProps, calculateAvgForInterval } from '../functions';
 
+import './WaterLevelChart.css';
+
 export function WaterLevelChart(props: WaterLevelProps) {
 	const cleanedData = calculateAvgForInterval(props);
 
@@ -34,12 +36,15 @@ export function WaterLevelChart(props: WaterLevelProps) {
 	);
 
 	return (
-		<Chart
-			options={{
-				data,
-				primaryAxis,
-				secondaryAxes
-			}}
-		/>
+		<div className='water-level-chart-wrapper'>
+			<Chart
+				className='water-level-chart'
+				options={{
+					data,
+					primaryAxis,
+					secondaryAxes
+				}}
+			/>
+		</div>
 	);
 }

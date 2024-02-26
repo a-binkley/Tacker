@@ -69,7 +69,6 @@
 
 .location-info-body-wrapper {
 	position: absolute;
-	/* border: 2px dashed red; */
 	display: flex;
 	justify-content: space-evenly;
 	flex-direction: column;
@@ -91,7 +90,6 @@
 
 .predicted-conditions-wrapper {
 	position: relative;
-	border: 2px dashed darkorange;
 	width: 100%;
 	height: 50%;
 }

@@ -1,0 +1,19 @@
+.water-level-chart-wrapper {
+	position: absolute;
+	right: 0;
+	width: 48%;
+	height: 100%;
+}
+
+path {
+	stroke: #099dd0 !important;
+}
+
+.tick line {
+	stroke: rgba(0, 0, 0, 0.1) !important;
+}
+
+.tickLabel {
+	font-size: 14px !important;
+	fill: rgba(255, 255, 255, 0.5) !important;
+}

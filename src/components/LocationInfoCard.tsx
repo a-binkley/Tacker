@@ -1,6 +1,16 @@
 import { useDispatch, useSelector } from 'react-redux';
 
-import { AirQualityDisplay, PageTab, TemperatureDisplay, UnitSelector, VisibilityDisplay, WaterLevelChart, WindRing } from '.';
+import {
+	AirQualityDisplay,
+	DailyForecastDisplay,
+	PageTab,
+	SunriseSunsetDisplay,
+	TemperatureDisplay,
+	UnitSelector,
+	VisibilityDisplay,
+	WaterLevelChart,
+	WindRing
+} from '.';
 import { GeneralUnitType, WindspeedUnitType, updateViewingIndex } from '../app/stationData';
 import { StationInfo } from '../functions';
 import { RootState } from '../pages';
@@ -37,6 +47,7 @@ export function LocationInfoCard(props: { id: string; data: StationInfo }) {
 			<div
 				className='wave-background'
 				// base animation speed on wind speed
+				// TODO: smooth out with requestAnimationFrame?
 				style={{ animation: `wave ${30 / props.data.now.wind.baseSpeed}s cubic-bezier(0.36, 0.45, 0.63, 0.53) infinite` }}
 			/>
 			<h2 className='city-state-header unselectable'>{`${props.data.name}, ${props.data.state}`}</h2>
@@ -50,6 +61,7 @@ export function LocationInfoCard(props: { id: string; data: StationInfo }) {
 			<div className='location-info-body-wrapper'>
 				<div className='current-conditions-wrapper'>
 					<div className='all-temp-wrapper'>
+						<SunriseSunsetDisplay data={{ sunrise: props.data.todaySunrise, sunset: props.data.todaySunset }} />
 						<div className='air-temp-info-wrapper'>
 							<TemperatureDisplay
 								type='air-actual'
@@ -80,6 +92,7 @@ export function LocationInfoCard(props: { id: string; data: StationInfo }) {
 					</div>
 				</div>
 				<div className='predicted-conditions-wrapper'>
+					<DailyForecastDisplay data={props.data.forecastDaily} />
 					<WaterLevelChart data={props.data.now.tideHistory} interval={60} unit={generalUnitType} />
 				</div>
 			</div>
