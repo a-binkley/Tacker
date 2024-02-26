@@ -1,19 +1,18 @@
 .water-level-chart-wrapper {
 	position: absolute;
+	border: 2px solid black;
+	border-radius: 20px;
+	backdrop-filter: blur(20px);
+	background: #fff4;
 	right: 0;
-	width: 48%;
 	height: 100%;
-}
-
-path {
-	stroke: #099dd0 !important;
+	width: 48%;
 }
 
 .tick line {
-	stroke: rgba(0, 0, 0, 0.1) !important;
+	stroke: rgba(0, 0, 0, 0.2) !important;
 }
 
 .tickLabel {
 	font-size: 14px !important;
-	fill: rgba(255, 255, 255, 0.5) !important;
 }
