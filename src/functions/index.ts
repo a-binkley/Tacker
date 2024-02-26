@@ -2,9 +2,10 @@ import axios, { AxiosResponse } from 'axios';
 import tz_lookup from 'tz-lookup';
 
 import { degToCard } from '.';
-import { DataSerializableType, MetadataSerializableType } from '../app/stationData';
+import { DataSerializableType, MetadataSerializableType, WindspeedUnitType } from '../app/stationData';
 import { TideData } from '../functions';
 import moment from 'moment';
+import { mphToKph, mphToMetersPerSec, mphToKnots } from './UnitConversions';
 
 export * from './Direction';
 export * from './UnitConversions';
@@ -23,6 +24,7 @@ export type DailyForecast = {
 	date: string;
 	temperature_2m_min: number;
 	temperature_2m_max: number;
+	weather_code: number;
 	precipitation_probability_max: number;
 	windspeed_10m_max: number;
 	winddirection_10m_dominant: number;
@@ -124,6 +126,7 @@ const atmosParams = {
 	daily: [
 		'temperature_2m_max',
 		'temperature_2m_min',
+		'weather_code',
 		'precipitation_probability_max',
 		'windspeed_10m_max',
 		'winddirection_10m_dominant',
@@ -231,9 +234,10 @@ export async function retrieveLocationData({
 			// parse daily prediction data
 			for (let i = 0; i < 7; i++) {
 				forecastDaily.push({
-					date: moment(dailyData.time[i]).day().toString(),
+					date: moment(dailyData.time[i]).format('ddd'),
 					temperature_2m_min: dailyData.temperature_2m_min[i],
 					temperature_2m_max: dailyData.temperature_2m_max[i],
+					weather_code: dailyData.weather_code[i],
 					precipitation_probability_max: dailyData.precipitation_probability_max[i],
 					windspeed_10m_max: dailyData.windspeed_10m_max[i],
 					winddirection_10m_dominant: dailyData.winddirection_10m_dominant[i]
@@ -263,6 +267,7 @@ export async function retrieveLocationData({
 					},
 					isDay: responses[0].data.current.is_day === 1,
 					waterTemperature: responses[2].data.data ? responses[2].data.data[0].v : undefined,
+					// TODO: add wind history for capable stations?
 					tideHistory: responses[1].data.data,
 					visibility: responses[0].data.current.visibility,
 					airQuality: responses[3].data.current.us_aqi
@@ -279,4 +284,23 @@ export async function retrieveLocationData({
 	}
 
 	return out;
+}
+
+/**
+ * Convert the given wind speed (in mph) to the desired unit type
+ * @param data the base wind speed, in mph
+ * @param unitType the desired resulting unit to convert to
+ * @returns the converted wind speed
+ */
+export function convertWindSpeed(data: number, unitType: WindspeedUnitType): number {
+	switch (unitType) {
+		case 'km/h':
+			return mphToKph(data);
+		case 'm/s':
+			return mphToMetersPerSec(data);
+		case 'kn':
+			return mphToKnots(data);
+		default:
+			return data; // already in mph
+	}
 }

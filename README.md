@@ -12,6 +12,7 @@ NOAA Great Lakes stations do not yet have the capability to predict water levels
 
 -   [NOAA](https://tidesandcurrents.noaa.gov/web_services_info.html) for stations list and Great Lakes marine data
 -   [Open Meteo](https://open-meteo.com/) for atmospheric and air quality data
+-   [stellasphere/descriptions.json](https://gist.github.com/stellasphere/9490c195ed2b53c707087c8c2db4ec0c) for WMO weather code images
 
 ## Notable Third-Party Libraries Used
 

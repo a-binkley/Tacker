@@ -1,0 +1,67 @@
+.daily-forecast-wrapper {
+	position: relative;
+	border: 2px solid black;
+	border-radius: 20px;
+	backdrop-filter: blur(20px);
+	background: #fff4;
+	display: flex;
+}
+
+.daily-forecast-datum-wrapper:not(:last-of-type) {
+	border-right: 2px solid #0005;
+}
+
+.daily-forecast-datum-label {
+	position: relative;
+	margin: 5px 0;
+	padding-bottom: 0.2em;
+	box-shadow: 0px 3px 3px -3px;
+	font-size: 1.2em;
+	cursor: default;
+}
+
+.daily-forecast-datum-temps {
+	position: relative;
+	margin: 10px 10px 5px 10px;
+	font-size: 1.2em;
+	cursor: default;
+}
+
+.daily-forecast-datum-precipitation-wrapper {
+	position: relative;
+	display: flex;
+	flex-direction: column;
+	justify-content: space-evenly;
+	align-items: center;
+	height: 6em;
+	margin-bottom: 0.5em;
+}
+
+.daily-forecast-datum-precipitation-chance {
+	position: relative;
+	margin: 0;
+	bottom: 20px;
+}
+
+.daily-forecast-datum-wind-data-wrapper {
+	position: relative;
+	display: flex;
+	justify-content: space-evenly;
+	align-items: center;
+}
+
+.daily-forecast-datum-wind-direction {
+	scale: 2;
+}
+
+.daily-forecast-datum-wind-speed-number {
+	font-size: 1.6em;
+	margin: 0;
+	cursor: default;
+}
+
+.daily-forecast-datum-wind-speed-unit {
+	font-size: 1.2em;
+	margin: 0 0 10px 0;
+	cursor: default;
+}

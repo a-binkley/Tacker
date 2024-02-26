@@ -9,10 +9,10 @@ export function TemperatureDisplay(props: { type: string; label: string; data?: 
 	if (props.data !== undefined) {
 		if (props.units === 'english') {
 			tempData = `${Math.round(props.data)}`;
-			tempUnits = 'F';
+			tempUnits = '°F';
 		} else {
 			tempData = `${Math.round(fahrenheitToCelcius(props.data))}`;
-			tempUnits = 'C';
+			tempUnits = '°C';
 		}
 	}
 

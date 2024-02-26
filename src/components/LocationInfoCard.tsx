@@ -11,7 +11,7 @@ import {
 	WaterLevelChart,
 	WindRing
 } from '.';
-import { GeneralUnitType, WindspeedUnitType, updateViewingIndex } from '../app/stationData';
+import { GeneralUnitType, updateViewingIndex } from '../app/stationData';
 import { StationInfo } from '../functions';
 import { RootState } from '../pages';
 
@@ -28,7 +28,6 @@ export function LocationInfoCard(props: { id: string; data: StationInfo }) {
 	const favoritesIDs = useSelector<RootState, string[]>((state) => state.favoritesIDs);
 	const viewingIndex = useSelector<RootState, number>((state) => state.viewingIndex);
 	const generalUnitType = useSelector<RootState, GeneralUnitType>((state) => state.generalUnit);
-	const windspeedUnitType = useSelector<RootState, WindspeedUnitType>((state) => state.windspeedUnit);
 	const dispatch = useDispatch();
 
 	return (
@@ -85,14 +84,16 @@ export function LocationInfoCard(props: { id: string; data: StationInfo }) {
 							units={generalUnitType}
 						/>
 					</div>
-					<WindRing {...props.data.now.wind} windspeed_unit={windspeedUnitType} />
+					<WindRing {...props.data.now.wind} />
 					<div className='air-particle-data-wrapper'>
 						<AirQualityDisplay data={props.data.now.airQuality} />
 						<VisibilityDisplay data={Math.round(props.data.now.visibility)} units={generalUnitType} />
 					</div>
 				</div>
 				<div className='predicted-conditions-wrapper'>
-					<DailyForecastDisplay data={props.data.forecastDaily} />
+					<div className='predicted-weather-wrapper'>
+						<DailyForecastDisplay data={props.data.forecastDaily} />
+					</div>
 					<WaterLevelChart data={props.data.now.tideHistory} interval={60} unit={generalUnitType} />
 				</div>
 			</div>
