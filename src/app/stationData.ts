@@ -22,8 +22,8 @@ const initialState: StoreType = {
 	viewingIndex: 0,
 	metadata: {},
 	data: {},
-	generalUnit: 'english',
-	windspeedUnit: 'mph'
+	generalUnit: (localStorage.getItem('generalUnit') as GeneralUnitType) ?? 'english',
+	windspeedUnit: (localStorage.getItem('windspeedUnit') as WindspeedUnitType) ?? 'mph'
 };
 
 export const stationDataSlice = createSlice({
@@ -42,9 +42,11 @@ export const stationDataSlice = createSlice({
 		},
 		setGeneralUnitType: (state, action: { payload: GeneralUnitType }) => {
 			state.generalUnit = action.payload;
+			localStorage.setItem('generalUnit', action.payload);
 		},
 		setWindspeedUnitType: (state, action: { payload: WindspeedUnitType }) => {
 			state.windspeedUnit = action.payload;
+			localStorage.setItem('windspeedUnit', action.payload);
 		},
 		updateViewingIndex: (state, action) => {
 			state.viewingIndex += action.payload;

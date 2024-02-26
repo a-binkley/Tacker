@@ -1,0 +1,11 @@
+.unit-selector-wrapper {
+	position: relative;
+	margin-bottom: 10px;
+	font-size: 1.1rem;
+	text-align: right;
+}
+
+select,
+option {
+	font-size: 1rem;
+}

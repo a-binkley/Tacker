@@ -2,10 +2,11 @@ import axios, { AxiosResponse } from 'axios';
 import tz_lookup from 'tz-lookup';
 
 import { degToCard } from '.';
-import { DataSerializableType, GeneralUnitType, MetadataSerializableType, WindspeedUnitType } from '../app/stationData';
+import { DataSerializableType, MetadataSerializableType } from '../app/stationData';
 import { TideData } from '../functions';
 
 export * from './Direction';
+export * from './UnitConversions';
 export * from './WaterLevels';
 
 export type WindInfo = {
@@ -133,14 +134,10 @@ const atmosParams = {
  */
 export async function retrieveLocationData({
 	locs,
-	locMetadata,
-	windspeed_unit,
-	unit_type
+	locMetadata
 }: {
 	locs: string[];
 	locMetadata: MetadataSerializableType;
-	windspeed_unit: WindspeedUnitType;
-	unit_type: GeneralUnitType;
 }): Promise<DataSerializableType> {
 	const promisesByStation: { [id: string]: Promise<AxiosResponse[]> } = {};
 
@@ -159,9 +156,9 @@ export async function retrieveLocationData({
 				current: atmosParams.now.join(','),
 				hourly: atmosParams.hourly.join(','),
 				daily: atmosParams.daily.join(','),
-				temperature_unit: unit_type === 'english' ? 'fahrenheit' : undefined,
-				windspeed_unit: windspeed_unit.replace('/', ''),
-				precipitation_unit: unit_type === 'english' ? 'inch' : 'mm'
+				temperature_unit: 'fahrenheit',
+				windspeed_unit: 'mph',
+				precipitation_unit: 'inch'
 			},
 			withCredentials: false
 		});
@@ -174,7 +171,7 @@ export async function retrieveLocationData({
 				range: 24,
 				product: 'water_level',
 				datum: 'LWD',
-				units: unit_type, // feet or meters
+				units: 'english', // feet
 				time_zone: 'lst_ldt',
 				format: 'json'
 			}
@@ -187,7 +184,7 @@ export async function retrieveLocationData({
 				station: id,
 				date: 'latest',
 				product: 'water_temperature',
-				units: unit_type, // degrees fahrenheit or Celcius
+				units: 'english', // degrees fahrenheit
 				time_zone: 'lst_ldt',
 				format: 'json'
 			}

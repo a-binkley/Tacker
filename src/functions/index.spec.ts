@@ -61,9 +61,7 @@ describe('retrieveLocationData function', () => {
 
 		const data = await retrieveLocationData({
 			locs: mockRetrieveLocationDataArgs.locs.slice(2),
-			locMetadata: mockRetrieveLocationDataArgs.locMetadata,
-			windspeed_unit: 'mph',
-			unit_type: 'english'
+			locMetadata: mockRetrieveLocationDataArgs.locMetadata
 		});
 
 		expect(data).toStrictEqual(expectedStationData);
@@ -77,9 +75,7 @@ describe('retrieveLocationData function', () => {
 
 		const data = await retrieveLocationData({
 			locs: ['9075080'],
-			locMetadata: { '9075080': mockRetrieveLocationDataArgs.locMetadata['9075080'] },
-			windspeed_unit: 'mph',
-			unit_type: 'english'
+			locMetadata: { '9075080': mockRetrieveLocationDataArgs.locMetadata['9075080'] }
 		});
 
 		expect(data).toStrictEqual({ '9075080': expectedStationData['9075080'] });
@@ -93,9 +89,7 @@ describe('retrieveLocationData function', () => {
 
 		const data = await retrieveLocationData({
 			locs: ['9014087'],
-			locMetadata: { '9014087': mockRetrieveLocationDataArgs.locMetadata['9014087'] },
-			windspeed_unit: 'km/h',
-			unit_type: 'metric'
+			locMetadata: { '9014087': mockRetrieveLocationDataArgs.locMetadata['9014087'] }
 		});
 
 		expect(data).toStrictEqual(expectedStationDataAlt);
@@ -105,9 +99,7 @@ describe('retrieveLocationData function', () => {
 		mockedAxios.mockRejectedValueOnce(rejection);
 		const data = await retrieveLocationData({
 			locs: mockRetrieveLocationDataArgs.locs,
-			locMetadata: mockRetrieveLocationDataArgs.locMetadata,
-			windspeed_unit: 'mph',
-			unit_type: 'english'
+			locMetadata: mockRetrieveLocationDataArgs.locMetadata
 		});
 
 		expect(data).toStrictEqual({});

@@ -1,10 +1,7 @@
 import { GeneralUnitType } from '../app/stationData';
+import { fahrenheitToCelcius } from '../functions';
 
 import './TemperatureDisplay.css';
-
-export function fahrenheitToCelcius(temp: number): number {
-	return ((temp - 32) * 5) / 9;
-}
 
 export function TemperatureDisplay(props: { type: string; label: string; data?: number; units: GeneralUnitType }) {
 	let tempData = '--',
