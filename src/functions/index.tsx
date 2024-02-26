@@ -1,10 +1,11 @@
 import axios, { AxiosResponse } from 'axios';
+import moment from 'moment';
 import tz_lookup from 'tz-lookup';
 
 import { degToCard } from '.';
 import { DataSerializableType, MetadataSerializableType, WindspeedUnitType } from '../app/stationData';
-import { TideData } from '../functions';
-import moment from 'moment';
+import wmoCodes from '../app/wmoCodes.json';
+import { TideData } from '.';
 import { mphToKph, mphToMetersPerSec, mphToKnots } from './UnitConversions';
 
 export * from './Direction';
@@ -21,6 +22,7 @@ export type WindInfo = {
 };
 
 export type HourlyForecast = {
+	time: string;
 	temp: number;
 	wind: {
 		speed: number;
@@ -278,6 +280,7 @@ export async function retrieveLocationData({
  */
 export function parseForecastedData(data: {
 	hourly: {
+		time: string[];
 		temperature_2m: number[];
 		windspeed_10m: number[];
 		winddirection_10m: number[];
@@ -305,6 +308,7 @@ export function parseForecastedData(data: {
 	// parse hourly prediction data
 	for (let i = hourlyDataStartIndex; i < hourlyDataStartIndex + 24; i++) {
 		forecastHourly.push({
+			time: moment(hourlyData.time[i]).format('ha'),
 			temp: hourlyData.temperature_2m[i],
 			wind: {
 				speed: hourlyData.windspeed_10m[i],
@@ -334,6 +338,25 @@ export function parseForecastedData(data: {
 	}
 
 	return { forecastHourly, forecastDaily };
+}
+
+/**
+ * Fetches the correct weather icon based on provided parameters
+ * @param weatherCode the WMO weather code to look for
+ * @param isDay whether the icon should be for day or night
+ * @returns an <img> element containing the relevant icon
+ */
+export function precipitationIconByWeatherCode(weatherCode: number, isDay: boolean): JSX.Element {
+	const weatherCodes = wmoCodes as {
+		[key: string]: { day: { description: string; image: string }; night: { description: string; image: string } };
+	};
+
+	if (Object.keys(weatherCodes).includes(`${weatherCode}`)) {
+		return <img className='daily-forecast-datum-wmo-icon' src={weatherCodes[weatherCode][isDay ? 'day' : 'night'].image} />;
+	} else {
+		console.error(`Invalid WMO code provided for forecast: ${weatherCode}`);
+		return <img className='daily-forecast-datum-wmo-icon' alt='??' />;
+	}
 }
 
 /**
