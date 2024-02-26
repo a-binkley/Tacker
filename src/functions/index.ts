@@ -20,14 +20,26 @@ export type WindInfo = {
 	};
 };
 
+export type HourlyForecast = {
+	temp: number;
+	wind: {
+		speed: number;
+		direction: number;
+	};
+	weatherCode: number;
+	isDay: boolean;
+};
+
 export type DailyForecast = {
 	date: string;
-	temperature_2m_min: number;
-	temperature_2m_max: number;
-	weather_code: number;
-	precipitation_probability_max: number;
-	windspeed_10m_max: number;
-	winddirection_10m_dominant: number;
+	minTemp: number;
+	maxTemp: number;
+	wind: {
+		speed: number;
+		direction: number;
+	};
+	weatherCode: number;
+	precipitationChance: number;
 };
 
 export type StationInfo = {
@@ -55,10 +67,8 @@ export type StationInfo = {
 	};
 	todaySunrise: string;
 	todaySunset: string;
-	// forecastHourly: (BaseInfo & {
-	// 	tideLevel: number;
-	// })[];
-	forecastDaily: DailyForecast[]; // TODO
+	forecastHourly: HourlyForecast[];
+	forecastDaily: DailyForecast[];
 };
 
 /**
@@ -110,19 +120,7 @@ const atmosParams = {
 		'winddirection_10m',
 		'windgusts_10m'
 	],
-	hourly: [
-		'temperature_2m',
-		'apparent_temperature',
-		'precipitation',
-		'precipitation_probability',
-		'cloudcover',
-		'visibility',
-		'windspeed_10m',
-		'winddirection_10m',
-		'windgusts_10m',
-		'uv_index',
-		'is_day'
-	],
+	hourly: ['temperature_2m', 'weather_code', 'windspeed_10m', 'winddirection_10m', 'is_day'],
 	daily: [
 		'temperature_2m_max',
 		'temperature_2m_min',
@@ -229,20 +227,7 @@ export async function retrieveLocationData({
 		try {
 			const responses = await promises;
 
-			const forecastDaily: DailyForecast[] = [];
-			const dailyData = responses[0].data.daily;
-			// parse daily prediction data
-			for (let i = 0; i < 7; i++) {
-				forecastDaily.push({
-					date: moment(dailyData.time[i]).format('ddd'),
-					temperature_2m_min: dailyData.temperature_2m_min[i],
-					temperature_2m_max: dailyData.temperature_2m_max[i],
-					weather_code: dailyData.weather_code[i],
-					precipitation_probability_max: dailyData.precipitation_probability_max[i],
-					windspeed_10m_max: dailyData.windspeed_10m_max[i],
-					winddirection_10m_dominant: dailyData.winddirection_10m_dominant[i]
-				});
-			}
+			const { forecastHourly, forecastDaily } = parseForecastedData(responses[0].data);
 
 			out[id] = {
 				id,
@@ -274,7 +259,7 @@ export async function retrieveLocationData({
 				},
 				todaySunrise: responses[0].data.daily.sunrise[0].substring(11),
 				todaySunset: responses[0].data.daily.sunset[0].substring(11),
-				// forecastHourly: [], // TODO
+				forecastHourly,
 				forecastDaily
 			};
 		} catch (err: unknown) {
@@ -284,6 +269,71 @@ export async function retrieveLocationData({
 	}
 
 	return out;
+}
+
+/**
+ * Parse hourly and daily forecast data based on the OpenMeteo API response
+ * @param data the raw {@link AxiosResponse} to parse
+ * @returns the parsed forecast data, split into hourly and daily objects
+ */
+export function parseForecastedData(data: {
+	hourly: {
+		temperature_2m: number[];
+		windspeed_10m: number[];
+		winddirection_10m: number[];
+		weather_code: number[];
+		is_day: (0 | 1)[];
+	};
+	daily: {
+		time: string[];
+		temperature_2m_min: number[];
+		temperature_2m_max: number[];
+		windspeed_10m_max: number[];
+		winddirection_10m_dominant: number[];
+		weather_code: number[];
+		precipitation_probability_max: number[];
+	};
+}): {
+	forecastHourly: HourlyForecast[];
+	forecastDaily: DailyForecast[];
+} {
+	const forecastHourly: HourlyForecast[] = [];
+	const hourlyData = data.hourly;
+	// TODO: ensure proper timezone
+	const hourlyDataStartIndex = moment().hour() + 1; // Don't display past data
+
+	// parse hourly prediction data
+	for (let i = hourlyDataStartIndex; i < hourlyDataStartIndex + 24; i++) {
+		forecastHourly.push({
+			temp: hourlyData.temperature_2m[i],
+			wind: {
+				speed: hourlyData.windspeed_10m[i],
+				direction: hourlyData.winddirection_10m[i]
+			},
+			weatherCode: hourlyData.weather_code[i],
+			isDay: hourlyData.is_day[i] === 1
+		});
+	}
+
+	const forecastDaily: DailyForecast[] = [];
+	const dailyData = data.daily;
+
+	// parse daily prediction data
+	for (let i = 0; i < 7; i++) {
+		forecastDaily.push({
+			date: moment(dailyData.time[i]).format('ddd'),
+			minTemp: dailyData.temperature_2m_min[i],
+			maxTemp: dailyData.temperature_2m_max[i],
+			wind: {
+				speed: dailyData.windspeed_10m_max[i],
+				direction: dailyData.winddirection_10m_dominant[i]
+			},
+			weatherCode: dailyData.weather_code[i],
+			precipitationChance: dailyData.precipitation_probability_max[i]
+		});
+	}
+
+	return { forecastHourly, forecastDaily };
 }
 
 /**

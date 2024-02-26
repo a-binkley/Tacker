@@ -1,5 +1,6 @@
 export * from './AirQualityDisplay';
 export * from './DailyForecast';
+export * from './HourlyForecastDisplay';
 export * from './LocationInfoCard';
 export * from './LocatorPopup';
 export * from './PageTab';

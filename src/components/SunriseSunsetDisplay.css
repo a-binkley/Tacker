@@ -33,4 +33,5 @@ i,
 .sunset-time {
 	position: relative;
 	display: inline;
+	cursor: default;
 }

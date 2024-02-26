@@ -3,6 +3,7 @@ import moment from 'moment';
 import './SunriseSunsetDisplay.css';
 
 export function SunriseSunsetDisplay(props: { data: { sunrise: string; sunset: string } }) {
+	// TODO: ensure proper timezone
 	return (
 		<div className='sunrise-sunset-wrapper'>
 			<div className='sun-data-wrapper'>

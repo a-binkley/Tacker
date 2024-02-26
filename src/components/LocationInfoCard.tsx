@@ -3,6 +3,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import {
 	AirQualityDisplay,
 	DailyForecastDisplay,
+	HourlyForecastDisplay,
 	PageTab,
 	SunriseSunsetDisplay,
 	TemperatureDisplay,
@@ -76,7 +77,6 @@ export function LocationInfoCard(props: { id: string; data: StationInfo }) {
 								units={generalUnitType}
 							/>
 						</div>
-						{/* TODO: add current weather conditions */}
 						<TemperatureDisplay
 							type='water'
 							label='Water Temp'
@@ -87,11 +87,13 @@ export function LocationInfoCard(props: { id: string; data: StationInfo }) {
 					<WindRing {...props.data.now.wind} />
 					<div className='air-particle-data-wrapper'>
 						<AirQualityDisplay data={props.data.now.airQuality} />
+						{/* TODO: add current weather conditions */}
 						<VisibilityDisplay data={Math.round(props.data.now.visibility)} units={generalUnitType} />
 					</div>
 				</div>
 				<div className='predicted-conditions-wrapper'>
 					<div className='predicted-weather-wrapper'>
+						<HourlyForecastDisplay data={props.data.forecastHourly} />
 						<DailyForecastDisplay data={props.data.forecastDaily} />
 					</div>
 					<WaterLevelChart data={props.data.now.tideHistory} interval={60} unit={generalUnitType} />
