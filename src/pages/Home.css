@@ -1,0 +1,36 @@
+.home-wrapper {
+	position: absolute;
+	height: 100vh;
+	width: 100vw;
+	background: #ddd;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+}
+
+.locator-prompt {
+	position: relative;
+	border-radius: 20px;
+	padding: 10px;
+	bottom: 10vh;
+	height: max-content;
+	width: max-content;
+}
+
+.locator-notice {
+	margin: 0 0 20px 0;
+}
+
+.locator-search-btn {
+	background: #99f;
+	border: 1px solid black;
+	border-radius: 8px;
+	padding: 10px;
+	font-size: 12pt;
+}
+
+.locator-search-btn:hover {
+	background: #77f;
+	cursor: pointer;
+	transition: all 0.5s;
+}

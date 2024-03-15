@@ -32,21 +32,24 @@ export function LocatorPopup(props: {
 			top: '40px',
 			left: '40px'
 		},
-		closeBtnStyle: CSSProperties = {
+		continueBtnStyle: CSSProperties = {
 			position: 'absolute',
-			height: '32px',
-			width: '32px',
-			top: '43px',
-			right: '50px',
-			fontSize: '2rem',
+			borderRadius: '10px',
+			bottom: '50px',
+			left: 'calc(50% - 7em)',
+			height: 'max-content',
+			width: '14em',
+			fontSize: '1.4em',
 			zIndex: 500,
 			cursor: 'pointer',
 			display: favoritesIDs.length === 0 ? 'none' : ''
 		};
 
 	return (
-		<div className='locator-popup-wrapper'>
-			<i className='bi bi-x-square' style={closeBtnStyle} onClick={() => props.setSearchMode('display')}></i>
+		<div style={{ height: '100vh', width: '100vw' }}>
+			<button style={continueBtnStyle} onClick={() => props.setSearchMode('display')}>
+				{'Continue to forecasts >'}
+			</button>
 			<MapContainer
 				center={[45.4, -84.4]} // Approximately center to all five lakes
 				zoom={7}

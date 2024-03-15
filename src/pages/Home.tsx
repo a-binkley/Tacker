@@ -6,6 +6,8 @@ import store from '../app/store';
 import { LocationInfoCard, LocatorPopup } from '../components';
 import { retrieveCurrentStations, retrieveLocationData } from '../functions';
 
+import './Home.css';
+
 export type RootState = ReturnType<typeof store.getState>;
 export type StationMetadata = { city: string; state: string; coords: { lat: number; lng: number } };
 
@@ -52,11 +54,14 @@ export function Home() {
 			{searchMode === 'prompt' ? (
 				// Ask the user to add at least one location as a favorite
 				<div className='locator-prompt'>
-					<h3>{"It looks like you don't have any locations marked as favorites yet."}</h3>
-					<button onClick={() => setSearchMode('search')}>Find a station</button>
+					<h3 className='locator-notice'>
+						{"Hm... it looks like you don't have any locations marked as favorites yet."}
+					</h3>
+					<button className='locator-search-btn' onClick={() => setSearchMode('search')}>
+						Find a station
+					</button>
 				</div>
-			) : // TODO: make pretty
-			searchMode === 'search' ? (
+			) : searchMode === 'search' ? (
 				// Display the Leaflet map to allow user to add station(s) to favorites
 				<LocatorPopup {...{ handleFavoriteChange, setSearchMode }} />
 			) : data[favoritesIDs[viewingIndex]] ? (
