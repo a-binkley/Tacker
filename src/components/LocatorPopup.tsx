@@ -1,9 +1,9 @@
 import L from 'leaflet';
 import { CSSProperties } from 'react';
 import { MapContainer, Marker, Popup, TileLayer } from 'react-leaflet';
-import { useSelector } from 'react-redux';
+import { useSelector, useDispatch } from 'react-redux';
 
-import { MetadataSerializableType } from '../app/stationData';
+import { MetadataSerializableType, setSearchMode, setFavorites, updateViewingIndex } from '../app/stationData';
 import { RootState } from '../pages';
 
 function getLeafletIcon(isFavorite: boolean): L.Icon {
@@ -19,12 +19,20 @@ function getLeafletIcon(isFavorite: boolean): L.Icon {
 	});
 }
 
-export function LocatorPopup(props: {
-	handleFavoriteChange: (station: string) => void;
-	setSearchMode: (state: 'prompt' | 'search' | 'display') => void;
-}) {
+export function LocatorPopup() {
 	const favoritesIDs = useSelector<RootState, string[]>((state) => state.favoritesIDs);
+	const viewingIndex = useSelector<RootState, number>((state) => state.viewingIndex);
 	const metadataStore = useSelector<RootState, MetadataSerializableType>((state) => state.metadata);
+	const dispatch = useDispatch();
+
+	const handleFavoriteChange = (stationID: string) => {
+		if (favoritesIDs.includes(stationID)) {
+			dispatch(setFavorites(favoritesIDs.filter((id: string) => id !== stationID))); // Remove
+			dispatch(updateViewingIndex(Math.min(viewingIndex, favoritesIDs.length - 1)));
+		} else {
+			dispatch(setFavorites(favoritesIDs.concat([stationID]))); // Add
+		}
+	};
 
 	const mapStyle: CSSProperties = {
 			height: 'calc(100vh - 80px)',
@@ -47,7 +55,7 @@ export function LocatorPopup(props: {
 
 	return (
 		<div style={{ height: '100vh', width: '100vw' }}>
-			<button style={continueBtnStyle} onClick={() => props.setSearchMode('display')}>
+			<button style={continueBtnStyle} onClick={() => dispatch(setSearchMode('display'))}>
 				{'Continue to forecasts >'}
 			</button>
 			<MapContainer
@@ -66,7 +74,7 @@ export function LocatorPopup(props: {
 						eventHandlers={{
 							mouseover: (event) => event.target.openPopup(),
 							mouseout: (event) => event.target.closePopup(),
-							click: () => props.handleFavoriteChange(id)
+							click: () => handleFavoriteChange(id)
 						}}
 						key={`station-${id}`}
 					>

@@ -42,6 +42,14 @@
 	transform: translate3d(0, 0, 0);
 }
 
+.bi-map {
+	position: absolute;
+	top: 20px;
+	left: 20px;
+	font-size: 2.5em;
+	cursor: pointer;
+}
+
 .city-state-header {
 	position: absolute;
 	left: calc(50% - 30rem);
@@ -124,7 +132,7 @@
 	right: 1vw;
 }
 
-/* TODO: swipe to change page for handheld devices */
+/* TODO RD: swipe to change page for handheld devices */
 
 @keyframes wave {
 	0% {

@@ -13,7 +13,7 @@ import {
 	WaterLevelChart,
 	WindRing
 } from '.';
-import { GeneralUnitType, updateViewingIndex } from '../app/stationData';
+import { GeneralUnitType, setSearchMode, updateViewingIndex } from '../app/stationData';
 import { StationInfo } from '../functions';
 import { RootState } from '../pages';
 
@@ -51,6 +51,7 @@ export function LocationInfoCard(props: { id: string; data: StationInfo }) {
 				// TODO: smooth out with requestAnimationFrame?
 				style={{ animation: `wave ${30 / props.data.now.wind.baseSpeed}s cubic-bezier(0.36, 0.45, 0.63, 0.53) infinite` }}
 			/>
+			<i className='bi bi-map' onClick={() => dispatch(setSearchMode('search'))} />
 			<h2 className='city-state-header unselectable'>{`${props.data.name}, ${props.data.state}`}</h2>
 			<h3 className='lat-long-header unselectable'>{`${props.data.latLong.lat.toFixed(3)},${props.data.latLong.lng.toFixed(
 				3

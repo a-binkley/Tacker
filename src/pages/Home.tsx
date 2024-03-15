@@ -1,7 +1,14 @@
-import { useEffect, useState } from 'react';
+import { useEffect } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 
-import { setMetadata, setData, setFavorites, MetadataSerializableType, DataSerializableType } from '../app/stationData';
+import {
+	setMetadata,
+	setData,
+	MetadataSerializableType,
+	DataSerializableType,
+	SearchMode,
+	setSearchMode
+} from '../app/stationData';
 import store from '../app/store';
 import { LocationInfoCard, LocatorPopup } from '../components';
 import { retrieveCurrentStations, retrieveLocationData } from '../functions';
@@ -14,11 +21,10 @@ export type StationMetadata = { city: string; state: string; coords: { lat: numb
 export function Home() {
 	const data = useSelector<RootState, DataSerializableType>((state) => state.data);
 	const metadata = useSelector<RootState, MetadataSerializableType>((state) => state.metadata);
+	const searchMode = useSelector<RootState, SearchMode>((state) => state.searchMode);
 	const favoritesIDs = useSelector<RootState, string[]>((state) => state.favoritesIDs);
 	const viewingIndex = useSelector<RootState, number>((state) => state.viewingIndex);
 	const dispatch = useDispatch();
-
-	const [searchMode, setSearchMode] = useState<'prompt' | 'search' | 'display'>(favoritesIDs.length === 0 ? 'prompt' : 'display');
 
 	useEffect(() => {
 		if (Object.keys(metadata).length === 0) {
@@ -41,14 +47,6 @@ export function Home() {
 		}
 	}, [dispatch, data, metadata, favoritesIDs, searchMode]);
 
-	const handleFavoriteChange = (stationID: string) => {
-		if (favoritesIDs.includes(stationID)) {
-			dispatch(setFavorites(favoritesIDs.filter((id: string) => id !== stationID))); // Remove
-		} else {
-			dispatch(setFavorites(favoritesIDs.concat([stationID]))); // Add
-		}
-	};
-
 	return (
 		<div className='home-wrapper'>
 			{searchMode === 'prompt' ? (
@@ -57,13 +55,13 @@ export function Home() {
 					<h3 className='locator-notice'>
 						{"Hm... it looks like you don't have any locations marked as favorites yet."}
 					</h3>
-					<button className='locator-search-btn' onClick={() => setSearchMode('search')}>
+					<button className='locator-search-btn' onClick={() => dispatch(setSearchMode('search'))}>
 						Find a station
 					</button>
 				</div>
 			) : searchMode === 'search' ? (
 				// Display the Leaflet map to allow user to add station(s) to favorites
-				<LocatorPopup {...{ handleFavoriteChange, setSearchMode }} />
+				<LocatorPopup />
 			) : data[favoritesIDs[viewingIndex]] ? (
 				// Display info for favorited location(s)
 				<LocationInfoCard

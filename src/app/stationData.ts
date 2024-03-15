@@ -3,12 +3,14 @@ import { createSlice } from '@reduxjs/toolkit';
 import { StationInfo } from '../functions';
 import { StationMetadata } from '../pages';
 
+export type SearchMode = 'prompt' | 'search' | 'display';
 export type MetadataSerializableType = { [id: string]: StationMetadata };
 export type DataSerializableType = { [id: string]: StationInfo };
 export type GeneralUnitType = 'english' | 'metric';
 export type WindspeedUnitType = 'mph' | 'km/h' | 'm/s' | 'kn';
 
 export type StoreType = {
+	searchMode: SearchMode;
 	favoritesIDs: string[];
 	viewingIndex: number;
 	metadata: MetadataSerializableType;
@@ -17,8 +19,11 @@ export type StoreType = {
 	windspeedUnit: WindspeedUnitType;
 };
 
+const initFavorites: string[] = JSON.parse(localStorage.getItem('favoriteStations') ?? '[]'); // read from localStorage first, if present
+
 const initialState: StoreType = {
-	favoritesIDs: JSON.parse(localStorage.getItem('favoriteStations') ?? '[]'), // read from localStorage first, if present
+	searchMode: initFavorites.length === 0 ? 'prompt' : 'display',
+	favoritesIDs: initFavorites,
 	viewingIndex: 0,
 	metadata: {},
 	data: {},
@@ -30,6 +35,9 @@ export const stationDataSlice = createSlice({
 	name: 'stationData',
 	initialState,
 	reducers: {
+		setSearchMode: (state, action: { payload: SearchMode }) => {
+			state.searchMode = action.payload;
+		},
 		setFavorites: (state, action: { payload: string[] }) => {
 			state.favoritesIDs = action.payload;
 			localStorage.setItem('favoriteStations', JSON.stringify(action.payload)); // save for use in later sessions
@@ -55,7 +63,7 @@ export const stationDataSlice = createSlice({
 });
 
 // Action creators are generated for each case reducer function
-export const { setFavorites, setMetadata, setData, setGeneralUnitType, setWindspeedUnitType, updateViewingIndex } =
+export const { setSearchMode, setFavorites, setMetadata, setData, setGeneralUnitType, setWindspeedUnitType, updateViewingIndex } =
 	stationDataSlice.actions;
 
 export default stationDataSlice.reducer;
