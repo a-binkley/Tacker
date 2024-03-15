@@ -1,11 +1,11 @@
 import { useMemo } from 'react';
 import { AxisOptions, Chart } from 'react-charts';
 
-import { TideDataFormatted, WaterLevelProps, calculateAvgForInterval } from '../functions';
+import { TideDataFormatted, LevelsChartProps, calculateAvgForInterval } from '../functions';
 
 import './WaterLevelChart.css';
 
-export function WaterLevelChart(props: WaterLevelProps) {
+export function WaterLevelChart(props: LevelsChartProps) {
 	const cleanedData = calculateAvgForInterval(props);
 
 	const primaryAxis = useMemo(

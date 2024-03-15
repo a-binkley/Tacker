@@ -10,7 +10,7 @@ import { mphToKph, mphToMetersPerSec, mphToKnots } from './UnitConversions';
 
 export * from './Direction';
 export * from './UnitConversions';
-export * from './WaterLevels';
+export * from './WaterLevelCalcs';
 
 export type WindInfo = {
 	baseSpeed: number;
@@ -254,7 +254,6 @@ export async function retrieveLocationData({
 					},
 					isDay: responses[0].data.current.is_day === 1,
 					waterTemperature: responses[2].data.data ? responses[2].data.data[0].v : undefined,
-					// TODO: add wind history for capable stations?
 					tideHistory: responses[1].data.data,
 					visibility: responses[0].data.current.visibility,
 					airQuality: responses[3].data.current.us_aqi

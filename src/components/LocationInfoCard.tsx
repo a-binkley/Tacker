@@ -48,7 +48,6 @@ export function LocationInfoCard(props: { id: string; data: StationInfo }) {
 			<div
 				className='wave-background'
 				// base animation speed on wind speed
-				// TODO: smooth out with requestAnimationFrame?
 				style={{ animation: `wave ${30 / props.data.now.wind.baseSpeed}s cubic-bezier(0.36, 0.45, 0.63, 0.53) infinite` }}
 			/>
 			<i className='bi bi-map' onClick={() => dispatch(setSearchMode('search'))} />
