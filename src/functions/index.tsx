@@ -1,5 +1,5 @@
 import axios, { AxiosResponse } from 'axios';
-import moment from 'moment';
+import moment from 'moment-timezone';
 import tz_lookup from 'tz-lookup';
 
 import { degToCard } from '.';
@@ -279,6 +279,7 @@ export async function retrieveLocationData({
  * @returns the parsed forecast data, split into hourly and daily objects
  */
 export function parseForecastedData(data: {
+	timezone: string;
 	hourly: {
 		time: string[];
 		temperature_2m: number[];
@@ -302,8 +303,7 @@ export function parseForecastedData(data: {
 } {
 	const forecastHourly: HourlyForecast[] = [];
 	const hourlyData = data.hourly;
-	// TODO: ensure proper timezone
-	const hourlyDataStartIndex = moment().hour() + 1; // Don't display past data
+	const hourlyDataStartIndex = moment().tz(data.timezone).hour() + 1; // Don't display past data
 
 	// parse hourly prediction data
 	for (let i = hourlyDataStartIndex; i < hourlyDataStartIndex + 24; i++) {
