@@ -1,0 +1,28 @@
+.meatball-nav-wrapper {
+	position: absolute;
+	bottom: 12px;
+	left: 25vw;
+	height: 20px;
+	width: 50vw;
+
+	display: flex;
+	justify-content: center;
+	gap: 10px;
+	align-items: center;
+}
+
+.meatball {
+	position: relative;
+	border-radius: 50%;
+	height: 8px;
+	width: 8px;
+	background: #fff4;
+}
+
+.meatball-active {
+	background: #fff;
+}
+
+.meatball:not(.meatball-active) {
+	cursor: pointer;
+}
