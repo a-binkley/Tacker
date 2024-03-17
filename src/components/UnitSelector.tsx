@@ -33,7 +33,7 @@ export function UnitSelector(props: { category: 'general' | 'windspeed' }) {
 	};
 
 	return (
-		<div className='unit-selector-wrapper'>
+		<div className='unit-selector-wrapper unselectable'>
 			<label className='unit-selector-label'>{categoryInfo[props.category].label}</label>
 			<select
 				className={`unit-type-selector ${props.category}`}

@@ -10,10 +10,10 @@ export function VisibilityDisplay(props: { data: number; units: GeneralUnitType 
 		<div className='visibility-wrapper floating-window'>
 			<div className='visibility-label-wrapper'>
 				<i className='bi bi-eye' />
-				<p className='visibility-label'>Visibility</p>
+				<p className='visibility-label unselectable'>Visibility</p>
 			</div>
-			<h4 className='visibility-data'>{(props.data / visibilityDenom).toFixed(1)}</h4>
-			<p className='visibility-units'>{visibilityUnit}</p>
+			<h4 className='visibility-data unselectable'>{(props.data / visibilityDenom).toFixed(1)}</h4>
+			<p className='visibility-units unselectable'>{visibilityUnit}</p>
 		</div>
 	);
 }

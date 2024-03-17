@@ -26,7 +26,7 @@ export function DailyForecastDisplay(props: { data: DailyForecast[] }) {
 	const windspeedUnitType = useSelector<RootState, WindspeedUnitType>((state) => state.windspeedUnit);
 
 	return (
-		<div className='daily-forecast-wrapper floating-window'>
+		<div className='daily-forecast-wrapper unselectable floating-window'>
 			{props.data.map((forecastDatum, index) => (
 				<div className='daily-forecast-datum-wrapper' key={`daily-forecast-datum-${forecastDatum.date}`}>
 					<p className='daily-forecast-datum-label'>{index === 0 ? 'Today' : forecastDatum.date}</p>

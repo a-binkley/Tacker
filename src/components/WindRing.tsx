@@ -9,7 +9,7 @@ export function WindRing(props: WindInfo) {
 	const windspeedUnitType = useSelector<RootState, WindspeedUnitType>((state) => state.windspeedUnit);
 
 	return (
-		<div className='wind-info-wrapper floating-window'>
+		<div className='wind-info-wrapper unselectable floating-window'>
 			<img className='compass-ring' src={process.env.PUBLIC_URL + '/img/CompassRing.png'} alt='ring' />
 			{['N', 'E', 'S', 'W'].map((direction) => (
 				<p className={`compass-direction compass-${direction} unselectable`} key={`compass-label-${direction}`}>

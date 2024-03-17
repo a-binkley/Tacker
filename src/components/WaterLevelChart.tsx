@@ -42,7 +42,7 @@ export function WaterLevelChart(props: LevelsChartProps) {
 	return (
 		<div className={`water-level-chart-wrapper floating-window water-chart-${props.isDay ? 'day' : 'night'}`}>
 			<Chart
-				className='water-level-chart'
+				className='water-level-chart unselectable'
 				options={{
 					data,
 					primaryAxis,
