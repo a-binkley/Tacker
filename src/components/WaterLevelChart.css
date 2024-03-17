@@ -16,3 +16,16 @@
 .tickLabel {
 	font-size: 14px !important;
 }
+
+/* High contrast colors for nighttime */
+.water-chart-night .tick line {
+	stroke: rgba(255, 255, 255, 0.2) !important;
+}
+
+.water-chart-night .tickLabel {
+	fill: #fff7ea !important;
+}
+
+.water-chart-night path {
+	stroke: rgb(15, 74, 93) !important;
+}

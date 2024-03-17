@@ -35,20 +35,22 @@ export function LocationInfoCard(props: { id: string; data: StationInfo }) {
 	return (
 		<div
 			className='location-info-card-wrapper'
-			// TODO: add 'url(../../public/img/NightStars.svg)' for stars
 			style={{
 				background: props.data.now.isDay
 					? `radial-gradient(farthest-side at 25% 0, white, hsl(194, ${
 							(57 * (100 - parseInt(props.data.now.cloudiness))) / 100 // base color saturation on cloudiness
 					  }%, 67%))`
-					: 'linear-gradient(#040d21, #102144)',
-				color: props.data.now.isDay ? 'black' : '#fffd'
+					: 'linear-gradient(#01040a, #101c36)',
+				color: props.data.now.isDay ? 'black' : '#fff7ea'
 			}}
 		>
 			<div
 				className='wave-background'
 				// base animation speed on wind speed
-				style={{ animation: `wave ${30 / props.data.now.wind.baseSpeed}s cubic-bezier(0.36, 0.45, 0.63, 0.53) infinite` }}
+				style={{
+					animation: `wave ${30 / props.data.now.wind.baseSpeed}s cubic-bezier(0.36, 0.45, 0.63, 0.53) infinite`,
+					opacity: props.data.now.isDay ? '' : '30%'
+				}}
 			/>
 			<i className='bi bi-map' onClick={() => dispatch(setSearchMode('search'))} />
 			<h2 className='city-state-header unselectable'>{`${props.data.name}, ${props.data.state}`}</h2>
@@ -97,7 +99,7 @@ export function LocationInfoCard(props: { id: string; data: StationInfo }) {
 						<HourlyForecastDisplay data={props.data.forecastHourly} />
 						<DailyForecastDisplay data={props.data.forecastDaily} />
 					</div>
-					<WaterLevelChart data={props.data.now.tideHistory} interval={60} unit={generalUnitType} />
+					<WaterLevelChart data={props.data.now.tideHistory} interval={60} isDay={props.data.now.isDay} />
 				</div>
 			</div>
 			<PageTab direction='left' display={viewingIndex !== 0} onClick={() => dispatch(updateViewingIndex(-1))} />

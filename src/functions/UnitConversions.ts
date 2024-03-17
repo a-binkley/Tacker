@@ -13,5 +13,3 @@ export function mphToMetersPerSec(value: number): number {
 export function mphToKnots(value: number): number {
 	return value * 0.868976;
 }
-
-// TODO: move all to WindRing.tsx if not used elsewhere
