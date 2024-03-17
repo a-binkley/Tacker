@@ -22,6 +22,9 @@ export function HourlyForecastDisplay(props: { data: HourlyForecast[] }) {
 					<p className='hourly-forecast-datum-temp'>{`${Math.round(forecastDatum.temp)} ${tempUnit}`}</p>
 					<div className='hourly-forecast-datum-weather-icon-wrapper'>
 						{imageForWeatherCode(precipitationIconByWeatherCode(forecastDatum.weatherCode, forecastDatum.isDay))}
+						<p className='hourly-forecast-datum-precipitation-chance'>
+							{forecastDatum.precipitationChance === 0 ? '' : `${forecastDatum.precipitationChance}%`}
+						</p>
 					</div>
 					<div className='hourly-forecast-datum-wind-data-wrapper'>
 						<div className='hourly-forecast-datum-wind-direction'>

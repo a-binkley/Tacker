@@ -29,6 +29,7 @@ export type HourlyForecast = {
 		direction: number;
 	};
 	weatherCode: number;
+	precipitationChance: number;
 	isDay: boolean;
 };
 
@@ -119,7 +120,7 @@ const atmosParams = {
 		'winddirection_10m',
 		'windgusts_10m'
 	],
-	hourly: ['temperature_2m', 'weather_code', 'windspeed_10m', 'winddirection_10m', 'is_day'],
+	hourly: ['temperature_2m', 'weather_code', 'precipitation_probability', 'windspeed_10m', 'winddirection_10m', 'is_day'],
 	daily: [
 		'temperature_2m_max',
 		'temperature_2m_min',
@@ -279,6 +280,7 @@ export function parseForecastedData(data: {
 		windspeed_10m: number[];
 		winddirection_10m: number[];
 		weather_code: number[];
+		precipitation_probability: number[];
 		is_day: (0 | 1)[];
 	};
 	daily: {
@@ -308,6 +310,7 @@ export function parseForecastedData(data: {
 				direction: hourlyData.winddirection_10m[i]
 			},
 			weatherCode: hourlyData.weather_code[i],
+			precipitationChance: hourlyData.precipitation_probability[i],
 			isDay: hourlyData.is_day[i] === 1
 		});
 	}

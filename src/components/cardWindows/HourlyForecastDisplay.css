@@ -20,7 +20,7 @@
 
 .hourly-forecast-datum-temp {
 	position: relative;
-	margin: 10px 10px 5px 10px;
+	margin: 10px 10px 0 10px;
 	font-size: 1.2em;
 	cursor: default;
 }
@@ -33,6 +33,13 @@
 	align-items: center;
 	height: 6em;
 	margin-bottom: 0.5em;
+}
+
+.hourly-forecast-datum-precipitation-chance {
+	position: relative;
+	margin: 0;
+	bottom: 20px;
+	min-height: 1em;
 }
 
 .hourly-forecast-datum-wind-data-wrapper {

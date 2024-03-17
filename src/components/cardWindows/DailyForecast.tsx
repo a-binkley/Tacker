@@ -33,7 +33,9 @@ export function DailyForecastDisplay(props: { data: DailyForecast[] }) {
 					<p className='daily-forecast-datum-temps'>{formatForecastDatumTemps(forecastDatum)}</p>
 					<div className='daily-forecast-datum-precipitation-wrapper'>
 						{imageForWeatherCode(precipitationIconByWeatherCode(forecastDatum.weatherCode, true))}
-						<p className='daily-forecast-datum-precipitation-chance'>{`${forecastDatum.precipitationChance}%`}</p>
+						<p className='daily-forecast-datum-precipitation-chance'>
+							{forecastDatum.precipitationChance === 0 ? '' : `${forecastDatum.precipitationChance}%`}
+						</p>
 					</div>
 					<div className='daily-forecast-datum-wind-data-wrapper'>
 						<div className='daily-forecast-datum-wind-direction'>
