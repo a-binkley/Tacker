@@ -1,20 +1,18 @@
 import { useDispatch, useSelector } from 'react-redux';
 
+import { MeatballNav, PageTab, UnitSelector } from '.';
+import { GeneralUnitType, setSearchMode, updateViewingIndex } from '../app/stationData';
 import {
 	AirQualityDisplay,
 	CurrWeatherDisplay,
 	DailyForecastDisplay,
 	HourlyForecastDisplay,
-	MeatballNav,
-	PageTab,
 	SunriseSunsetDisplay,
 	TemperatureDisplay,
-	UnitSelector,
 	VisibilityDisplay,
 	WaterLevelChart,
 	WindRing
-} from '.';
-import { GeneralUnitType, setSearchMode, updateViewingIndex } from '../app/stationData';
+} from './cardWindows';
 import { StationInfo } from '../functions';
 import { RootState } from '../pages';
 

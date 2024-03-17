@@ -1,12 +1,12 @@
 import { useMemo } from 'react';
 import { AxisOptions, Chart } from 'react-charts';
 
-import { TideData, TideDataFormatted, calculateAvgForInterval } from '../functions';
+import { TideData, TideDataFormatted, calculateAvgForInterval } from '../../functions';
 
 import './WaterLevelChart.css';
 import { useSelector } from 'react-redux';
-import { GeneralUnitType } from '../app/stationData';
-import { RootState } from '../pages';
+import { GeneralUnitType } from '../../app/stationData';
+import { RootState } from '../../pages';
 
 export type LevelsChartProps = { data: TideData[]; isDay: boolean };
 

@@ -1,4 +1,4 @@
-import { imageForWeatherCode, precipitationIconByWeatherCode } from '../functions';
+import { imageForWeatherCode, precipitationIconByWeatherCode } from '../../functions';
 
 import './CurrWeatherDisplay.css';
 

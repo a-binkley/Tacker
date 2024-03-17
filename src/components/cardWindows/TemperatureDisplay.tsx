@@ -1,5 +1,5 @@
-import { GeneralUnitType } from '../app/stationData';
-import { fahrenheitToCelcius } from '../functions';
+import { GeneralUnitType } from '../../app/stationData';
+import { fahrenheitToCelcius } from '../../functions';
 
 import './TemperatureDisplay.css';
 

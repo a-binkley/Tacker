@@ -1,7 +1,7 @@
 import { useSelector } from 'react-redux';
-import { WindspeedUnitType } from '../app/stationData';
-import { convertWindSpeed, WindInfo } from '../functions';
-import { RootState } from '../pages';
+import { WindspeedUnitType } from '../../app/stationData';
+import { convertWindSpeed, WindInfo } from '../../functions';
+import { RootState } from '../../pages';
 
 import './WindRing.css';
 

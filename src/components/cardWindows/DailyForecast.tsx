@@ -1,14 +1,14 @@
 import { useSelector } from 'react-redux';
 
-import { GeneralUnitType, WindspeedUnitType } from '../app/stationData';
+import { GeneralUnitType, WindspeedUnitType } from '../../app/stationData';
 import {
 	convertWindSpeed,
 	DailyForecast,
 	fahrenheitToCelcius,
 	imageForWeatherCode,
 	precipitationIconByWeatherCode
-} from '../functions';
-import { RootState } from '../pages';
+} from '../../functions';
+import { RootState } from '../../pages';
 
 import './DailyForecast.css';
 

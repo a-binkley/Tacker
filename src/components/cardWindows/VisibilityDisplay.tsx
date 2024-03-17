@@ -1,4 +1,4 @@
-import { GeneralUnitType } from '../app/stationData';
+import { GeneralUnitType } from '../../app/stationData';
 
 import './VisibilityDisplay.css';
 

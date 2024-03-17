@@ -1,8 +1,8 @@
 import { useSelector } from 'react-redux';
 
-import { GeneralUnitType, WindspeedUnitType } from '../app/stationData';
-import { HourlyForecast, convertWindSpeed, imageForWeatherCode, precipitationIconByWeatherCode } from '../functions';
-import { RootState } from '../pages';
+import { GeneralUnitType, WindspeedUnitType } from '../../app/stationData';
+import { HourlyForecast, convertWindSpeed, imageForWeatherCode, precipitationIconByWeatherCode } from '../../functions';
+import { RootState } from '../../pages';
 
 import './HourlyForecastDisplay.css';
 
