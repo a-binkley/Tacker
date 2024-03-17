@@ -74,6 +74,7 @@ export function Home() {
 				<div className='home-loading-wrapper'>
 					<p className='home-loading-label'>Fetching weather data...</p>
 					<div className='home-loading-spinner' />
+					{'' && searchMode}
 				</div>
 			)}
 		</div>

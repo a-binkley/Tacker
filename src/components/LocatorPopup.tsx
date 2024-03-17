@@ -35,18 +35,16 @@ export function LocatorPopup() {
 	};
 
 	const mapStyle: CSSProperties = {
-			height: 'calc(100vh - 80px)',
-			width: 'calc(100vw - 80px)',
-			top: '40px',
-			left: '40px'
+			height: '100vh',
+			width: '100vw'
 		},
 		continueBtnStyle: CSSProperties = {
 			position: 'absolute',
 			borderRadius: '10px',
-			bottom: '50px',
-			left: 'calc(50% - 7em)',
+			bottom: '20px',
+			left: 'calc(50% - 2.5em)',
 			height: 'max-content',
-			width: '14em',
+			width: '5em',
 			fontSize: '1.4em',
 			zIndex: 500,
 			cursor: 'pointer',
@@ -56,7 +54,7 @@ export function LocatorPopup() {
 	return (
 		<div style={{ height: '100vh', width: '100vw' }}>
 			<button style={continueBtnStyle} onClick={() => dispatch(setSearchMode('display'))}>
-				{'Continue to forecasts >'}
+				Done
 			</button>
 			<MapContainer
 				center={[45.4, -84.4]} // Approximately center to all five lakes
