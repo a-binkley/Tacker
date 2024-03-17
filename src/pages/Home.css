@@ -34,3 +34,10 @@
 	cursor: pointer;
 	transition: all 0.5s;
 }
+
+.floating-window {
+	border: 2px solid black;
+	border-radius: 20px;
+	backdrop-filter: blur(20px);
+	background: #fff4;
+}

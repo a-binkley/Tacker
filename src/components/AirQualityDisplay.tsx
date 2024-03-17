@@ -28,7 +28,7 @@ export function AirQualityDisplay(props: { data: number }) {
 	];
 
 	return (
-		<div className='air-quality-wrapper'>
+		<div className='air-quality-wrapper floating-window'>
 			<p className='air-quality-label'>Air Quality (U.S. AQI)</p>
 			<img className='air-quality-meter' src={process.env.PUBLIC_URL + '/img/AQIMeter.png'} alt='aqi meter' />
 			<img

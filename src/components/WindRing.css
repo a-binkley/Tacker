@@ -9,12 +9,9 @@
 
 .wind-info-wrapper {
 	position: relative;
-	border: 2px solid black;
-	border-radius: 50%;
+	border-radius: 50% !important;
 	height: var(--compass-diameter);
 	width: var(--compass-diameter);
-	backdrop-filter: blur(20px);
-	background: #fff4;
 }
 
 .compass-ring {

@@ -1,10 +1,6 @@
 .hourly-forecast-wrapper {
 	position: relative;
-	border: 2px solid black;
-	border-radius: 20px;
 	width: 84%;
-	backdrop-filter: blur(20px);
-	background: #fff4;
 	display: flex;
 	overflow-x: hidden;
 }

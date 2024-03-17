@@ -11,12 +11,8 @@
 
 .air-quality-wrapper {
 	position: relative;
-	border: 2px solid black;
 	height: 300px;
 	width: 300px;
-	border-radius: 20px;
-	backdrop-filter: blur(20px);
-	background: #fff4;
 }
 
 .air-quality-label {

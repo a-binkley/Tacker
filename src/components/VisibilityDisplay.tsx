@@ -7,7 +7,7 @@ export function VisibilityDisplay(props: { data: number; units: GeneralUnitType 
 	const visibilityUnit = props.units === 'english' ? 'miles' : 'km';
 
 	return (
-		<div className='visibility-wrapper'>
+		<div className='visibility-wrapper floating-window'>
 			<div className='visibility-label-wrapper'>
 				<i className='bi bi-eye' />
 				<p className='visibility-label'>Visibility</p>

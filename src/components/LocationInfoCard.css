@@ -96,6 +96,11 @@
 	align-items: center;
 }
 
+.weather-temp-row-wrapper {
+	position: relative;
+	display: flex;
+}
+
 .predicted-conditions-wrapper {
 	position: relative;
 	height: 50%;

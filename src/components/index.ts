@@ -1,4 +1,5 @@
 export * from './AirQualityDisplay';
+export * from './CurrWeatherDisplay';
 export * from './DailyForecast';
 export * from './HourlyForecastDisplay';
 export * from './LocationInfoCard';

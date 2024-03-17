@@ -2,6 +2,7 @@ import { useDispatch, useSelector } from 'react-redux';
 
 import {
 	AirQualityDisplay,
+	CurrWeatherDisplay,
 	DailyForecastDisplay,
 	HourlyForecastDisplay,
 	MeatballNav,
@@ -65,7 +66,7 @@ export function LocationInfoCard(props: { id: string; data: StationInfo }) {
 				<div className='current-conditions-wrapper'>
 					<div className='all-temp-wrapper'>
 						<SunriseSunsetDisplay data={{ sunrise: props.data.todaySunrise, sunset: props.data.todaySunset }} />
-						<div className='air-temp-info-wrapper'>
+						<div className='air-temp-info-wrapper floating-window'>
 							<TemperatureDisplay
 								type='air-actual'
 								label='Air Temp (actual)'
@@ -80,17 +81,19 @@ export function LocationInfoCard(props: { id: string; data: StationInfo }) {
 								units={generalUnitType}
 							/>
 						</div>
-						<TemperatureDisplay
-							type='water'
-							label='Water Temp'
-							data={props.data.now.waterTemperature}
-							units={generalUnitType}
-						/>
+						<div className='weather-temp-row-wrapper'>
+							<CurrWeatherDisplay data={props.data.now.weatherCode} />
+							<TemperatureDisplay
+								type='water floating-window'
+								label='Water Temp'
+								data={props.data.now.waterTemperature}
+								units={generalUnitType}
+							/>
+						</div>
 					</div>
 					<WindRing {...props.data.now.wind} />
 					<div className='air-particle-data-wrapper'>
 						<AirQualityDisplay data={props.data.now.airQuality} />
-						{/* TODO: add current weather conditions */}
 						<VisibilityDisplay data={Math.round(props.data.now.visibility)} units={generalUnitType} />
 					</div>
 				</div>

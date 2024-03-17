@@ -1,13 +1,9 @@
 .sunrise-sunset-wrapper {
 	position: relative;
-	border: 2px solid black;
-	border-radius: 20px;
 	display: flex;
 	justify-content: space-evenly;
 	align-items: center;
 	height: 5vh;
-	backdrop-filter: blur(20px);
-	background: #fff4;
 }
 
 .sunrise-sunset-separator {

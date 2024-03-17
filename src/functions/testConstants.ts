@@ -630,10 +630,7 @@ export const expectedStationData = {
 			airTemperature: apiResponsesOpenMeteoAtmos['9075080'].current.temperature_2m,
 			airTemperatureApparent: apiResponsesOpenMeteoAtmos['9075080'].current.apparent_temperature,
 			cloudiness: apiResponsesOpenMeteoAtmos['9075080'].current.cloudcover,
-			precipitation: {
-				type: 'TODO',
-				chance: apiResponsesOpenMeteoAtmos['9075080'].current.precipitation
-			},
+			precipitationChance: apiResponsesOpenMeteoAtmos['9075080'].current.precipitation,
 			wind: {
 				baseSpeed: apiResponsesOpenMeteoAtmos['9075080'].current.windspeed_10m,
 				gustSpeed: apiResponsesOpenMeteoAtmos['9075080'].current.windgusts_10m,
@@ -644,6 +641,7 @@ export const expectedStationData = {
 			},
 			isDay: apiResponsesOpenMeteoAtmos['9075080'].current.is_day === 1,
 			waterTemperature: 'data' in apiResponsesWaterTemp['9075080'] ? apiResponsesWaterTemp['9075080'].data[0].v : undefined,
+			weatherCode: '3',
 			tideHistory: apiResponsesWaterLevel['9075080'].data,
 			visibility: apiResponsesOpenMeteoAtmos['9075080'].current.visibility,
 			airQuality: apiResponsesAQI['9075080'].current.us_aqi
@@ -660,10 +658,7 @@ export const expectedStationData = {
 			airTemperature: apiResponsesOpenMeteoAtmos['9014087'].current.temperature_2m,
 			airTemperatureApparent: apiResponsesOpenMeteoAtmos['9014087'].current.apparent_temperature,
 			cloudiness: apiResponsesOpenMeteoAtmos['9014087'].current.cloudcover,
-			precipitation: {
-				type: 'TODO',
-				chance: apiResponsesOpenMeteoAtmos['9014087'].current.precipitation
-			},
+			precipitationChance: apiResponsesOpenMeteoAtmos['9014087'].current.precipitation,
 			wind: {
 				baseSpeed: apiResponsesOpenMeteoAtmos['9014087'].current.windspeed_10m,
 				gustSpeed: apiResponsesOpenMeteoAtmos['9014087'].current.windgusts_10m,
@@ -674,6 +669,7 @@ export const expectedStationData = {
 			},
 			isDay: apiResponsesOpenMeteoAtmos['9014087'].current.is_day === 1,
 			waterTemperature: undefined,
+			weatherCode: '3',
 			tideHistory: apiResponsesWaterLevel['9014087'].data,
 			visibility: apiResponsesOpenMeteoAtmos['9014087'].current.visibility,
 			airQuality: apiResponsesAQI['9014087'].current.us_aqi
@@ -693,10 +689,7 @@ export const expectedStationDataAlt = {
 			airTemperature: apiResponseOpenMeteoAtmosAlt['9014087'].current.temperature_2m,
 			airTemperatureApparent: apiResponseOpenMeteoAtmosAlt['9014087'].current.apparent_temperature,
 			cloudiness: apiResponseOpenMeteoAtmosAlt['9014087'].current.cloudcover,
-			precipitation: {
-				type: 'TODO',
-				chance: apiResponseOpenMeteoAtmosAlt['9014087'].current.precipitation
-			},
+			precipitationChance: apiResponseOpenMeteoAtmosAlt['9014087'].current.precipitation,
 			wind: {
 				baseSpeed: apiResponseOpenMeteoAtmosAlt['9014087'].current.windspeed_10m,
 				gustSpeed: apiResponseOpenMeteoAtmosAlt['9014087'].current.windgusts_10m,
@@ -707,6 +700,7 @@ export const expectedStationDataAlt = {
 			},
 			isDay: apiResponseOpenMeteoAtmosAlt['9014087'].current.is_day === 1,
 			waterTemperature: undefined,
+			weatherCode: '3',
 			tideHistory: apiResponsesWaterLevel['9014087'].data,
 			visibility: apiResponseOpenMeteoAtmosAlt['9014087'].current.visibility,
 			airQuality: apiResponsesAQI['9014087'].current.us_aqi

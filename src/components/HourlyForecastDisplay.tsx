@@ -13,7 +13,7 @@ export function HourlyForecastDisplay(props: { data: HourlyForecast[] }) {
 	const tempUnit = generalUnitType === 'english' ? '°F' : '°C';
 
 	return (
-		<div className='hourly-forecast-wrapper'>
+		<div className='hourly-forecast-wrapper floating-window'>
 			{props.data.map((forecastDatum) => (
 				<div className='hourly-forecast-datum-wrapper' key={`hourly-forecast-datum-${forecastDatum.time}`}>
 					<p className='hourly-forecast-datum-label'>{forecastDatum.time}</p>

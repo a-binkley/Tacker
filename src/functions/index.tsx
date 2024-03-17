@@ -56,13 +56,11 @@ export type StationInfo = {
 		airTemperature: number;
 		airTemperatureApparent: number;
 		cloudiness: string;
-		precipitation: {
-			type: string;
-			chance: number;
-		};
+		precipitationChance: number;
 		wind: WindInfo;
 		isDay: boolean;
 		waterTemperature?: number;
+		weatherCode: string;
 		tideHistory: TideData[];
 		visibility: number; // Miles
 		airQuality: number; // PPM
@@ -118,6 +116,7 @@ const atmosParams = {
 		'precipitation',
 		'cloudcover',
 		'visibility',
+		'weather_code',
 		'windspeed_10m',
 		'winddirection_10m',
 		'windgusts_10m'
@@ -240,10 +239,7 @@ export async function retrieveLocationData({
 					airTemperature: responses[0].data.current.temperature_2m,
 					airTemperatureApparent: responses[0].data.current.apparent_temperature,
 					cloudiness: responses[0].data.current.cloudcover,
-					precipitation: {
-						type: 'TODO',
-						chance: responses[0].data.current.precipitation
-					},
+					precipitationChance: responses[0].data.current.precipitation,
 					wind: {
 						baseSpeed: responses[0].data.current.windspeed_10m,
 						gustSpeed: responses[0].data.current.windgusts_10m,
@@ -254,6 +250,7 @@ export async function retrieveLocationData({
 					},
 					isDay: responses[0].data.current.is_day === 1,
 					waterTemperature: responses[2].data.data ? responses[2].data.data[0].v : undefined,
+					weatherCode: `${responses[0].data.weather_code}`,
 					tideHistory: responses[1].data.data,
 					visibility: responses[0].data.current.visibility,
 					airQuality: responses[3].data.current.us_aqi

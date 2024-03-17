@@ -22,7 +22,7 @@ export function WaterLevelChart(props: LevelsChartProps) {
 	const secondaryAxes = useMemo(
 		(): AxisOptions<TideDataFormatted>[] => [
 			{
-				getValue: (datum) => datum.v * (generalUnitType === 'english' ? 1 : 0.3048),
+				getValue: (datum) => datum.v * (generalUnitType === 'english' ? 1 : 0.3048), // convert to meters if needed
 				elementType: 'line'
 			}
 		],
@@ -40,7 +40,7 @@ export function WaterLevelChart(props: LevelsChartProps) {
 	);
 
 	return (
-		<div className={`water-level-chart-wrapper water-chart-${props.isDay ? 'day' : 'night'}`}>
+		<div className={`water-level-chart-wrapper floating-window water-chart-${props.isDay ? 'day' : 'night'}`}>
 			<Chart
 				className='water-level-chart'
 				options={{
