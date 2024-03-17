@@ -99,6 +99,8 @@
 .weather-temp-row-wrapper {
 	position: relative;
 	display: flex;
+	justify-content: center;
+	gap: 20px;
 }
 
 .predicted-conditions-wrapper {
@@ -109,7 +111,6 @@
 
 .predicted-weather-wrapper {
 	position: absolute;
-	/* border: 2px dashed red; */
 	display: flex;
 	flex-direction: column;
 	justify-content: space-evenly;

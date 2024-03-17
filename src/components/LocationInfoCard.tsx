@@ -82,7 +82,7 @@ export function LocationInfoCard(props: { id: string; data: StationInfo }) {
 							/>
 						</div>
 						<div className='weather-temp-row-wrapper'>
-							<CurrWeatherDisplay data={props.data.now.weatherCode} />
+							<CurrWeatherDisplay data={props.data.now.weatherCode} isDay={props.data.now.isDay} />
 							<TemperatureDisplay
 								type='water floating-window'
 								label='Water Temp'

@@ -1,7 +1,7 @@
 import { useSelector } from 'react-redux';
 
 import { GeneralUnitType, WindspeedUnitType } from '../app/stationData';
-import { HourlyForecast, convertWindSpeed, precipitationIconByWeatherCode } from '../functions';
+import { HourlyForecast, convertWindSpeed, imageForWeatherCode, precipitationIconByWeatherCode } from '../functions';
 import { RootState } from '../pages';
 
 import './HourlyForecastDisplay.css';
@@ -19,7 +19,7 @@ export function HourlyForecastDisplay(props: { data: HourlyForecast[] }) {
 					<p className='hourly-forecast-datum-label'>{forecastDatum.time}</p>
 					<p className='hourly-forecast-datum-temp'>{`${Math.round(forecastDatum.temp)} ${tempUnit}`}</p>
 					<div className='hourly-forecast-datum-weather-icon-wrapper'>
-						{precipitationIconByWeatherCode(forecastDatum.weatherCode, forecastDatum.isDay)}
+						{imageForWeatherCode(precipitationIconByWeatherCode(forecastDatum.weatherCode, forecastDatum.isDay))}
 					</div>
 					<div className='hourly-forecast-datum-wind-data-wrapper'>
 						<div className='hourly-forecast-datum-wind-direction'>

@@ -60,7 +60,7 @@ export type StationInfo = {
 		wind: WindInfo;
 		isDay: boolean;
 		waterTemperature?: number;
-		weatherCode: string;
+		weatherCode: number;
 		tideHistory: TideData[];
 		visibility: number; // Miles
 		airQuality: number; // PPM
@@ -250,7 +250,7 @@ export async function retrieveLocationData({
 					},
 					isDay: responses[0].data.current.is_day === 1,
 					waterTemperature: responses[2].data.data ? responses[2].data.data[0].v : undefined,
-					weatherCode: `${responses[0].data.weather_code}`,
+					weatherCode: responses[0].data.current.weather_code,
 					tideHistory: responses[1].data.data,
 					visibility: responses[0].data.current.visibility,
 					airQuality: responses[3].data.current.us_aqi
@@ -336,23 +336,35 @@ export function parseForecastedData(data: {
 	return { forecastHourly, forecastDaily };
 }
 
+export type WMOInfo = {
+	description: string;
+	image: string;
+};
+
 /**
  * Fetches the correct weather icon based on provided parameters
  * @param weatherCode the WMO weather code to look for
  * @param isDay whether the icon should be for day or night
  * @returns an <img> element containing the relevant icon
  */
-export function precipitationIconByWeatherCode(weatherCode: number, isDay: boolean): JSX.Element {
+export function precipitationIconByWeatherCode(weatherCode: number, isDay: boolean): WMOInfo | null {
 	const weatherCodes = wmoCodes as {
-		[key: string]: { day: { description: string; image: string }; night: { description: string; image: string } };
+		[key: string]: { day: WMOInfo; night: WMOInfo };
 	};
 
 	if (Object.keys(weatherCodes).includes(`${weatherCode}`)) {
-		return <img className='daily-forecast-datum-wmo-icon' src={weatherCodes[weatherCode][isDay ? 'day' : 'night'].image} />;
+		return {
+			description: weatherCodes[weatherCode][isDay ? 'day' : 'night'].description,
+			image: weatherCodes[weatherCode][isDay ? 'day' : 'night'].image
+		};
 	} else {
 		console.error(`Invalid WMO code provided for forecast: ${weatherCode}`);
-		return <img className='daily-forecast-datum-wmo-icon' alt='??' />;
+		return null;
 	}
+}
+
+export function imageForWeatherCode(weatherCode: WMOInfo | null) {
+	return <img className='daily-forecast-datum-wmo-icon' src={weatherCode !== null ? weatherCode.image : ''} alt='??' />;
 }
 
 /**

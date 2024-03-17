@@ -1,7 +1,13 @@
 import { useSelector } from 'react-redux';
 
 import { GeneralUnitType, WindspeedUnitType } from '../app/stationData';
-import { convertWindSpeed, DailyForecast, fahrenheitToCelcius, precipitationIconByWeatherCode } from '../functions';
+import {
+	convertWindSpeed,
+	DailyForecast,
+	fahrenheitToCelcius,
+	imageForWeatherCode,
+	precipitationIconByWeatherCode
+} from '../functions';
 import { RootState } from '../pages';
 
 import './DailyForecast.css';
@@ -26,7 +32,7 @@ export function DailyForecastDisplay(props: { data: DailyForecast[] }) {
 					<p className='daily-forecast-datum-label'>{index === 0 ? 'Today' : forecastDatum.date}</p>
 					<p className='daily-forecast-datum-temps'>{formatForecastDatumTemps(forecastDatum)}</p>
 					<div className='daily-forecast-datum-precipitation-wrapper'>
-						{precipitationIconByWeatherCode(forecastDatum.weatherCode, true)}
+						{imageForWeatherCode(precipitationIconByWeatherCode(forecastDatum.weatherCode, true))}
 						<p className='daily-forecast-datum-precipitation-chance'>{`${forecastDatum.precipitationChance}%`}</p>
 					</div>
 					<div className='daily-forecast-datum-wind-data-wrapper'>

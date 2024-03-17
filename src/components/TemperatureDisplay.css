@@ -4,15 +4,14 @@
 	flex-direction: column;
 	justify-content: space-evenly;
 	height: 80%;
-	width: 20vw;
+	width: max-content;
 }
 
 .air-temp-info-wrapper {
 	position: relative;
 	display: flex;
 	justify-content: space-evenly;
-	width: 90%;
-	left: 5%;
+	width: max-content;
 }
 
 .air-temp-separator {
@@ -30,26 +29,26 @@
 }
 
 .water {
-	left: 25%;
-	width: 50%;
+	width: max-content;
 }
 
 .temp-label {
+	width: max-content;
 	font-size: 1.3rem;
-	margin: 10px 0 0;
+	margin: 10px 20px;
 }
 
 .temp-data {
 	font-size: 5rem;
 	display: inline;
-	margin: 0;
+	margin: 0 0 0 20px;
 }
 
 .temp-units {
 	position: relative;
 	font-size: 2rem;
 	display: inline;
-	margin: 0;
+	margin: 0 20px 0 0;
 	bottom: 2rem;
 	left: 6px;
 }
