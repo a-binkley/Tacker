@@ -364,7 +364,7 @@ export function precipitationIconByWeatherCode(weatherCode: number, isDay: boole
 }
 
 export function imageForWeatherCode(weatherCode: WMOInfo | null) {
-	return <img className='daily-forecast-datum-wmo-icon' src={weatherCode !== null ? weatherCode.image : ''} alt='??' />;
+	return <img className='wmo-icon' src={weatherCode !== null ? weatherCode.image : ''} alt='??' />;
 }
 
 /**
