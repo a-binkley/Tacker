@@ -70,8 +70,11 @@ export function Home() {
 					key={`LocationCard-${viewingIndex}`}
 				/>
 			) : (
-				// TODO: make more robust
-				<div>{'' && console.log(searchMode)}</div>
+				// Loading spinner while API requests complete
+				<div className='home-loading-wrapper'>
+					<p className='home-loading-label'>Fetching weather data...</p>
+					<div className='home-loading-spinner' />
+				</div>
 			)}
 		</div>
 	);
