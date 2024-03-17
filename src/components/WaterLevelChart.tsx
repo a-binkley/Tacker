@@ -1,16 +1,18 @@
 import { useMemo } from 'react';
 import { AxisOptions, Chart } from 'react-charts';
 
-import { TideDataFormatted, LevelsChartProps, calculateAvgForInterval } from '../functions';
+import { TideData, TideDataFormatted, calculateAvgForInterval } from '../functions';
 
 import './WaterLevelChart.css';
 import { useSelector } from 'react-redux';
 import { GeneralUnitType } from '../app/stationData';
 import { RootState } from '../pages';
 
+export type LevelsChartProps = { data: TideData[]; isDay: boolean };
+
 export function WaterLevelChart(props: LevelsChartProps) {
 	const generalUnitType = useSelector<RootState, GeneralUnitType>((state) => state.generalUnit);
-	const cleanedData = calculateAvgForInterval(props);
+	const cleanedData = calculateAvgForInterval(props.data);
 
 	const primaryAxis = useMemo(
 		(): AxisOptions<TideDataFormatted> => ({

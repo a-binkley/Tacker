@@ -56,7 +56,6 @@ export type StationInfo = {
 		airTemperature: number;
 		airTemperatureApparent: number;
 		cloudiness: string;
-		precipitationChance: number;
 		wind: WindInfo;
 		isDay: boolean;
 		waterTemperature?: number;
@@ -113,7 +112,6 @@ const atmosParams = {
 		'temperature_2m',
 		'apparent_temperature',
 		'is_day',
-		'precipitation',
 		'cloudcover',
 		'visibility',
 		'weather_code',
@@ -239,7 +237,6 @@ export async function retrieveLocationData({
 					airTemperature: responses[0].data.current.temperature_2m,
 					airTemperatureApparent: responses[0].data.current.apparent_temperature,
 					cloudiness: responses[0].data.current.cloudcover,
-					precipitationChance: responses[0].data.current.precipitation,
 					wind: {
 						baseSpeed: responses[0].data.current.windspeed_10m,
 						gustSpeed: responses[0].data.current.windgusts_10m,

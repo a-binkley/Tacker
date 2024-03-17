@@ -119,7 +119,6 @@ type ApiResponseTypeOpenMeteo = {
 		temperature_2m: number;
 		apparent_temperature: number;
 		is_day: 0 | 1;
-		precipitation: number;
 		cloudcover: number;
 		visibility: number;
 		windspeed_10m: number;
@@ -198,7 +197,6 @@ export const apiResponsesOpenMeteoAtmos: { [id: string]: ApiResponseTypeOpenMete
 			temperature_2m: 23.1,
 			apparent_temperature: 15.0,
 			is_day: 1,
-			precipitation: 0.0,
 			cloudcover: 100,
 			visibility: 79068.242,
 			windspeed_10m: 5.6,
@@ -291,7 +289,6 @@ export const apiResponsesOpenMeteoAtmos: { [id: string]: ApiResponseTypeOpenMete
 			temperature_2m: 32.1,
 			apparent_temperature: 23.4,
 			is_day: 1,
-			precipitation: 0.0,
 			cloudcover: 100,
 			visibility: 155839.891,
 			windspeed_10m: 6.1,
@@ -387,7 +384,6 @@ export const apiResponseOpenMeteoAtmosAlt: { [id: string]: ApiResponseTypeOpenMe
 			temperature_2m: 0.2,
 			apparent_temperature: -4.6,
 			is_day: 1,
-			precipitation: 0.0,
 			cloudcover: 100,
 			visibility: 48200.0,
 			windspeed_10m: 9.5,
@@ -630,7 +626,6 @@ export const expectedStationData = {
 			airTemperature: apiResponsesOpenMeteoAtmos['9075080'].current.temperature_2m,
 			airTemperatureApparent: apiResponsesOpenMeteoAtmos['9075080'].current.apparent_temperature,
 			cloudiness: apiResponsesOpenMeteoAtmos['9075080'].current.cloudcover,
-			precipitationChance: apiResponsesOpenMeteoAtmos['9075080'].current.precipitation,
 			wind: {
 				baseSpeed: apiResponsesOpenMeteoAtmos['9075080'].current.windspeed_10m,
 				gustSpeed: apiResponsesOpenMeteoAtmos['9075080'].current.windgusts_10m,
@@ -658,7 +653,6 @@ export const expectedStationData = {
 			airTemperature: apiResponsesOpenMeteoAtmos['9014087'].current.temperature_2m,
 			airTemperatureApparent: apiResponsesOpenMeteoAtmos['9014087'].current.apparent_temperature,
 			cloudiness: apiResponsesOpenMeteoAtmos['9014087'].current.cloudcover,
-			precipitationChance: apiResponsesOpenMeteoAtmos['9014087'].current.precipitation,
 			wind: {
 				baseSpeed: apiResponsesOpenMeteoAtmos['9014087'].current.windspeed_10m,
 				gustSpeed: apiResponsesOpenMeteoAtmos['9014087'].current.windgusts_10m,
@@ -689,7 +683,6 @@ export const expectedStationDataAlt = {
 			airTemperature: apiResponseOpenMeteoAtmosAlt['9014087'].current.temperature_2m,
 			airTemperatureApparent: apiResponseOpenMeteoAtmosAlt['9014087'].current.apparent_temperature,
 			cloudiness: apiResponseOpenMeteoAtmosAlt['9014087'].current.cloudcover,
-			precipitationChance: apiResponseOpenMeteoAtmosAlt['9014087'].current.precipitation,
 			wind: {
 				baseSpeed: apiResponseOpenMeteoAtmosAlt['9014087'].current.windspeed_10m,
 				gustSpeed: apiResponseOpenMeteoAtmosAlt['9014087'].current.windgusts_10m,

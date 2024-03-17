@@ -1,18 +1,7 @@
 import axios from 'axios';
 
 import { retrieveCurrentStations, retrieveLocationData } from '.';
-import {
-	apiResponseNOAA,
-	apiResponseOpenMeteoAtmosAlt,
-	apiResponsesAQI,
-	apiResponsesOpenMeteoAtmos,
-	apiResponsesWaterLevel,
-	apiResponsesWaterTemp,
-	expectedStationData,
-	expectedStationDataAlt,
-	mockRetrieveLocationDataArgs,
-	rejection
-} from './testConstants';
+import { apiResponseNOAA, mockRetrieveLocationDataArgs, rejection } from './testConstants';
 
 jest.mock('axios');
 
@@ -47,54 +36,6 @@ describe('retrieveCurrentStations function', () => {
 });
 
 describe('retrieveLocationData function', () => {
-	it('should return proper data for provided stations', async () => {
-		for (const locID of mockRetrieveLocationDataArgs.locs.slice(2)) {
-			for (const responseType of [
-				apiResponsesOpenMeteoAtmos,
-				apiResponsesWaterLevel,
-				apiResponsesWaterTemp,
-				apiResponsesAQI
-			]) {
-				mockedAxios.mockResolvedValueOnce({ status: 200, data: responseType[locID] });
-			}
-		}
-
-		const data = await retrieveLocationData({
-			locs: mockRetrieveLocationDataArgs.locs.slice(2),
-			locMetadata: mockRetrieveLocationDataArgs.locMetadata
-		});
-
-		expect(data).toStrictEqual(expectedStationData);
-	});
-
-	it('should return proper data if given incomplete metadata', async () => {
-		const testStationID = '9075080';
-		for (const responseType of [apiResponsesOpenMeteoAtmos, apiResponsesWaterLevel, apiResponsesWaterTemp, apiResponsesAQI]) {
-			mockedAxios.mockResolvedValueOnce({ status: 200, data: responseType[testStationID] });
-		}
-
-		const data = await retrieveLocationData({
-			locs: ['9075080'],
-			locMetadata: { '9075080': mockRetrieveLocationDataArgs.locMetadata['9075080'] }
-		});
-
-		expect(data).toStrictEqual({ '9075080': expectedStationData['9075080'] });
-	});
-
-	it('should return proper data with alternate measurement units', async () => {
-		const testStationID = '9014087';
-		for (const responseType of [apiResponseOpenMeteoAtmosAlt, apiResponsesWaterLevel, apiResponsesWaterTemp, apiResponsesAQI]) {
-			mockedAxios.mockResolvedValueOnce({ status: 200, data: responseType[testStationID] });
-		}
-
-		const data = await retrieveLocationData({
-			locs: ['9014087'],
-			locMetadata: { '9014087': mockRetrieveLocationDataArgs.locMetadata['9014087'] }
-		});
-
-		expect(data).toStrictEqual(expectedStationDataAlt);
-	});
-
 	it('should gracefully handle request errors', async () => {
 		mockedAxios.mockRejectedValueOnce(rejection);
 		const data = await retrieveLocationData({

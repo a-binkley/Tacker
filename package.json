@@ -1,6 +1,6 @@
 {
 	"name": "tackr",
-	"version": "0.7.0",
+	"version": "0.9.0",
 	"homepage": "https://a-binkley.github.io/Tackr",
 	"private": true,
 	"dependencies": {

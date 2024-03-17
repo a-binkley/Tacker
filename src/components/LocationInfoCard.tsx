@@ -102,7 +102,7 @@ export function LocationInfoCard(props: { id: string; data: StationInfo }) {
 						<HourlyForecastDisplay data={props.data.forecastHourly} />
 						<DailyForecastDisplay data={props.data.forecastDaily} />
 					</div>
-					<WaterLevelChart data={props.data.now.tideHistory} interval={60} isDay={props.data.now.isDay} />
+					<WaterLevelChart data={props.data.now.tideHistory} isDay={props.data.now.isDay} />
 				</div>
 			</div>
 			<PageTab direction='left' display={viewingIndex !== 0} onClick={() => dispatch(updateViewingIndex(-1))} />
