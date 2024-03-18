@@ -1,20 +1,30 @@
+:root {
+	--border-width: 2px;
+}
+
 .hourly-forecast-wrapper {
 	position: relative;
-	width: 84%;
+	width: calc(8 * (4.5em + var(--border-width)) - var(--border-width));
 	display: flex;
 	justify-content: space-between;
-	overflow-x: hidden;
+	overflow-x: scroll;
+	-ms-overflow-style: none;
+	scrollbar-width: none;
+}
+
+.hourly-forecast-wrapper::-webkit-scrollbar {
+	display: none;
 }
 
 .hourly-forecast-datum-wrapper:not(:last-of-type) {
-	border-right: 2px solid #0005;
+	border-right: var(--border-width) solid #0006;
 }
 
 .hourly-forecast-datum-label {
 	position: relative;
 	margin: 0;
 	padding: 5px 0;
-	border-bottom: 2px solid #0005;
+	border-bottom: var(--border-width) solid #0002;
 	font-size: 1.2em;
 }
 

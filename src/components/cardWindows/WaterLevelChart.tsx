@@ -13,6 +13,7 @@ export type LevelsChartProps = { data: TideData[]; isDay: boolean };
 export function WaterLevelChart(props: LevelsChartProps) {
 	const generalUnitType = useSelector<RootState, GeneralUnitType>((state) => state.generalUnit);
 	const cleanedData = calculateAvgForInterval(props.data);
+	const chartLabel = `Water Level (${generalUnitType === 'english' ? 'feet' : 'meters'} above LWD)`;
 
 	const primaryAxis = useMemo(
 		(): AxisOptions<TideDataFormatted> => ({
@@ -34,7 +35,7 @@ export function WaterLevelChart(props: LevelsChartProps) {
 	const data = useMemo(
 		() => [
 			{
-				label: `Water Level (${generalUnitType === 'english' ? 'feet' : 'meters'} above LWD)`,
+				label: chartLabel,
 				data: cleanedData
 			}
 		],
@@ -43,14 +44,17 @@ export function WaterLevelChart(props: LevelsChartProps) {
 
 	return (
 		<div className={`water-level-chart-wrapper floating-window water-chart-${props.isDay ? 'day' : 'night'}`}>
-			<Chart
-				className='water-level-chart unselectable'
-				options={{
-					data,
-					primaryAxis,
-					secondaryAxes
-				}}
-			/>
+			<p className='water-level-chart-label'>{chartLabel}</p>
+			<div className='water-level-data-wrapper'>
+				<Chart
+					className='water-level-chart unselectable'
+					options={{
+						data,
+						primaryAxis,
+						secondaryAxes
+					}}
+				/>
+			</div>
 		</div>
 	);
 }

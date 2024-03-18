@@ -5,6 +5,17 @@
 	width: 48%;
 }
 
+.water-level-chart-label {
+	font-size: 1.4em;
+	margin: 10px 0;
+}
+
+.water-level-data-wrapper {
+	left: 10px;
+	height: calc(100% - 1.4em - 30px);
+	width: calc(100% - 20px);
+}
+
 .tick line {
 	stroke: rgba(0, 0, 0, 0.2) !important;
 }

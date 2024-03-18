@@ -19,7 +19,7 @@
 }
 
 .daily-forecast-datum-wrapper:not(:last-of-type) {
-	border-bottom: 2px solid #0005;
+	border-bottom: 2px solid #0006;
 }
 
 .daily-forecast-datum-day-temp-wrapper,
@@ -36,14 +36,14 @@
 	width: 11em;
 	min-width: max-content;
 	padding-right: 20px;
-	border-right: 2px solid #0005;
+	border-right: 2px solid #0002;
 }
 
 .daily-forecast-datum-precipitation-wrapper {
 	height: 2.5em;
 	width: 7em;
 	padding-right: 30px;
-	border-right: 2px solid #0005;
+	border-right: 2px solid #0002;
 }
 
 .daily-forecast-datum-wind-data-wrapper {
