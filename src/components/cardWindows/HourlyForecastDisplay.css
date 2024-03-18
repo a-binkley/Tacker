@@ -5,19 +5,20 @@
 .hourly-forecast-wrapper {
 	position: relative;
 	width: calc(8 * (4.5em + var(--border-width)) - var(--border-width));
-	display: flex;
-	justify-content: space-between;
-	overflow-x: scroll;
-	-ms-overflow-style: none;
-	scrollbar-width: none;
-}
-
-.hourly-forecast-wrapper::-webkit-scrollbar {
-	display: none;
+	overflow-x: hidden;
 }
 
 .hourly-forecast-datum-wrapper:not(:last-of-type) {
 	border-right: var(--border-width) solid #0006;
+}
+
+.scrollbar-container {
+	display: flex;
+	justify-content: space-between;
+}
+
+.ps__rail-x:hover {
+	background-color: #eeea !important;
 }
 
 .hourly-forecast-datum-label {
