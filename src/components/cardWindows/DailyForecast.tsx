@@ -29,8 +29,10 @@ export function DailyForecastDisplay(props: { data: DailyForecast[] }) {
 		<div className='daily-forecast-wrapper unselectable floating-window'>
 			{props.data.map((forecastDatum, index) => (
 				<div className='daily-forecast-datum-wrapper' key={`daily-forecast-datum-${forecastDatum.date}`}>
-					<p className='daily-forecast-datum-label'>{index === 0 ? 'Today' : forecastDatum.date}</p>
-					<p className='daily-forecast-datum-temps'>{formatForecastDatumTemps(forecastDatum)}</p>
+					<div className='daily-forecast-datum-day-temp-wrapper'>
+						<p className='daily-forecast-datum-label'>{index === 0 ? 'Today' : forecastDatum.date}</p>
+						<p className='daily-forecast-datum-temps'>{formatForecastDatumTemps(forecastDatum)}</p>
+					</div>
 					<div className='daily-forecast-datum-precipitation-wrapper'>
 						{imageForWeatherCode(precipitationIconByWeatherCode(forecastDatum.weatherCode, true))}
 						<p className='daily-forecast-datum-precipitation-chance'>
@@ -51,8 +53,8 @@ export function DailyForecastDisplay(props: { data: DailyForecast[] }) {
 						<p className='daily-forecast-datum-wind-speed-number'>{`${Math.round(
 							convertWindSpeed(forecastDatum.wind.speed, windspeedUnitType)
 						)}`}</p>
+						<p className='daily-forecast-datum-wind-speed-unit'>{windspeedUnitType}</p>
 					</div>
-					<p className='daily-forecast-datum-wind-speed-unit'>{windspeedUnitType}</p>
 				</div>
 			))}
 		</div>
