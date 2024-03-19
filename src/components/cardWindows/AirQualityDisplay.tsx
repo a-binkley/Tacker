@@ -28,21 +28,21 @@ export function AirQualityDisplay(props: { data: number }) {
 	];
 
 	return (
-		<div className='air-quality-wrapper floating-window'>
-			<p className='air-quality-label unselectable'>Air Quality (U.S. AQI)</p>
+		<div className='air-quality-wrapper floating-window unselectable'>
+			<p className='air-quality-label'>Air Quality</p>
 			<img className='air-quality-meter' src={process.env.PUBLIC_URL + '/img/AQIMeter.png'} alt='aqi meter' />
 			<img
-				className='air-quality-needle unselectable'
+				className='air-quality-needle'
 				src={process.env.PUBLIC_URL + '/img/AQINeedlePoint.png'}
 				alt='aqi needle'
 				style={{
 					rotate: `${getNeedleAngle(props.data)}deg`
 				}}
 			/>
-			<h4 className='air-quality-number unselectable' style={{ fontSize: props.data < 100 ? '4rem' : '3rem' }}>
+			<h4 className='air-quality-number' style={{ fontSize: props.data < 100 ? '3.5em' : '3em' }}>
 				{props.data}
 			</h4>
-			<p className='air-quality-description unselectable'>{descriptions[Math.min(Math.floor(props.data / 50), 6)]}</p>
+			<p className='air-quality-description'>{descriptions[Math.min(Math.floor(props.data / 50), 6)]}</p>
 		</div>
 	);
 }
