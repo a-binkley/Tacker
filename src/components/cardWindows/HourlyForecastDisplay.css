@@ -79,3 +79,11 @@
 	margin: 0 0 10px 0;
 	cursor: default;
 }
+
+/* Phones and portrait-mode tablets */
+@media only screen and (max-width: 999px) {
+	.hourly-forecast-wrapper {
+		margin-top: 20px;
+		max-width: calc(100% - 4px);
+	}
+}
