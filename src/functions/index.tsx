@@ -59,7 +59,6 @@ export type StationInfo = {
 		cloudiness: string;
 		wind: WindInfo;
 		isDay: boolean;
-		waterTemperature?: number;
 		weatherCode: number;
 		tideHistory: TideData[];
 		visibility: number; // Miles
@@ -188,19 +187,6 @@ export async function retrieveLocationData({
 			}
 		});
 
-		const waterTempResponse = axios({
-			url: marine_url,
-			method: 'GET',
-			params: {
-				station: id,
-				date: 'latest',
-				product: 'water_temperature',
-				units: 'english', // degrees fahrenheit
-				time_zone: 'lst_ldt',
-				format: 'json'
-			}
-		});
-
 		const locationInfoResponseAQI = axios({
 			url: air_quality_url,
 			method: 'GET',
@@ -213,12 +199,7 @@ export async function retrieveLocationData({
 			withCredentials: false
 		});
 
-		promisesByStation[id] = Promise.all([
-			locationInfoResponseAtmos,
-			waterLevelResponse,
-			waterTempResponse,
-			locationInfoResponseAQI
-		]); // concurrently send all requests
+		promisesByStation[id] = Promise.all([locationInfoResponseAtmos, waterLevelResponse, locationInfoResponseAQI]); // concurrently send all requests
 	}
 
 	const out: DataSerializableType = {};
@@ -247,11 +228,10 @@ export async function retrieveLocationData({
 						}
 					},
 					isDay: responses[0].data.current.is_day === 1,
-					waterTemperature: responses[2].data.data ? responses[2].data.data[0].v : undefined,
 					weatherCode: responses[0].data.current.weather_code,
 					tideHistory: responses[1].data.data,
 					visibility: responses[0].data.current.visibility,
-					airQuality: responses[3].data.current.us_aqi
+					airQuality: responses[2].data.current.us_aqi
 				},
 				todaySunrise: responses[0].data.daily.sunrise[0].substring(11),
 				todaySunset: responses[0].data.daily.sunset[0].substring(11),

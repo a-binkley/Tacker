@@ -518,43 +518,6 @@ export const apiResponsesWaterLevel: { [id: string]: ApiResponseTypeWaterLevel }
 	}
 };
 
-type ApiResponseTypeWaterTemp = {
-	metadata: {
-		id: string;
-		name: string;
-		lat: string;
-		lon: string;
-	};
-	data: {
-		t: string;
-		v: string;
-		f: string;
-	}[];
-};
-
-export const apiResponsesWaterTemp: { [id: string]: ApiResponseTypeWaterTemp | { error: { message: string } } } = {
-	'9075080': {
-		metadata: {
-			id: '9075080',
-			name: 'Mackinaw City',
-			lat: '45.7772',
-			lon: '-84.7211'
-		},
-		data: [
-			{
-				t: '2024-02-16 13:36',
-				v: '32.2',
-				f: '0,0,0'
-			}
-		]
-	},
-	'9014087': {
-		error: {
-			message: 'No data was found. This product may not be offered at this station at the requested time.'
-		}
-	}
-};
-
 type ApiResponseTypeAQI = {
 	latitude: number;
 	longitude: number;
@@ -635,7 +598,6 @@ export const expectedStationData = {
 				}
 			},
 			isDay: apiResponsesOpenMeteoAtmos['9075080'].current.is_day === 1,
-			waterTemperature: 'data' in apiResponsesWaterTemp['9075080'] ? apiResponsesWaterTemp['9075080'].data[0].v : undefined,
 			weatherCode: '3',
 			tideHistory: apiResponsesWaterLevel['9075080'].data,
 			visibility: apiResponsesOpenMeteoAtmos['9075080'].current.visibility,
@@ -662,7 +624,6 @@ export const expectedStationData = {
 				}
 			},
 			isDay: apiResponsesOpenMeteoAtmos['9014087'].current.is_day === 1,
-			waterTemperature: undefined,
 			weatherCode: '3',
 			tideHistory: apiResponsesWaterLevel['9014087'].data,
 			visibility: apiResponsesOpenMeteoAtmos['9014087'].current.visibility,
@@ -692,7 +653,6 @@ export const expectedStationDataAlt = {
 				}
 			},
 			isDay: apiResponseOpenMeteoAtmosAlt['9014087'].current.is_day === 1,
-			waterTemperature: undefined,
 			weatherCode: '3',
 			tideHistory: apiResponsesWaterLevel['9014087'].data,
 			visibility: apiResponseOpenMeteoAtmosAlt['9014087'].current.visibility,

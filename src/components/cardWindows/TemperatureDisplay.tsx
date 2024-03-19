@@ -3,7 +3,7 @@ import { fahrenheitToCelcius } from '../../functions';
 
 import './TemperatureDisplay.css';
 
-export function TemperatureDisplay(props: { type: string; label: string; data?: number; units: GeneralUnitType }) {
+export function TemperatureDisplay(props: { label: string; data?: number; units: GeneralUnitType }) {
 	let tempData = '--',
 		tempUnits = '';
 	if (props.data !== undefined) {
@@ -17,10 +17,12 @@ export function TemperatureDisplay(props: { type: string; label: string; data?: 
 	}
 
 	return (
-		<div className={`temp-display-wrapper ${props.type}`}>
-			<p className='temp-label unselectable'>{props.label}</p>
-			<h4 className='temp-data unselectable'>{tempData}</h4>
-			<p className='temp-units unselectable'>{tempUnits}</p>
+		<div className='temp-display-wrapper unselectable'>
+			<p className='temp-label'>{props.label}</p>
+			<div className='temp-amount-wrapper'>
+				<h4 className='temp-data'>{tempData}</h4>
+				<p className='temp-units'>{tempUnits}</p>
+			</div>
 		</div>
 	);
 }
