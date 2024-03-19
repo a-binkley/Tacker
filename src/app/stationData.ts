@@ -17,7 +17,10 @@ export type StoreType = {
 	data: DataSerializableType;
 	generalUnit: GeneralUnitType;
 	windspeedUnit: WindspeedUnitType;
+	waveAnimation: boolean;
 };
+
+// TODO: add drag-and-drop reorder favorites
 
 const initFavorites: string[] = JSON.parse(localStorage.getItem('favoriteStations') ?? '[]'); // read from localStorage first, if present
 
@@ -28,7 +31,8 @@ const initialState: StoreType = {
 	metadata: {},
 	data: {},
 	generalUnit: (localStorage.getItem('generalUnit') as GeneralUnitType) ?? 'english',
-	windspeedUnit: (localStorage.getItem('windspeedUnit') as WindspeedUnitType) ?? 'mph'
+	windspeedUnit: (localStorage.getItem('windspeedUnit') as WindspeedUnitType) ?? 'mph',
+	waveAnimation: localStorage.getItem('waveAnimation') === 'true'
 };
 
 export const stationDataSlice = createSlice({
@@ -58,12 +62,24 @@ export const stationDataSlice = createSlice({
 		},
 		updateViewingIndex: (state, action) => {
 			state.viewingIndex += action.payload;
+		},
+		setWaveAnimation: (state, action: { payload: boolean }) => {
+			state.waveAnimation = action.payload;
+			localStorage.setItem('waveAnimation', action.payload ? 'true' : 'false');
 		}
 	}
 });
 
 // Action creators are generated for each case reducer function
-export const { setSearchMode, setFavorites, setMetadata, setData, setGeneralUnitType, setWindspeedUnitType, updateViewingIndex } =
-	stationDataSlice.actions;
+export const {
+	setSearchMode,
+	setFavorites,
+	setMetadata,
+	setData,
+	setGeneralUnitType,
+	setWindspeedUnitType,
+	updateViewingIndex,
+	setWaveAnimation
+} = stationDataSlice.actions;
 
 export default stationDataSlice.reducer;
