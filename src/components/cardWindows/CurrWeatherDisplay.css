@@ -1,11 +1,10 @@
 .curr-weather-display-wrapper {
 	position: relative;
-	height: 140px;
-	width: max-content;
+	height: max-content;
 }
 
 .curr-weather-description {
-	margin: 0 20px;
+	margin: 0 20px 10px;
 	font-size: 1.2em;
 }
 

@@ -21,13 +21,13 @@
 	justify-content: space-evenly;
 	align-items: center;
 	gap: 10px;
-	/* margin: 0; */
 	font-size: 2em;
 }
 
 .bi-sunrise-fill,
 .bi-sunset {
 	margin: 0 0 0 20px;
+	top: 2px;
 }
 
 .sunrise-time,
@@ -41,4 +41,11 @@ i,
 	position: relative;
 	display: inline;
 	cursor: default;
+}
+
+/* Phones and portrait-mode tablets */
+@media only screen and (max-width: 999px) {
+	.sunrise-sunset-wrapper {
+		display: none;
+	}
 }
