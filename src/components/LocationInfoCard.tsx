@@ -1,6 +1,6 @@
 import { useDispatch, useSelector } from 'react-redux';
 
-import { MeatballNav, PageTab, UnitSelector } from '.';
+import { MeatballNav, PageTab, UnitSelector, WaveAnimationToggle } from '.';
 import { GeneralUnitType, setSearchMode, updateViewingIndex, setWaveAnimation } from '../app/stationData';
 import {
 	AirQualityDisplay,
@@ -58,13 +58,7 @@ export function LocationInfoCard(props: { id: string; data: StationInfo }) {
 			<div className='selector-area-wrapper'>
 				<UnitSelector category='general' />
 				<UnitSelector category='windspeed' />
-				{/* TODO: style */}
-				<input
-					type='checkbox'
-					className='wave-animation-toggle'
-					defaultChecked={waveAnimation}
-					onClick={() => dispatch(setWaveAnimation(!waveAnimation))}
-				/>
+				<WaveAnimationToggle />
 			</div>
 			<div className='location-info-body-wrapper'>
 				<div className='current-conditions-wrapper'>
