@@ -1,16 +1,15 @@
 {
   "files": {
-    "main.css": "/Tackr/static/css/main.bee7b23a.css",
-    "main.js": "/Tackr/static/js/main.89847d52.js",
-    "static/media/Metropolis-Bold.otf": "/Tackr/static/media/Metropolis-Bold.c5e04fafcff6fc79cd76.otf",
-    "static/media/Metropolis-Regular.otf": "/Tackr/static/media/Metropolis-Regular.67a1988d7b65b0aaa16d.otf",
+    "main.css": "/Tackr/static/css/main.d1cc160d.css",
+    "main.js": "/Tackr/static/js/main.02abf768.js",
     "index.html": "/Tackr/index.html",
+    "static/media/LoadingArc.svg": "/Tackr/static/media/LoadingArc.c79c7c5238142d00191f.svg",
     "static/media/wave.svg": "/Tackr/static/media/wave.8cd2cfe077c6cd3ddd78.svg",
-    "main.bee7b23a.css.map": "/Tackr/static/css/main.bee7b23a.css.map",
-    "main.89847d52.js.map": "/Tackr/static/js/main.89847d52.js.map"
+    "main.d1cc160d.css.map": "/Tackr/static/css/main.d1cc160d.css.map",
+    "main.02abf768.js.map": "/Tackr/static/js/main.02abf768.js.map"
   },
   "entrypoints": [
-    "static/css/main.bee7b23a.css",
-    "static/js/main.89847d52.js"
+    "static/css/main.d1cc160d.css",
+    "static/js/main.02abf768.js"
   ]
 }
