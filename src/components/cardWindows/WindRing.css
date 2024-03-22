@@ -1,3 +1,8 @@
+:root {
+	--wind-inner-ring-diameter: 200px;
+	--compass-diameter: 300px;
+}
+
 .wind-info-wrapper {
 	position: relative;
 	border-radius: 50% !important;
@@ -15,16 +20,26 @@
 .compass-direction {
 	position: absolute;
 	color: #777;
+	height: 1.5em;
+	width: 1.5em;
+	font-size: 1.2em;
+	line-height: 1.4em;
+}
+
+.compass-N {
+	font-size: 1.4em;
+	left: calc(50% - 0.75em);
+	margin-top: 10px;
 }
 
 .compass-E {
 	top: calc(50% - 0.6em);
 	margin: 0;
-	right: 5%;
+	right: 3%;
 }
 
 .compass-S {
-	bottom: 4%;
+	bottom: 3%;
 	left: calc(50% - 0.7em);
 	width: 1.4em;
 	margin: 0;
@@ -33,12 +48,13 @@
 .compass-W {
 	top: calc(50% - 0.6em);
 	margin: 0;
-	left: 5%;
+	left: 3%;
 }
 
 .wind-arrow {
 	position: relative;
 	height: 100%;
+	width: 3.6em;
 }
 
 .wind-speed-inner-ring {
@@ -61,79 +77,17 @@
 	margin: 0;
 }
 
-@media only screen and (min-width: 1000px) {
-	:root {
-		--wind-inner-ring-diameter: 10.5vw;
-		--compass-diameter: 15.5vw;
-	}
+.wind-speed-data {
+	font-size: 7em;
+}
 
-	.compass-direction {
-		height: 1.5rem;
-		width: 1.5rem;
-		font-size: 1.2rem;
-		line-height: 1.4rem;
-	}
-
-	.compass-N {
-		font-size: 1.4rem;
-		left: calc(50% - 0.75rem);
-	}
-
-	.wind-arrow {
-		width: 3.6em;
-	}
-
-	.wind-speed-data {
-		font-size: 7.5em;
-	}
-
-	.wind-speed-units {
-		font-size: 2em;
-	}
+.wind-speed-units {
+	font-size: 1.8em;
 }
 
 /* Phones and portrait-mode tablets */
 @media only screen and (min-width: 320px) and (max-width: 999px) {
-	:root {
-		--wind-inner-ring-diameter: 41vw;
-		--compass-diameter: 60vw;
-	}
-
 	.wind-info-wrapper {
 		margin: 0 0 20px 0;
-	}
-
-	.compass-direction {
-		height: 1.2em;
-		width: 1.2em;
-		font-size: min(4vw, 3em);
-		line-height: 1.2em;
-	}
-
-	.compass-N {
-		font-size: 4.5vw;
-		width: 1.4em;
-		left: calc(50% - 0.7em);
-		margin: 10px 0 0 0;
-	}
-
-	.compass-E {
-		right: 4%;
-	}
-
-	.compass-W {
-		left: 4%;
-	}
-
-	.wind-arrow {
-		width: 10vw;
-	}
-
-	.wind-speed-data {
-		font-size: min(20vw, 10em);
-	}
-
-	.wind-speed-units {
-		font-size: min(6vw, 3em);
 	}
 }
