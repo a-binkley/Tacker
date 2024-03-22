@@ -15,6 +15,7 @@ export type StoreType = {
 	viewingIndex: number;
 	metadata: MetadataSerializableType;
 	data: DataSerializableType;
+	hasNewData: boolean;
 	generalUnit: GeneralUnitType;
 	windspeedUnit: WindspeedUnitType;
 	waveAnimation: boolean;
@@ -27,9 +28,10 @@ const initFavorites: string[] = JSON.parse(localStorage.getItem('favoriteStation
 const initialState: StoreType = {
 	searchMode: initFavorites.length === 0 ? 'prompt' : 'display',
 	favoritesIDs: initFavorites,
-	viewingIndex: 0,
+	viewingIndex: parseInt(localStorage.getItem('viewingIndex') ?? '0'),
 	metadata: {},
 	data: {},
+	hasNewData: true, // always fetch on page load
 	generalUnit: (localStorage.getItem('generalUnit') as GeneralUnitType) ?? 'english',
 	windspeedUnit: (localStorage.getItem('windspeedUnit') as WindspeedUnitType) ?? 'mph',
 	waveAnimation: localStorage.getItem('waveAnimation') === 'true'
@@ -52,6 +54,9 @@ export const stationDataSlice = createSlice({
 		setData: (state, action: { payload: DataSerializableType }) => {
 			state.data = { ...state.data, ...action.payload };
 		},
+		setHasNewData: (state, action: { payload: boolean }) => {
+			state.hasNewData = action.payload;
+		},
 		setGeneralUnitType: (state, action: { payload: GeneralUnitType }) => {
 			state.generalUnit = action.payload;
 			localStorage.setItem('generalUnit', action.payload);
@@ -62,6 +67,7 @@ export const stationDataSlice = createSlice({
 		},
 		updateViewingIndex: (state, action) => {
 			state.viewingIndex += action.payload;
+			localStorage.setItem('viewingIndex', `${state.viewingIndex}`);
 		},
 		setWaveAnimation: (state, action: { payload: boolean }) => {
 			state.waveAnimation = action.payload;
@@ -76,6 +82,7 @@ export const {
 	setFavorites,
 	setMetadata,
 	setData,
+	setHasNewData,
 	setGeneralUnitType,
 	setWindspeedUnitType,
 	updateViewingIndex,

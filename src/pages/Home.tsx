@@ -7,7 +7,8 @@ import {
 	MetadataSerializableType,
 	DataSerializableType,
 	SearchMode,
-	setSearchMode
+	setSearchMode,
+	setHasNewData
 } from '../app/stationData';
 import store from '../app/store';
 import { LocationInfoCard, LocatorPopup } from '../components';
@@ -21,6 +22,7 @@ export type StationMetadata = { city: string; state: string; coords: { lat: numb
 export function Home() {
 	const data = useSelector<RootState, DataSerializableType>((state) => state.data);
 	const metadata = useSelector<RootState, MetadataSerializableType>((state) => state.metadata);
+	const hasNewData = useSelector<RootState, boolean>((state) => state.hasNewData);
 	const searchMode = useSelector<RootState, SearchMode>((state) => state.searchMode);
 	const favoritesIDs = useSelector<RootState, string[]>((state) => state.favoritesIDs);
 	const viewingIndex = useSelector<RootState, number>((state) => state.viewingIndex);
@@ -34,13 +36,16 @@ export function Home() {
 				}
 				// errors handled in invoked function
 			);
-		} else if (searchMode === 'display' && Object.keys(data).length === 0) {
+		} else if (searchMode === 'display' && hasNewData) {
 			retrieveLocationData({
 				locs: favoritesIDs,
 				locMetadata: metadata
 			}).then(
 				(dataRes) => {
-					if (Object.keys(dataRes).length > 0) dispatch(setData(dataRes));
+					if (Object.keys(dataRes).length > 0) {
+						dispatch(setData(dataRes));
+						dispatch(setHasNewData(false));
+					}
 				}
 				// errors handled in invoked function
 			);

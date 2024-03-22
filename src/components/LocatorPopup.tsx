@@ -3,7 +3,7 @@ import { CSSProperties } from 'react';
 import { MapContainer, Marker, Popup, TileLayer } from 'react-leaflet';
 import { useSelector, useDispatch } from 'react-redux';
 
-import { MetadataSerializableType, setSearchMode, setFavorites, updateViewingIndex } from '../app/stationData';
+import { MetadataSerializableType, setSearchMode, setFavorites, updateViewingIndex, setHasNewData } from '../app/stationData';
 import { RootState } from '../pages';
 
 function getLeafletIcon(isFavorite: boolean): L.Icon {
@@ -20,6 +20,7 @@ function getLeafletIcon(isFavorite: boolean): L.Icon {
 }
 
 export function LocatorPopup() {
+	const hasNewData = useSelector<RootState, boolean>((state) => state.hasNewData);
 	const favoritesIDs = useSelector<RootState, string[]>((state) => state.favoritesIDs);
 	const viewingIndex = useSelector<RootState, number>((state) => state.viewingIndex);
 	const metadataStore = useSelector<RootState, MetadataSerializableType>((state) => state.metadata);
@@ -27,10 +28,13 @@ export function LocatorPopup() {
 
 	const handleFavoriteChange = (stationID: string) => {
 		if (favoritesIDs.includes(stationID)) {
+			let newViewingIndex = 0;
+			if (viewingIndex > 0 && viewingIndex >= favoritesIDs.indexOf(stationID)) newViewingIndex = -1;
+			dispatch(updateViewingIndex(newViewingIndex));
 			dispatch(setFavorites(favoritesIDs.filter((id: string) => id !== stationID))); // Remove
-			dispatch(updateViewingIndex(Math.min(viewingIndex, favoritesIDs.length - 1)));
 		} else {
 			dispatch(setFavorites(favoritesIDs.concat([stationID]))); // Add
+			if (!hasNewData) dispatch(setHasNewData(true));
 		}
 	};
 
@@ -38,24 +42,44 @@ export function LocatorPopup() {
 			height: '100vh',
 			width: '100vw'
 		},
-		continueBtnStyle: CSSProperties = {
+		popupBtnContainerStyle: CSSProperties = {
 			position: 'absolute',
-			borderRadius: '10px',
-			bottom: '20px',
-			left: 'calc(50% - 2.5em)',
+			display: 'flex',
+			justifyContent: 'center',
+			alignItems: 'center',
+			gap: '20px',
 			height: 'max-content',
-			width: '5em',
+			width: '40vw',
+			bottom: '20px',
+			left: 'calc(50% - 20vw)',
+			zIndex: 500
+		},
+		popupBtnStyle: CSSProperties = {
+			position: 'relative',
+			border: '2px solid',
+			borderRadius: '10px',
+			padding: '5px 8px',
 			fontSize: '1.4em',
-			zIndex: 500,
 			cursor: 'pointer',
 			display: favoritesIDs.length === 0 ? 'none' : ''
 		};
 
 	return (
 		<div style={{ height: '100vh', width: '100vw' }}>
-			<button style={continueBtnStyle} onClick={() => dispatch(setSearchMode('display'))}>
-				Done
-			</button>
+			<div className='popup-btn-container' style={popupBtnContainerStyle}>
+				<button
+					style={popupBtnStyle}
+					onClick={() => {
+						dispatch(setFavorites([]));
+						dispatch(updateViewingIndex(viewingIndex * -1)); // zero out
+					}}
+				>
+					Clear All
+				</button>
+				<button style={popupBtnStyle} onClick={() => dispatch(setSearchMode('display'))}>
+					Done
+				</button>
+			</div>
 			<MapContainer
 				center={[45.4, -84.4]} // Approximately center to all five lakes
 				zoom={7}

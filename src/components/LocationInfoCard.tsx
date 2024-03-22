@@ -1,7 +1,7 @@
 import { useDispatch, useSelector } from 'react-redux';
 
 import { MeatballNav, PageTab, UnitSelector, WaveAnimationToggle } from '.';
-import { GeneralUnitType, setSearchMode, updateViewingIndex, setWaveAnimation } from '../app/stationData';
+import { GeneralUnitType, setSearchMode, updateViewingIndex } from '../app/stationData';
 import {
 	AirQualityDisplay,
 	CurrWeatherDisplay,
