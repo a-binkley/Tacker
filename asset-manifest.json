@@ -1,15 +1,15 @@
 {
   "files": {
     "main.css": "/Tackr/static/css/main.a795d4b8.css",
-    "main.js": "/Tackr/static/js/main.55e40699.js",
+    "main.js": "/Tackr/static/js/main.bbf32536.js",
     "index.html": "/Tackr/index.html",
     "static/media/LoadingArc.svg": "/Tackr/static/media/LoadingArc.c79c7c5238142d00191f.svg",
     "static/media/wave.svg": "/Tackr/static/media/wave.8cd2cfe077c6cd3ddd78.svg",
     "main.a795d4b8.css.map": "/Tackr/static/css/main.a795d4b8.css.map",
-    "main.55e40699.js.map": "/Tackr/static/js/main.55e40699.js.map"
+    "main.bbf32536.js.map": "/Tackr/static/js/main.bbf32536.js.map"
   },
   "entrypoints": [
     "static/css/main.a795d4b8.css",
-    "static/js/main.55e40699.js"
+    "static/js/main.bbf32536.js"
   ]
 }
