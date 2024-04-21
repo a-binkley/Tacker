@@ -1,0 +1,56 @@
+.water-level-chart-wrapper {
+	position: absolute;
+	right: 0;
+	height: 100%;
+	width: 48%;
+}
+
+.water-level-chart-label {
+	font-size: 1.5em;
+	margin: 10px 0;
+}
+
+.water-level-data-wrapper {
+	left: 10px;
+	height: calc(100% - 1.4em - 30px);
+	width: calc(100% - 20px);
+}
+
+.tick line {
+	stroke: rgba(0, 0, 0, 0.2) !important;
+}
+
+.tickLabel {
+	font-size: 14px !important;
+}
+
+/* High contrast colors for nighttime */
+.water-chart-night .tick line {
+	stroke: rgba(255, 255, 255, 0.2) !important;
+}
+
+.water-chart-night .tickLabel {
+	fill: #fff7ea !important;
+}
+
+.water-chart-night path {
+	stroke: rgb(15, 74, 93) !important;
+}
+
+/* Phones and portrait-mode tablets */
+@media only screen and (max-width: 999px) {
+	.water-level-chart-wrapper {
+		position: relative;
+		margin-top: 20px;
+		height: 50vh;
+		width: calc(100% - 4px);
+	}
+
+	.water-level-chart-label {
+		font-size: 1.2em;
+	}
+
+	g.axes > g:first-child g.domainAndTicks > g.tick:not(:first-of-type, :last-child) .tickLabel {
+		display: none !important;
+	}
+}

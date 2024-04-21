@@ -1,10 +1,20 @@
-import { useEffect, useState } from 'react';
+import { useEffect } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 
-import { setMetadata, setData, setFavorites, MetadataSerializableType, DataSerializableType } from '../app/stationData';
+import {
+	setMetadata,
+	setData,
+	MetadataSerializableType,
+	DataSerializableType,
+	SearchMode,
+	setSearchMode,
+	setHasNewData
+} from '../app/stationData';
 import store from '../app/store';
 import { LocationInfoCard, LocatorPopup } from '../components';
 import { retrieveCurrentStations, retrieveLocationData } from '../functions';
+
+import './Home.css';
 
 export type RootState = ReturnType<typeof store.getState>;
 export type StationMetadata = { city: string; state: string; coords: { lat: number; lng: number } };
@@ -12,11 +22,11 @@ export type StationMetadata = { city: string; state: string; coords: { lat: numb
 export function Home() {
 	const data = useSelector<RootState, DataSerializableType>((state) => state.data);
 	const metadata = useSelector<RootState, MetadataSerializableType>((state) => state.metadata);
+	const hasNewData = useSelector<RootState, boolean>((state) => state.hasNewData);
+	const searchMode = useSelector<RootState, SearchMode>((state) => state.searchMode);
 	const favoritesIDs = useSelector<RootState, string[]>((state) => state.favoritesIDs);
 	const viewingIndex = useSelector<RootState, number>((state) => state.viewingIndex);
 	const dispatch = useDispatch();
-
-	const [searchMode, setSearchMode] = useState<'prompt' | 'search' | 'display'>(favoritesIDs.length === 0 ? 'prompt' : 'display');
 
 	useEffect(() => {
 		if (Object.keys(metadata).length === 0) {
@@ -26,36 +36,37 @@ export function Home() {
 				}
 				// errors handled in invoked function
 			);
-		} else if (searchMode === 'display' && Object.keys(data).length === 0) {
-			retrieveLocationData(favoritesIDs, metadata, 'fahrenheit', 'mph', 'inch').then(
+		} else if (searchMode === 'display' && hasNewData) {
+			retrieveLocationData({
+				locs: favoritesIDs,
+				locMetadata: metadata
+			}).then(
 				(dataRes) => {
-					if (Object.keys(dataRes).length > 0) dispatch(setData(dataRes));
+					if (Object.keys(dataRes).length > 0) {
+						dispatch(setData(dataRes));
+						dispatch(setHasNewData(false));
+					}
 				}
 				// errors handled in invoked function
 			);
 		}
 	}, [dispatch, data, metadata, favoritesIDs, searchMode]);
 
-	const handleFavoriteChange = (stationID: string) => {
-		if (favoritesIDs.includes(stationID)) {
-			dispatch(setFavorites(favoritesIDs.filter((id: string) => id !== stationID))); // Remove
-		} else {
-			dispatch(setFavorites(favoritesIDs.concat([stationID]))); // Add
-		}
-	};
-
 	return (
 		<div className='home-wrapper'>
 			{searchMode === 'prompt' ? (
 				// Ask the user to add at least one location as a favorite
 				<div className='locator-prompt'>
-					<h3>{"It looks like you don't have any locations marked as favorites yet."}</h3>
-					<button onClick={() => setSearchMode('search')}>Find a station</button>
+					<h3 className='locator-notice'>
+						{"Hm... it looks like you don't have any locations marked as favorites yet."}
+					</h3>
+					<button className='locator-search-btn' onClick={() => dispatch(setSearchMode('search'))}>
+						Find a station
+					</button>
 				</div>
-			) : // TODO: make pretty
-			searchMode === 'search' ? (
+			) : searchMode === 'search' ? (
 				// Display the Leaflet map to allow user to add station(s) to favorites
-				<LocatorPopup {...{ handleFavoriteChange, setSearchMode }} />
+				<LocatorPopup />
 			) : data[favoritesIDs[viewingIndex]] ? (
 				// Display info for favorited location(s)
 				<LocationInfoCard
@@ -64,8 +75,12 @@ export function Home() {
 					key={`LocationCard-${viewingIndex}`}
 				/>
 			) : (
-				// TODO: make more robust
-				<div>{'' && console.log(searchMode)}</div>
+				// Loading spinner while API requests complete
+				<div className='home-loading-wrapper'>
+					<p className='home-loading-label'>Fetching weather data...</p>
+					<div className='home-loading-spinner' />
+					{'' && searchMode}
+				</div>
 			)}
 		</div>
 	);

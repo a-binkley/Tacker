@@ -1,0 +1,89 @@
+:root {
+	--border-width: 2px;
+}
+
+.hourly-forecast-wrapper {
+	position: relative;
+	width: calc(8 * (4.5em + var(--border-width)) - var(--border-width));
+	overflow-x: hidden;
+}
+
+.hourly-forecast-datum-wrapper:not(:last-of-type) {
+	border-right: var(--border-width) solid #0006;
+}
+
+.scrollbar-container {
+	display: flex;
+	justify-content: space-between;
+}
+
+.ps__rail-x:hover {
+	background-color: #eeea !important;
+}
+
+.hourly-forecast-datum-label {
+	position: relative;
+	margin: 0;
+	padding: 5px 0;
+	border-bottom: var(--border-width) solid #0002;
+	font-size: 1.2em;
+}
+
+.hourly-forecast-datum-temp {
+	position: relative;
+	margin: 0;
+	padding: 5px 0;
+	font-size: 1.2em;
+}
+
+.hourly-forecast-datum-weather-icon-wrapper {
+	position: relative;
+	display: flex;
+	flex-direction: column;
+	justify-content: space-evenly;
+	align-items: center;
+	width: 4.5em;
+	bottom: 10px;
+}
+
+.hourly-forecast-datum-wrapper .wmo-icon {
+	width: 4em;
+}
+
+.hourly-forecast-datum-precipitation-chance {
+	position: relative;
+	margin: 0;
+	bottom: 10px;
+	min-height: 1.2em;
+}
+
+.hourly-forecast-datum-wind-data-wrapper {
+	position: relative;
+	display: flex;
+	justify-content: space-evenly;
+	align-items: center;
+}
+
+.hourly-forecast-datum-wind-direction {
+	scale: 1.8;
+}
+
+.hourly-forecast-datum-wind-speed-number {
+	font-size: 1.4em;
+	margin: 0;
+	cursor: default;
+}
+
+.hourly-forecast-datum-wind-speed-unit {
+	font-size: 1.2em;
+	margin: 0 0 10px 0;
+	cursor: default;
+}
+
+/* Phones and portrait-mode tablets */
+@media only screen and (max-width: 999px) {
+	.hourly-forecast-wrapper {
+		margin-top: 20px;
+		max-width: calc(100% - 4px);
+	}
+}

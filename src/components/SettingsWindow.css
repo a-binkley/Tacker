@@ -1,0 +1,92 @@
+.settings-backdrop-grey {
+	position: absolute;
+	height: 100vh;
+	width: 100vw;
+	background: #0008;
+	backdrop-filter: blur(20px);
+	z-index: 599;
+}
+
+.settings-fg {
+	animation: fadeInAnimation 0.25s;
+}
+
+@keyframes fadeInAnimation {
+	0% {
+		opacity: 0;
+	}
+	100% {
+		opacity: 1;
+	}
+}
+
+.settings-bg {
+	display: none;
+}
+
+.settings-container {
+	position: absolute;
+	border: 2px solid black;
+	border-radius: 10px;
+	top: calc(22vh - 2px);
+	left: calc(30vw - 2px);
+	height: 60vh;
+	width: 40vw;
+	background: #aaa;
+	z-index: 600;
+}
+
+.settings-close-btn {
+	position: absolute;
+	top: 10px;
+	right: 10px;
+	font-size: 2em;
+	cursor: pointer;
+}
+
+.settings-core-wrapper {
+	position: absolute;
+	height: 90%;
+	width: 90%;
+	top: 5%;
+	left: 5%;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	gap: 20px;
+}
+
+.settings-favorites-reorder-wrapper {
+	position: relative;
+	list-style-type: none;
+	padding: 10px;
+}
+
+li.settings-reorder {
+	border: 2px solid black;
+	display: flex;
+	justify-content: left;
+	align-items: center;
+	gap: 5px;
+	padding: 10px;
+	text-align: left;
+}
+
+.settings-reorder-grip {
+	cursor: grab;
+}
+
+.settings-reorder-grip.grabbed {
+	cursor: grabbing;
+}
+
+.settings-reorder-label {
+	margin: 0;
+}
+
+.selector-area-wrapper {
+	position: relative;
+	padding: 10px;
+	width: max-content;
+	height: max-content;
+}

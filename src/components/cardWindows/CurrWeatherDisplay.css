@@ -1,0 +1,13 @@
+.curr-weather-display-wrapper {
+	position: relative;
+	height: max-content;
+}
+
+.curr-weather-description {
+	margin: 0 20px 10px;
+	font-size: 1.2em;
+}
+
+.curr-weather-icon-wrapper .wmo-icon {
+	filter: drop-shadow(0 0 1px);
+}

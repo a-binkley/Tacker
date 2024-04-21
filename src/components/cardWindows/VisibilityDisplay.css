@@ -1,0 +1,68 @@
+:root {
+	--global-margin: 8px;
+}
+
+.visibility-wrapper {
+	position: relative;
+	display: flex;
+	flex-direction: column;
+	justify-content: center;
+	align-items: center;
+}
+
+.visibility-data,
+.visibility-units {
+	position: relative;
+	margin: 0;
+}
+
+@media only screen and (min-width: 1000px) {
+	.visibility-wrapper {
+		height: max-content;
+		width: max-content;
+		max-width: calc(12em + 40px);
+	}
+
+	.visibility-label {
+		position: relative;
+		font-size: 1.5em;
+		margin: 10px 20px 0;
+	}
+
+	.visibility-data,
+	.visibility-units {
+		margin: 0 20px;
+	}
+
+	.visibility-data {
+		font-size: 3em;
+	}
+
+	.visibility-units {
+		font-size: 1.2em;
+		margin: 0 0 10px 0;
+	}
+}
+
+/* Phones and portrait-mode tablets */
+@media only screen and (min-width: 320px) and (max-width: 999px) {
+	.visibility-wrapper {
+		max-width: calc(50% - 5px);
+		padding: 10px;
+	}
+
+	.visibility-label {
+		position: relative;
+		width: max-content;
+		font-size: min(6vw, 2em);
+		margin: 0 20px 5px;
+	}
+
+	.visibility-data {
+		font-size: min(12vw, 4em);
+	}
+
+	.visibility-units {
+		font-size: min(5vw, 1.5em);
+	}
+}
