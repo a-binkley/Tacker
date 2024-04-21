@@ -16,6 +16,11 @@ export function getNeedleAngle(aqi: number): number {
 	}
 }
 
+/**
+ * Presentational component which displays the U.S. AQI for a given location,
+ * along with the description associated with that AQI level.
+ * @param props the AQI to use for description and display needle angle logic
+ */
 export function AirQualityDisplay(props: { data: number }) {
 	const descriptions = [
 		'Good', // 0-49

@@ -6,6 +6,11 @@ import { useSelector, useDispatch } from 'react-redux';
 import { MetadataSerializableType, setSearchMode, setFavorites, updateViewingIndex, setHasNewData } from '../app/stationData';
 import { RootState } from '../pages';
 
+/**
+ * Retrieves the correctly-colored map pin depending on the user's list of favorite stations
+ * @param isFavorite whether the requested location is favorited or not. Determines the color of the returned pin
+ * @returns the .png icon to display
+ */
 function getLeafletIcon(isFavorite: boolean): L.Icon {
 	return new L.Icon({
 		iconUrl: `https://raw.githubusercontent.com/pointhi/leaflet-color-markers/master/img/marker-icon-2x-${
@@ -19,6 +24,10 @@ function getLeafletIcon(isFavorite: boolean): L.Icon {
 	});
 }
 
+/**
+ * Component which contains a Leaflet.js map populated with stations from the NOAA API. Allows the user to
+ * select stations as favorites for later viewing.
+ */
 export function LocatorPopup() {
 	const hasNewData = useSelector<RootState, boolean>((state) => state.hasNewData);
 	const favoritesIDs = useSelector<RootState, string[]>((state) => state.favoritesIDs);
@@ -81,7 +90,7 @@ export function LocatorPopup() {
 				</button>
 			</div>
 			<MapContainer
-				center={[45.4, -84.4]} // Approximately center to all five lakes
+				center={[45.4, -84.4]} // Load with view approximately center to all five lakes
 				zoom={7}
 				style={mapStyle}
 			>

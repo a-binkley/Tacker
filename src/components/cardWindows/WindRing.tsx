@@ -1,10 +1,15 @@
 import { useSelector } from 'react-redux';
+
 import { WindspeedUnitType } from '../../app/stationData';
 import { convertWindSpeed, WindInfo } from '../../functions';
 import { RootState } from '../../pages';
 
 import './WindRing.css';
 
+/**
+ * Presentational component which displays the current wind speed and direction using a compass ring.
+ * @param props the {@link WindInfo} to use for rendering
+ */
 export function WindRing(props: WindInfo) {
 	const windspeedUnitType = useSelector<RootState, WindspeedUnitType>((state) => state.windspeedUnit);
 

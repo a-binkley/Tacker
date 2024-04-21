@@ -5,6 +5,9 @@ import { RootState } from '../pages';
 
 import './WaveAnimationToggle.css';
 
+/**
+ * Toggle switch to enable or disable the background wave animation site-wide
+ */
 export function WaveAnimationToggle() {
 	const waveAnimation = useSelector<RootState, boolean>((state) => state.waveAnimation);
 	const dispatch = useDispatch();

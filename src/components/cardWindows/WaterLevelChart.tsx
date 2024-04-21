@@ -1,16 +1,21 @@
 import { useMemo } from 'react';
 import { AxisOptions, Chart } from 'react-charts';
-
-import { TideData, TideDataFormatted, calculateAvgForInterval } from '../../functions';
-
-import './WaterLevelChart.css';
 import { useSelector } from 'react-redux';
+
 import { GeneralUnitType } from '../../app/stationData';
+import { TideData, TideDataFormatted, calculateAvgForInterval } from '../../functions';
 import { RootState } from '../../pages';
 
-export type LevelsChartProps = { data: TideData[]; isDay: boolean };
+import './WaterLevelChart.css';
 
-export function WaterLevelChart(props: LevelsChartProps) {
+/**
+ * Presentational component which displays the past water level above/below Low Water Datum (LWD)
+ * for a location. This can be used to see where a location's tide is within the tide cycle
+ * @param props.data the array of {@link TideData} to use for chart population
+ * @param props.isDay whether the background of this display is over a daytime or nighttime page.
+ * Used for color visibility enhancement
+ */
+export function WaterLevelChart(props: { data: TideData[]; isDay: boolean }) {
 	const generalUnitType = useSelector<RootState, GeneralUnitType>((state) => state.generalUnit);
 	const cleanedData = calculateAvgForInterval(props.data);
 	const chartLabel = `Water Level (${generalUnitType === 'english' ? 'feet' : 'meters'} above LWD)`;

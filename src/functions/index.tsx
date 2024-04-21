@@ -2,10 +2,9 @@ import axios, { AxiosResponse } from 'axios';
 import moment from 'moment-timezone';
 import tz_lookup from 'tz-lookup';
 
-import { degToCard } from '.';
+import { degToCard, TideData } from '.';
 import { DataSerializableType, MetadataSerializableType, WindspeedUnitType } from '../app/stationData';
 import wmoCodes from '../app/wmoCodes.json';
-import { TideData } from '.';
 import { mphToKph, mphToMetersPerSec, mphToKnots } from './UnitConversions';
 
 export * from './Direction';

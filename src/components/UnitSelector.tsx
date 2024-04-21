@@ -5,6 +5,11 @@ import { RootState } from '../pages';
 
 import './UnitSelector.css';
 
+/**
+ * Dropdown selector for setting the user's preferred unit of measurement. Connects to the Redux store
+ * and affects the rendering of numerous other components
+ * @param props.category whether this selector is for general (temperature and distance) units or wind speed units
+ */
 export function UnitSelector(props: { category: 'general' | 'windspeed' }) {
 	const generalUnitType = useSelector<RootState, GeneralUnitType>((state) => state.generalUnit);
 	const windspeedUnitType = useSelector<RootState, WindspeedUnitType>((state) => state.windspeedUnit);
