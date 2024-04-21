@@ -16,12 +16,11 @@ export type StoreType = {
 	metadata: MetadataSerializableType;
 	data: DataSerializableType;
 	hasNewData: boolean;
+	settingsIsOpen: boolean;
 	generalUnit: GeneralUnitType;
 	windspeedUnit: WindspeedUnitType;
 	waveAnimation: boolean;
 };
-
-// TODO: add drag-and-drop reorder favorites
 
 const initFavorites: string[] = JSON.parse(localStorage.getItem('favoriteStations') ?? '[]'); // read from localStorage first, if present
 
@@ -32,6 +31,7 @@ const initialState: StoreType = {
 	metadata: {},
 	data: {},
 	hasNewData: true, // always fetch on page load
+	settingsIsOpen: false,
 	generalUnit: (localStorage.getItem('generalUnit') as GeneralUnitType) ?? 'english',
 	windspeedUnit: (localStorage.getItem('windspeedUnit') as WindspeedUnitType) ?? 'mph',
 	waveAnimation: localStorage.getItem('waveAnimation') === 'true'
@@ -69,6 +69,9 @@ export const stationDataSlice = createSlice({
 			state.viewingIndex += action.payload;
 			localStorage.setItem('viewingIndex', `${state.viewingIndex}`);
 		},
+		setSettingsIsOpen: (state, action: { payload: boolean }) => {
+			state.settingsIsOpen = action.payload;
+		},
 		setWaveAnimation: (state, action: { payload: boolean }) => {
 			state.waveAnimation = action.payload;
 			localStorage.setItem('waveAnimation', action.payload ? 'true' : 'false');
@@ -86,6 +89,7 @@ export const {
 	setGeneralUnitType,
 	setWindspeedUnitType,
 	updateViewingIndex,
+	setSettingsIsOpen,
 	setWaveAnimation
 } = stationDataSlice.actions;
 

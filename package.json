@@ -5,6 +5,7 @@
 	"private": true,
 	"dependencies": {
 		"@babel/preset-env": "^7.23.3",
+		"@dnd-kit/sortable": "^8.0.0",
 		"@reduxjs/toolkit": "^2.2.1",
 		"@testing-library/jest-dom": "^5.17.0",
 		"@testing-library/react": "^13.4.0",

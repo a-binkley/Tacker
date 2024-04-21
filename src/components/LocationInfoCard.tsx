@@ -1,7 +1,7 @@
 import { useDispatch, useSelector } from 'react-redux';
 
-import { MeatballNav, PageTab, UnitSelector, WaveAnimationToggle } from '.';
-import { GeneralUnitType, setSearchMode, updateViewingIndex } from '../app/stationData';
+import { MeatballNav, PageTab, SettingsWindow } from '.';
+import { GeneralUnitType, setSearchMode, setSettingsIsOpen, updateViewingIndex } from '../app/stationData';
 import {
 	AirQualityDisplay,
 	CurrWeatherDisplay,
@@ -15,6 +15,7 @@ import {
 } from './cardWindows';
 import { StationInfo } from '../functions';
 import { RootState } from '../pages';
+
 import './LocationInfoCard.css';
 
 /**
@@ -54,12 +55,8 @@ export function LocationInfoCard(props: { id: string; data: StationInfo }) {
 			<h3 className='lat-long-header unselectable'>
 				{`${props.data.latLong.lat.toFixed(3)},${props.data.latLong.lng.toFixed(3)}`}
 			</h3>
-			{/* TODO: collapsible hamburger menu for mobile */}
-			<div className='selector-area-wrapper'>
-				<UnitSelector category='general' />
-				<UnitSelector category='windspeed' />
-				<WaveAnimationToggle />
-			</div>
+			<i className='bi bi-sliders settings-btn' onClick={() => dispatch(setSettingsIsOpen(true))} />
+			<SettingsWindow />
 			<div className='location-info-body-wrapper'>
 				<div className='current-conditions-wrapper'>
 					<WindRing {...props.data.now.wind} />
