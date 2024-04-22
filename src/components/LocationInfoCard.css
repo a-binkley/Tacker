@@ -53,22 +53,13 @@
 	gap: 20px;
 }
 
-.bi-map {
-	position: absolute;
-	left: 20px;
-	cursor: pointer;
-}
-
-.settings-btn {
-	position: absolute;
-	right: 20px;
-	cursor: pointer;
-}
-
 @media only screen and (min-width: 1000px) {
 	.bi-map {
+		position: absolute;
+		left: 20px;
 		top: 20px;
 		font-size: 2.5em;
+		cursor: pointer;
 	}
 
 	.city-state-header {
@@ -137,6 +128,12 @@
 		width: 48%;
 	}
 
+	.settings-btn {
+		position: absolute;
+		right: 20px;
+		cursor: pointer;
+	}
+
 	.tab-arrow {
 		position: absolute;
 		top: calc(50% - 2rem);
@@ -157,8 +154,6 @@
 	}
 }
 
-/* TODO RD: swipe to change page for handheld devices */
-
 @keyframes wave {
 	0% {
 		margin-left: 0;
@@ -172,6 +167,10 @@
 @media only screen and (min-width: 320px) and (max-width: 999px) {
 	.city-state-header {
 		font-size: min(8vw, 2.5em);
+		max-width: 94vw;
+		left: 3vw;
+		overflow: hidden;
+		text-wrap: nowrap;
 	}
 
 	.lat-long-header {
@@ -180,13 +179,6 @@
 		height: 2em;
 		width: 80%;
 		font-size: 1em;
-	}
-
-	.bi-map {
-		bottom: 20px;
-		height: max-content;
-		font-size: 1.5em;
-		color: #fffc;
 	}
 
 	.location-info-body-wrapper {
@@ -222,11 +214,35 @@
 		gap: 20px;
 	}
 
-	.tab-arrow {
-		display: none;
+	.nav-bar-wrapper {
+		position: absolute;
+		display: flex;
+		justify-content: space-between;
+		align-items: center;
+		height: 4em;
+		width: calc(100vw - 30px);
+		bottom: 0;
+		left: 15px;
 	}
 
-	.selector-area-wrapper {
-		display: none; /* STUB until implementing toggle buttons */
+	.bi-map,
+	.tab-arrow,
+	.settings-btn {
+		position: relative;
+		cursor: pointer;
+		color: #fffc;
+	}
+
+	.bi-map {
+		font-size: 1.5em;
+	}
+
+	.tab-arrow {
+		font-size: 2.5em;
+		text-align: center;
+	}
+
+	.settings-btn {
+		font-size: 1.5em;
 	}
 }

@@ -50,12 +50,10 @@ export function LocationInfoCard(props: { id: string; data: StationInfo }) {
 			}}
 		>
 			<div className='wave-background' style={{ animation, opacity: props.data.now.isDay ? '' : '30%' }} />
-			<i className='bi bi-map' onClick={() => dispatch(setSearchMode('search'))} />
 			<h2 className='city-state-header unselectable'>{`${props.data.name}, ${props.data.state}`}</h2>
 			<h3 className='lat-long-header unselectable'>
 				{`${props.data.latLong.lat.toFixed(3)},${props.data.latLong.lng.toFixed(3)}`}
 			</h3>
-			<i className='bi bi-sliders settings-btn' onClick={() => dispatch(setSettingsIsOpen(true))} />
 			<SettingsWindow />
 			<div className='location-info-body-wrapper'>
 				<div className='current-conditions-wrapper'>
@@ -86,13 +84,17 @@ export function LocationInfoCard(props: { id: string; data: StationInfo }) {
 					<WaterLevelChart data={props.data.now.tideHistory} isDay={props.data.now.isDay} />
 				</div>
 			</div>
-			<PageTab direction='left' display={viewingIndex !== 0} onClick={() => dispatch(updateViewingIndex(-1))} />
-			<PageTab
-				direction='right'
-				display={viewingIndex !== favoritesIDs.length - 1}
-				onClick={() => dispatch(updateViewingIndex(1))}
-			/>
-			<MeatballNav />
+			<div className='nav-bar-wrapper'>
+				<i className='bi bi-map' onClick={() => dispatch(setSearchMode('search'))} />
+				<PageTab direction='left' display={viewingIndex !== 0} onClick={() => dispatch(updateViewingIndex(-1))} />
+				<MeatballNav />
+				<PageTab
+					direction='right'
+					display={viewingIndex !== favoritesIDs.length - 1}
+					onClick={() => dispatch(updateViewingIndex(1))}
+				/>
+				<i className='bi bi-sliders settings-btn' onClick={() => dispatch(setSettingsIsOpen(true))} />
+			</div>
 		</div>
 	);
 }
