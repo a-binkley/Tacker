@@ -1,14 +1,26 @@
-import { DndContext, closestCenter, KeyboardSensor, PointerSensor, useSensor, useSensors, DragEndEvent } from '@dnd-kit/core';
+import {
+	DndContext,
+	closestCenter,
+	DragOverlay,
+	KeyboardSensor,
+	PointerSensor,
+	useSensor,
+	useSensors,
+	DragStartEvent,
+	DragEndEvent
+} from '@dnd-kit/core';
 import { arrayMove, SortableContext, sortableKeyboardCoordinates, verticalListSortingStrategy } from '@dnd-kit/sortable';
+import { useState } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 
-import { SortableFavorite, UnitSelector, WaveAnimationToggle } from '.';
+import { DragOverlayItem, SortableFavorite, UnitSelector, WaveAnimationToggle } from '.';
 import { setFavorites, setSettingsIsOpen, updateViewingIndex } from '../app/stationData';
 import { RootState } from '../pages';
 
 import './SettingsWindow.css';
 
 export function SettingsWindow() {
+	const [activeId, setActiveId] = useState<string | number | null>(null);
 	const favoritesIDs = useSelector<RootState, string[]>((state) => state.favoritesIDs);
 	const viewingIndex = useSelector<RootState, number>((state) => state.viewingIndex);
 	const settingsIsOpen = useSelector<RootState, boolean>((state) => state.settingsIsOpen);
@@ -20,6 +32,11 @@ export function SettingsWindow() {
 			coordinateGetter: sortableKeyboardCoordinates
 		})
 	);
+
+	const handleDragStart = function (event: DragStartEvent) {
+		const { active } = event;
+		setActiveId(active.id);
+	};
 
 	const handleDragEnd = function (event: DragEndEvent) {
 		const { active, over } = event;
@@ -34,10 +51,17 @@ export function SettingsWindow() {
 			dispatch(setFavorites(reordered));
 			dispatch(updateViewingIndex(reordered.indexOf(currLocation) - viewingIndex));
 		}
+
+		setActiveId(null);
 	};
 
 	return (
-		<DndContext sensors={sensors} collisionDetection={closestCenter} onDragEnd={(event) => handleDragEnd(event)}>
+		<DndContext
+			sensors={sensors}
+			collisionDetection={closestCenter}
+			onDragStart={handleDragStart}
+			onDragEnd={(event) => handleDragEnd(event)}
+		>
 			<div className='settings-backdrop-grey' style={{ display: settingsIsOpen ? '' : 'none' }}>
 				<div className='settings-container'>
 					<i className='bi bi-x-circle settings-close-btn' onClick={() => dispatch(setSettingsIsOpen(false))} />
@@ -48,6 +72,7 @@ export function SettingsWindow() {
 									<SortableFavorite key={`settings-reorder-${stationID}`} id={stationID} />
 								))}
 							</SortableContext>
+							<DragOverlay>{activeId ? <DragOverlayItem id={activeId} /> : null}</DragOverlay>
 						</ol>
 						<div className='selector-area-wrapper'>
 							<UnitSelector category='general' />

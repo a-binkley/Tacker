@@ -34,7 +34,7 @@ const initialState: StoreType = {
 	settingsIsOpen: false,
 	generalUnit: (localStorage.getItem('generalUnit') as GeneralUnitType) ?? 'english',
 	windspeedUnit: (localStorage.getItem('windspeedUnit') as WindspeedUnitType) ?? 'mph',
-	waveAnimation: localStorage.getItem('waveAnimation') === 'true'
+	waveAnimation: localStorage.getItem('waveAnimation') === null || localStorage.getItem('waveAnimation') === 'true'
 };
 
 export const stationDataSlice = createSlice({
