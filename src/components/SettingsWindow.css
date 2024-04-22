@@ -7,23 +7,6 @@
 	z-index: 599;
 }
 
-.settings-fg {
-	animation: fadeInAnimation 0.25s;
-}
-
-@keyframes fadeInAnimation {
-	0% {
-		opacity: 0;
-	}
-	100% {
-		opacity: 1;
-	}
-}
-
-.settings-bg {
-	display: none;
-}
-
 .settings-container {
 	position: absolute;
 	border: 2px solid black;
@@ -89,4 +72,24 @@ li.settings-reorder {
 	padding: 10px;
 	width: max-content;
 	height: max-content;
+}
+
+/* Phones and portrait-mode tablets */
+@media only screen and (min-width: 320px) and (max-width: 999px) {
+	.settings-container {
+		top: 10vh;
+		left: 10vw;
+		height: 80vh;
+		width: 80vw;
+	}
+
+	.settings-core-wrapper {
+		width: 100%;
+		left: 0;
+		flex-direction: column;
+	}
+
+	li.settings-reorder {
+		font-size: 0.9em;
+	}
 }

@@ -1,6 +1,6 @@
 # Tackr ⛵
 
-Tackr is an informative web app designed for people interested in boating or sailing on the Great Lakes of North America. It aggregates data from Open Meteo and the National Oceanic & Atmospheric Association (NOAA) stations to help you plan nautical excursions.
+Tackr is an informative web app designed for people interested in boating or sailing on the Great Lakes of North America. It aggregates data from Open Meteo and National Oceanic & Atmospheric Association (NOAA) stations to help you plan nautical excursions.
 
 There are several monitoring stations located around the coasts of the Great Lakes, but certain locations may not have perfectly accurate information due to the limited number of stations available.
 

@@ -2,6 +2,11 @@ import { GeneralUnitType } from '../../app/stationData';
 
 import './VisibilityDisplay.css';
 
+/**
+ * Presentational component which displays the current atmospheric visibility for a location
+ * @param props.data the visibility distance
+ * @param props.units the {@link GeneralUnitType} to use for display
+ */
 export function VisibilityDisplay(props: { data: number; units: GeneralUnitType }) {
 	const visibilityDenom = props.units === 'english' ? 5280 : 1000;
 	const visibilityUnit = props.units === 'english' ? 'miles' : 'km';

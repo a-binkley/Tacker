@@ -1,10 +1,14 @@
 import { useDispatch, useSelector } from 'react-redux';
 
+import { updateViewingIndex } from '../app/stationData';
 import { RootState } from '../pages';
 
 import './MeatballNav.css';
-import { updateViewingIndex } from '../app/stationData';
 
+/**
+ * Meatball-style navigator which both displays the current viewing index among a user's favorite stations
+ * and allows the user to jump to specific pages by clicking on any of the meatballs
+ */
 export function MeatballNav() {
 	const favoritesIDs = useSelector<RootState, string[]>((state) => state.favoritesIDs);
 	const viewingIndex = useSelector<RootState, number>((state) => state.viewingIndex);

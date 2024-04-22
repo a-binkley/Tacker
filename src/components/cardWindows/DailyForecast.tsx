@@ -12,6 +12,12 @@ import { RootState } from '../../pages';
 
 import './DailyForecast.css';
 
+/**
+ * Calculate, format, and return the max and min temperature for a given day, according to the user's
+ * preference of unit type (english vs metric)
+ * @param data a {@link DailyForecast} object containing information of the daily max and min temperatures
+ * @returns a string showing the max and min temperatures for the day in the preferred unit of measurement
+ */
 function formatForecastDatumTemps(data: DailyForecast): string {
 	const generalUnitType = useSelector<RootState, GeneralUnitType>((state) => state.generalUnit);
 
@@ -22,6 +28,10 @@ function formatForecastDatumTemps(data: DailyForecast): string {
 	}
 }
 
+/**
+ * Presentational component which displays daily forecast data for upcoming days at a location
+ * @param props.data an array of {@link DailyForecast} objects to use for rendering various information
+ */
 export function DailyForecastDisplay(props: { data: DailyForecast[] }) {
 	const windspeedUnitType = useSelector<RootState, WindspeedUnitType>((state) => state.windspeedUnit);
 

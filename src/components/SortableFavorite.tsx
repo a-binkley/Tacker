@@ -5,6 +5,10 @@ import { useSelector } from 'react-redux';
 import { MetadataSerializableType } from '../app/stationData';
 import { RootState } from '../pages';
 
+/**
+ * Drag-and-drop reorderable favorite station to display in a list in the settings menu
+ * @param props.id the id of this station
+ */
 export function SortableFavorite(props: { id: string }) {
 	const metadata = useSelector<RootState, MetadataSerializableType>((state) => state.metadata);
 

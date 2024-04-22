@@ -8,6 +8,10 @@ import { RootState } from '../../pages';
 import 'react-perfect-scrollbar/dist/css/styles.css';
 import './HourlyForecastDisplay.css';
 
+/**
+ * Presentational component which displays hourly forecast data for the next 24 hours at a location
+ * @param props.data an array of {@link HourlyForecast} objects to use for rendering various information
+ */
 export function HourlyForecastDisplay(props: { data: HourlyForecast[] }) {
 	const generalUnitType = useSelector<RootState, GeneralUnitType>((state) => state.generalUnit);
 	const windspeedUnitType = useSelector<RootState, WindspeedUnitType>((state) => state.windspeedUnit);

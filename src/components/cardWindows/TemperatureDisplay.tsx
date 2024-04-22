@@ -3,7 +3,14 @@ import { fahrenheitToCelcius } from '../../functions';
 
 import './TemperatureDisplay.css';
 
-export function TemperatureDisplay(props: { label: string; data?: number; units: GeneralUnitType }) {
+/**
+ * Presentational component which displays the temperature for a location. Can be used for air or water temperatures,
+ * as well as actual or apparent (RealFeel) temperatures.
+ * @param props.label whether this display is for an actual or an apparent temperature
+ * @param props.data the temperature to display, or undefined if missing data
+ * @param props.units whether to display the temperature in Fahrenheit or Celcius
+ */
+export function TemperatureDisplay(props: { label: 'Actual' | 'Feels Like'; data?: number; units: GeneralUnitType }) {
 	let tempData = '--',
 		tempUnits = '';
 	if (props.data !== undefined) {
