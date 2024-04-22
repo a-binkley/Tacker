@@ -84,12 +84,20 @@ li.settings-reorder {
 	}
 
 	.settings-core-wrapper {
-		width: 100%;
-		left: 0;
+		width: 90%;
+		top: calc(20px + 2em);
+		left: 5%;
 		flex-direction: column;
+		gap: 0;
+	}
+
+	.settings-favorites-reorder-wrapper {
+		width: 100%;
+		margin: 0;
 	}
 
 	li.settings-reorder {
-		font-size: 0.9em;
+		text-wrap: nowrap;
+		overflow: hidden;
 	}
 }

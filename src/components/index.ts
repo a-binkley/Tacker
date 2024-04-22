@@ -1,3 +1,4 @@
+export * from './DragOverlayItem';
 export * from './LocationInfoCard';
 export * from './LocatorPopup';
 export * from './MeatballNav';

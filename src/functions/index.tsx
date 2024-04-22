@@ -85,8 +85,9 @@ export async function retrieveCurrentStations(): Promise<MetadataSerializableTyp
 		const greatLakesStations = response.data.stations.filter((station: { [key: string]: string }) => station.greatlakes);
 		greatLakesStations.forEach(
 			(station: { id: string; name: string; state: string; greatlakes: boolean; lat: number; lng: number }) => {
+				const cityNameSections = station.name.split(',');
 				out[station.id] = {
-					city: station.name,
+					city: cityNameSections.length > 1 ? cityNameSections[0] : station.name, // remove extra info for better readability
 					state: station.state,
 					coords: {
 						lat: station.lat,
